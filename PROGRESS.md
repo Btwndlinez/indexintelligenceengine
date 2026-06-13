@@ -122,9 +122,34 @@ USING (true);
 
 **Note:** Create Checkout and Monthly Summary use mock data for demo purposes. The other 4 functions connect to real Supabase Edge Functions.
 
+### 📦 7 Core Features
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **1. Lead Capture Module** | Form with Name, Phone, Service Type, City, Budget, Timeline, Source, Notes | ✅ Complete |
+| **2. Kanban Pipeline Board** | Drag-and-drop: New → Contacted → Qualified → Sent → Won/Lost | ✅ Complete |
+| **3. Auto-Qualification Scoring** | AI scoring: Budget (+3), ASAP (+2), Metro (+2), Specific (+2) | ✅ Complete |
+| **4. Provider Routing Module** | Provider directory with active toggle, price/lead, assign lead | ✅ Complete |
+| **5. Revenue Tracker** | Stats: Total Leads, Qualified, Revenue, Close Rate | ✅ Complete |
+| **6. Template Library** | First Reply, Qualification, Follow-up, Closing scripts | ✅ Complete |
+| **7. Performance Dashboard** | Revenue trend, Lead volume, Revenue by city charts | ✅ Complete |
+
+### Dependencies
+- `recharts` - Charts for performance dashboard
+- `lucide-react` - Icons for all components
+- `@supabase/supabase-js` - Supabase client
+
 ### Recent Updates
-- ✅ **Hero Note Updated** - Changed to "Transforms raw marketplace messages into scored opportunities"
-- ✅ **Hero CTA Updated** - "Launch Engine" → #engine, "Watch Demo" → #demo (placeholder URLs)
+- ✅ **7 Core Features Complete** - Full lead management system with all modules
+- ✅ **Lead Capture Module** - Structured form with Name, Phone, Service Type, City, Budget, Timeline, Source, Notes
+- ✅ **Kanban Pipeline Board** - Drag-and-drop board with New → Contacted → Qualified → Sent → Won/Lost columns
+- ✅ **Auto-Qualification Scoring** - AI-powered scoring: High Budget (+3), ASAP Timeline (+2), Major Metro (+2), Specific Request (+2)
+- ✅ **Provider Routing Module** - Provider directory with name, service, city, contact, price/lead, active toggle
+- ✅ **Revenue Tracker** - Stats ribbon showing Total Leads, Qualified, Revenue, Close Rate
+- ✅ **Template Library** - First Reply, Qualification, Follow-up, Closing scripts with copy-to-clipboard
+- ✅ **Performance Dashboard** - Revenue trend line chart, Lead volume bar chart, Revenue by city breakdown
+- ✅ **New Sections Added** - How It Works (#workflow), Use Cases (#usecases), Extension (#extension), Pilot (#pilot)
+- ✅ **Hero CTA Updated** - "Capture Lead" and "View Pipeline" buttons
 - ✅ **Hero Copy Updated** - New punchy messaging: "Capture leads instantly. Qualify them automatically. Respond before competitors do."
 - ✅ **Navbar Updated** - Replaced "Engine" and "Functions" with "How It Works", "Use Cases", "Extension", "Pilot" links
 - ✅ **CTA Button Updated** - Changed "Get Started" to "Pilot Access" linking to #pilot section
@@ -188,6 +213,12 @@ app/
   page.tsx          # Main dashboard with all functions
   globals.css       # Full design system with light/dark CSS variables
   layout.tsx        # Layout with Inter font + dark mode FOUC prevention
+components/
+  LeadCaptureModal.tsx    # Lead capture form modal
+  KanbanBoard.tsx         # Drag-and-drop pipeline board
+  ProviderRouting.tsx     # Provider directory management
+  AnalyticsDashboard.tsx  # Revenue tracker & performance charts
+  TemplateLibrary.tsx     # Response script library
 lib/
   engine.ts         # Standardized engine API
 .github/workflows/
