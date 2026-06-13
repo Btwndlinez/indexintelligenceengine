@@ -398,5 +398,31 @@ This allows the static site to build successfully even without GitHub Secrets co
 
 ---
 
-*Last Updated: 2026-02-19*
-*Status: ✅ Layout working, ✅ All Templates LIVE, ✅ 6 Cards functional*
+*Last Updated: 2026-06-13*
+*Status: ✅ MIE Pivot v0.1 Implemented, ✅ New Architecture, ✅ Market Index Discovery Live*
+
+---
+
+## Market Intelligence Engine (MIE) v0.1-alpha
+
+### Core Objectives
+Build a multi-vertical engine for proprietary local business indexing, record enrichment, and automated outreach.
+
+#### Phase 1: Waste & Recycling (Active)
+- **Local Index Discovery**: ZIP-based search with radius filtering (10-50 miles).
+- **Record Enrichment**: Mock enrichment for company websites, emails, and phone numbers.
+- **Opportunity Scoring**: Proprietary scoring (0-100) based on distance and business signals.
+- **Call Sheet Generation**: Automated grouping by Tier A/B/C for prioritized outreach.
+- **CSV Export**: Export indexed records for external CRM consumption.
+
+### New Architecture
+- **Company Index**: Modular components for searching and filtering local markets.
+- **Outreach Engine**: Call sheets and campaign builders (upcoming).
+- **Intelligence Layer**: Market overview and opportunity scoring modules.
+- **Unified Types**: Centralized `Company` and `SearchFilters` interfaces.
+
+### Vertical Roadmap
+1. **Waste & Recycling**: (Active) Concrete slurry, asphalt, mixed construction waste.
+2. **Contractors**: Roofing, HVAC, Plumbing, Electrical.
+3. **Industrial Services**: Environmental, Logistics, Manufacturing.
+4. **Local Service Markets**: Universal expansion.

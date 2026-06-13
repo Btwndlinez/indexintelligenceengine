@@ -1,227 +1,164 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-
-const FacilitySearchModal = dynamic(() => import('@/components/FacilitySearchModal'), { ssr: false })
-const FacilityVerificationBoard = dynamic(() => import('@/components/FacilityVerificationBoard'), { ssr: false })
-const FacilityDirectory = dynamic(() => import('@/components/FacilityDirectory'), { ssr: false })
-const MarketIntelligenceDashboard = dynamic(() => import('@/components/MarketIntelligenceDashboard'), { ssr: false })
-const OutreachTemplateLibrary = dynamic(() => import('@/components/OutreachTemplateLibrary'), { ssr: false })
-
-const SunIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-    <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-  </svg>
-)
-
-const MoonIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-  </svg>
-)
-
-const LogoIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-    <polyline points="3.29 7 12 12 20.71 7" />
-    <line x1="12" y1="22" x2="12" y2="12" />
-  </svg>
-)
+import { useState, useEffect } from 'react';
+import Header from '@/components/shared/Header';
+import SearchFilters from '@/components/company-index/SearchFilters';
+import CompanyTable from '@/components/company-index/CompanyTable';
+import CallSheet from '@/components/outreach/CallSheet';
+import { MOCK_COMPANIES } from '@/lib/mock/companies';
+import { Company, SearchFilters as ISearchFilters } from '@/types/company';
+import { Globe, Shield, Target, MousePointer2, FileText } from 'lucide-react';
 
 export default function Home() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
-  const [showSearch, setShowSearch] = useState(false)
-  const [activeSection, setActiveSection] = useState<string>('dashboard')
+  const [filters, setFilters] = useState<ISearchFilters>({
+    industry: 'Waste Disposal',
+    zip: '94544',
+    radius: 15
+  });
+  const [companies, setCompanies] = useState<Company[]>(MOCK_COMPANIES);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showCallSheet, setShowCallSheet] = useState(false);
 
-  useEffect(() => {
-    const current = document.documentElement.getAttribute('data-theme')
-    if (current === 'dark') setTheme('dark')
-  }, [])
+  const handleSearch = () => {
+    setIsSearching(true);
+    // Simulate API search
+    setTimeout(() => {
+      const filtered = MOCK_COMPANIES.filter(c =>
+        (c.industry === filters.industry || filters.industry === 'Any') &&
+        (c.distance <= filters.radius)
+      );
+      setCompanies(filtered);
+      setIsSearching(false);
+    }, 800);
+  };
 
-  const toggleTheme = () => {
-    const next = theme === 'light' ? 'dark' : 'light'
-    setTheme(next)
-    document.documentElement.setAttribute('data-theme', next)
-    localStorage.setItem('dip-theme', next)
-  }
-
-  const sections = [
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'search', label: 'Search' },
-    { id: 'facilities', label: 'Facilities' },
-    { id: 'call-sheets', label: 'Call Sheets' },
-  ]
+  const handleExportCSV = () => {
+    const headers = ['Company', 'Industry', 'Distance', 'Phone', 'Email', 'Website'];
+    const rows = companies.map(c => [
+      c.name, c.industry, `${c.distance} mi`, c.phone, c.email, c.website
+    ]);
+    const csvContent = [headers, ...rows].map(e => e.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `mie_index_${filters.industry.toLowerCase().replace(' ', '_')}.csv`;
+    link.click();
+  };
 
   return (
     <div className="dot-grid-bg" style={{ minHeight: '100vh' }}>
-
-      <nav className="site-nav" id="main-nav">
-        <div className="nav-logo">
-          <div className="nav-logo-icon nav-logo-icon-red">
-            <LogoIcon />
-          </div>
-          <span>DIP</span>
-        </div>
-
-        <div className="nav-links">
-          {sections.map(s => (
-            <a key={s.id} href={`#${s.id}`} className="nav-link" onClick={() => setActiveSection(s.id)}>
-              {s.label}
-            </a>
-          ))}
-        </div>
-
-        <div className="nav-actions">
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label="Toggle dark mode"
-            id="theme-toggle"
-          >
-            <div className="theme-toggle-knob">
-              {theme === 'light' ? <SunIcon /> : <MoonIcon />}
-            </div>
-          </button>
-          <button
-            onClick={() => setShowSearch(true)}
-            className="btn btn-primary"
-            id="find-facility-btn"
-          >
-            Find Facility
-          </button>
-        </div>
-      </nav>
+      <Header onSearchClick={() => document.getElementById('search-section')?.scrollIntoView({ behavior: 'smooth' })} />
 
       <section className="hero" id="hero">
         <div className="hero-badge">
           <div className="hero-badge-dot" />
-          1,420+ Facilities Verified
+          Market Intelligence Engine v0.1
         </div>
 
         <h1>
-          Find Verified Disposal <span>Facilities Fast</span>
+          Build Proprietary <span>Local Business Indexes</span>
         </h1>
 
         <p className="hero-sub">
-          Locate verified slurry disposal facilities by city, radius, material type,
-          operating hours, and distance. Before your trucks leave the jobsite.
+          Enrich records, score opportunities, and generate high-conversion outreach
+          campaigns for any local-service market.
         </p>
 
         <div className="hero-cta">
-          <button onClick={() => setShowSearch(true)} className="btn btn-primary" id="hero-cta-primary">
-            + Start Discovery
+          <button onClick={() => document.getElementById('search-section')?.scrollIntoView({ behavior: 'smooth' })} className="btn btn-primary">
+            Get Started
           </button>
-          <a href="#facilities" className="btn btn-secondary" id="hero-cta-secondary">
-            Browse Directory
+          <a href="#features" className="btn btn-secondary">
+            View Roadmap
           </a>
         </div>
-
-        <p className="hero-note">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-          The industry standard for construction waste disposal intelligence
-        </p>
       </section>
 
-      <section className="section" id="workflow">
-        <div className="section-label">• How It Works</div>
-        <h2 className="section-title">Verified Disposal in 4 Steps</h2>
+      <section className="section" id="features">
+        <div className="section-label">• Core Functions</div>
+        <h2 className="section-title">Automated Market Intelligence</h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', marginTop: '40px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {[
-            { step: '1', title: 'Search', desc: 'Enter job location and material type to find local disposal options' },
-            { step: '2', title: 'Discover', desc: 'AI-assisted indexing finds facilities that aren\'t listed on public maps' },
-            { step: '3', title: 'Verify', desc: 'Confirm capacity, pricing, and operating hours via our outreach engine' },
-            { step: '4', title: 'Dispose', desc: 'Get approval and route trucks to the most cost-effective facility' },
-          ].map((item, i) => (
-            <div key={i} className="engine-card" style={{ cursor: 'default', textAlign: 'center' }}>
-              <div style={{ fontSize: '48px', fontWeight: 800, color: 'var(--accent)', marginBottom: '16px' }}>{item.step}</div>
-              <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '8px' }}>{item.title}</h3>
-              <p style={{ fontSize: '14px', color: 'var(--fg-muted)' }}>{item.desc}</p>
+            { icon: <Globe size={20} />, title: 'Enrich Records', desc: 'Auto-populate company data, websites, and emails.' },
+            { icon: <Target size={20} />, title: 'Score Opportunities', desc: 'Priority rankings based on proprietary signals.' },
+            { icon: <FileText size={20} />, title: 'Call Sheets', desc: 'Instantly generated scripts for rapid outreach.' },
+            { icon: <MousePointer2 size={20} />, title: 'Match Marketplace', desc: 'Direct connection between buyers and providers.' },
+          ].map((f, i) => (
+            <div key={i} className="engine-card">
+              <div className="p-3 bg-gray-50 dark:bg-white/5 rounded-xl text-red-600 mb-4 w-fit">
+                {f.icon}
+              </div>
+              <h3 className="font-bold text-base mb-2">{f.title}</h3>
+              <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="section" id="usecases">
-        <div className="section-label">• Use Cases</div>
-        <h2 className="section-title">Slurry Disposal Intelligence</h2>
+      <section className="section" id="search-section">
+        <div className="section-label">• Discovery</div>
+        <h2 className="section-title">Search Local Index</h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginTop: '40px' }}>
+        <SearchFilters
+          filters={filters}
+          onFilterChange={setFilters}
+          onSearch={handleSearch}
+        />
+
+        {isSearching ? (
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-[#0d0d0d] rounded-[2.5rem] border border-dashed border-gray-200 dark:border-gray-800">
+            <div className="loading-spinner mb-4" />
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Enriching market records...</p>
+          </div>
+        ) : (
+          <CompanyTable
+            companies={companies}
+            onGenerateCallSheet={() => setShowCallSheet(true)}
+            onExportCSV={handleExportCSV}
+          />
+        )}
+      </section>
+
+      <section className="section" id="roadmap">
+        <div className="section-label">• Roadmap</div>
+        <h2 className="section-title">Vertical Expansion</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
           {[
-            { title: 'Concrete Slurry', desc: 'Find facilities equipped to handle high-pH concrete wastewater and solids.' },
-            { title: 'Asphalt Slurry', desc: 'Locate recycling centers specialized in asphalt grindings and slurry waste.' },
-            { title: 'Mixed Construction Waste', desc: 'Route loads containing mixed materials to the appropriate processing plants.' },
-          ].map((item, i) => (
-            <div key={i} className="engine-card" style={{ cursor: 'default' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '8px' }}>{item.title}</h3>
-              <p style={{ fontSize: '14px', color: 'var(--fg-muted)' }}>{item.desc}</p>
+            { phase: '1', title: 'Waste & Recycling', active: true },
+            { phase: '2', title: 'Contractors', active: false },
+            { phase: '3', title: 'Industrial Services', active: false },
+            { phase: '4', title: 'Any Local Service', active: false },
+          ].map((p, i) => (
+            <div key={i} className={`p-6 rounded-[2rem] border transition-all ${p.active ? 'border-red-600 bg-red-50/10' : 'border-gray-100 dark:border-gray-800'}`}>
+              <div className="text-[10px] font-black uppercase text-gray-400 mb-2">Phase {p.phase}</div>
+              <h4 className="font-bold text-sm">{p.title}</h4>
+              {p.active && <div className="mt-4 text-[10px] font-black text-red-600 uppercase">Live Now</div>}
             </div>
           ))}
         </div>
       </section>
 
-      <section className="section" id="dashboard">
-        <div className="section-label">• Dashboard</div>
-        <h2 className="section-title">Market Intelligence</h2>
-        <MarketIntelligenceDashboard />
-      </section>
-
-      <section className="section" id="search">
-        <div className="section-label">• Verification Pipeline</div>
-        <h2 className="section-title">Facility Lifecycle</h2>
-        <FacilityVerificationBoard />
-      </section>
-
-      <section className="section" id="facilities">
-        <div className="section-label">• Facility Directory</div>
-        <h2 className="section-title">Verified Locations</h2>
-        <FacilityDirectory />
-      </section>
-
-      <section className="section" id="call-sheets">
-        <div className="section-label">• Call Sheets</div>
-        <h2 className="section-title">Verification Scripts</h2>
-        <OutreachTemplateLibrary />
-      </section>
-
-      <section className="section" id="marketplace" style={{ textAlign: 'center' }}>
-        <div className="section-label">• COMING SOON</div>
-        <h2 className="section-title">Disposal Marketplace</h2>
-        <p className="section-desc" style={{ maxWidth: '600px', margin: '0 auto 32px' }}>
-          We're building a real-time marketplace where facilities can bid on your waste transportation contracts.
-        </p>
-        <div className="hero-cta" style={{ justifyContent: 'center' }}>
-          <a href="#" className="btn btn-primary">Join Marketplace Waitlist</a>
-        </div>
-      </section>
-
-      <footer className="site-footer" id="footer">
+      <footer className="site-footer">
         <div className="footer-inner">
-          <div className="footer-brand">
-            <div className="nav-logo-icon nav-logo-icon-red" style={{ width: 22, height: 22 }}>
-              <LogoIcon />
-            </div>
-            Disposal Intelligence Platform
+          <div className="footer-brand font-black tracking-tighter text-black dark:text-white">
+            MARKET INTELLIGENCE ENGINE
           </div>
           <div className="footer-links">
-            <a href="#" className="footer-link">Privacy</a>
-            <a href="#" className="footer-link">Terms</a>
-            <a href="#workflow" className="footer-link">How It Works</a>
-            <span className="footer-link" style={{ cursor: 'default' }}>© 2026</span>
+            <span className="text-[10px] font-bold text-gray-400">v0.1.0-alpha</span>
+            <a href="#" className="footer-link">Documentation</a>
+            <a href="#" className="footer-link">Support</a>
           </div>
         </div>
       </footer>
 
-      <FacilitySearchModal
-        isOpen={showSearch}
-        onClose={() => setShowSearch(false)}
+      <CallSheet
+        isOpen={showCallSheet}
+        onClose={() => setShowCallSheet(false)}
+        companies={companies}
       />
     </div>
-  )
+  );
 }
+
+
