@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Market Lead Engine | AI-Powered Lead Processing",
+  title: "Index Intelligence Engine (IIE) | AI-Powered Alpha",
   description:
-    "AI-powered lead processing, qualification, and automation engine. Process, qualify, and convert leads with 10 intelligent edge functions.",
-  keywords: "AI leads, lead engine, lead processing, lead qualification, SLA monitoring",
+    "AI-powered market intelligence, record enrichment, and multi-vertical business discovery engine.",
+  keywords: "Market Intelligence, AI leads, business discovery, enrichment, sales leads",
 };
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('mle-theme');
+                  var theme = localStorage.getItem('iie-theme');
                   if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                     document.documentElement.setAttribute('data-theme', 'dark');
                   }

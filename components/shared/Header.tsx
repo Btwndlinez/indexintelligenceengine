@@ -15,7 +15,7 @@ export default function Header({ onSearchClick }: HeaderProps) {
                 <div className="nav-logo-icon nav-logo-icon-red">
                     <Zap size={18} fill="#dc2626" color="#dc2626" />
                 </div>
-                <span>MIE</span>
+                <span>IIE</span>
             </div>
 
             <div className="nav-links">

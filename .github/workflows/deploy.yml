@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
   pages: write
-  id-token: write
+  id-token: write # Required for OIDC (Infisical + GitHub Pages)
 
 concurrency:
   group: "pages"
@@ -31,17 +31,24 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Fetch secrets from Infisical at runtime using OIDC (no static API keys needed)
+      - name: Inject secrets from Infisical
+        uses: Infisical/secrets-action@v1
+        with:
+          method: "oidc"
+          identity-id: ${{ secrets.INFISICAL_MACHINE_IDENTITY_ID }}
+          env-slug: "prod"
+          project-slug: ${{ secrets.INFISICAL_PROJECT_SLUG }}
+          export-type: "env"
+
       - name: Build project
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: npm run build
 
       # Critical: Disable Jekyll to allow _next folder to be served
       - name: Create .nojekyll file
         run: touch out/.nojekyll
 
-      # This step is the "Safety Catch"
+      # Safety catch — confirm build output exists
       - name: Verify build output
         run: |
           if [ -d "./out" ]; then

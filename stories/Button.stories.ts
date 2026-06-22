@@ -53,7 +53,7 @@ export const Small: Story = {
   },
 };
 
-export const MLE: Story = {
+export const IIE: Story = {
   args: {
     primary: false,
     label: "Button"

@@ -3,98 +3,104 @@ import { Company } from '@/types/company';
 export const MOCK_COMPANIES: Company[] = [
     {
         id: '1',
-        name: 'ABC Disposal',
+        companyName: 'ABC Disposal',
         industry: 'Waste Disposal',
         city: 'Hayward',
         zip: '94544',
         address: '123 Industrial Pkwy, Hayward, CA 94544',
+        state: 'CA',
         phone: '(510) 555-0101',
         email: 'contact@abcdisposal.com',
         website: 'https://abcdisposal.com',
-        distance: 3.1,
-        score: 92,
-        tier: 'A',
-        verified: true
+        distanceMiles: 3.1,
+        enrichmentScore: 92,
+        priority: 'A',
+        status: 'not_contacted'
     },
     {
         id: '2',
-        name: 'XYZ Recycling',
+        companyName: 'XYZ Recycling',
         industry: 'Waste Disposal',
         city: 'Union City',
         zip: '94587',
         address: '550 Recycling Way, Union City, CA 94587',
+        state: 'CA',
         phone: '(510) 555-0202',
         email: 'info@xyzrecycling.com',
         website: 'https://xyzrecycling.com',
-        distance: 7.8,
-        score: 85,
-        tier: 'A',
-        verified: true
+        distanceMiles: 7.8,
+        enrichmentScore: 85,
+        priority: 'A',
+        status: 'not_contacted'
     },
     {
         id: '3',
-        name: 'Green Earth Waste',
+        companyName: 'Green Earth Waste',
         industry: 'Waste Disposal',
         city: 'Fremont',
         zip: '94536',
         address: '900 Eco St, Fremont, CA 94536',
+        state: 'CA',
         phone: '(510) 555-0303',
         email: 'hello@greenearth.com',
         website: 'https://greenearth.com',
-        distance: 12.2,
-        score: 78,
-        tier: 'B',
-        verified: false
+        distanceMiles: 12.2,
+        enrichmentScore: 78,
+        priority: 'B',
+        status: 'not_contacted'
     },
     {
         id: '4',
-        name: 'Reliable Roofing',
+        companyName: 'Reliable Roofing',
         industry: 'Contractors',
         city: 'Hayward',
         zip: '94544',
         address: '400 Main St, Hayward, CA 94544',
+        state: 'CA',
         phone: '(510) 555-0404',
         email: 'sales@reliableroofing.com',
         website: 'https://reliableroofing.com',
-        distance: 2.5,
-        score: 95,
-        tier: 'A',
-        verified: true
+        distanceMiles: 2.5,
+        enrichmentScore: 95,
+        priority: 'A',
+        status: 'not_contacted'
     },
     {
         id: '5',
-        name: 'Bay Area HVAC',
+        companyName: 'Bay Area HVAC',
         industry: 'Contractors',
         city: 'San Leandro',
         zip: '94577',
         address: '1500 Cool Air Dr, San Leandro, CA 94577',
+        state: 'CA',
         phone: '(510) 555-0505',
         email: 'support@bayareahvac.com',
         website: 'https://bayareahvac.com',
-        distance: 18.5,
-        score: 65,
-        tier: 'C',
-        verified: true
+        distanceMiles: 18.5,
+        enrichmentScore: 65,
+        priority: 'C',
+        status: 'not_contacted'
     },
     {
         id: '6',
-        name: 'Industrial Env Solutions',
+        companyName: 'Industrial Env Solutions',
         industry: 'Industrial Services',
         city: 'Oakland',
         zip: '94601',
         address: '2000 Port Rd, Oakland, CA 94601',
+        state: 'CA',
         phone: '(510) 555-0606',
         email: 'admin@indenv.com',
         website: 'https://indenv.com',
-        distance: 14.2,
-        score: 88,
-        tier: 'B',
-        verified: true
+        distanceMiles: 14.2,
+        enrichmentScore: 88,
+        priority: 'B',
+        status: 'not_contacted'
     }
 ];
 
-export const getTierLabel = (tier: 'A' | 'B' | 'C') => {
-    switch (tier) {
+export const getPriorityLabel = (priority: 'A' | 'B' | 'C') => {
+    switch (priority) {
         case 'A': return '0-10 miles';
         case 'B': return '10-15 miles';
         case 'C': return '15-20 miles';

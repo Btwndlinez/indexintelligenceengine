@@ -3,7 +3,7 @@
 import React from 'react';
 import { Company } from '@/types/company';
 import { Phone, CheckCircle2, AlertCircle, XCircle, FileText } from 'lucide-react';
-import { getTierLabel } from '@/lib/mock/companies';
+import { getPriorityLabel } from '@/lib/mock/companies';
 
 interface CallSheetProps {
     companies: Company[];
@@ -14,9 +14,9 @@ interface CallSheetProps {
 export default function CallSheet({ companies, isOpen, onClose }: CallSheetProps) {
     if (!isOpen) return null;
 
-    const tiers = ['A', 'B', 'C'] as const;
+    const priorities = ['A', 'B', 'C'] as const;
 
-    const getCompaniesByTier = (tier: string) => companies.filter(c => c.tier === tier);
+    const getCompaniesByPriority = (priority: string) => companies.filter(c => c.priority === priority);
 
     return (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
@@ -39,30 +39,30 @@ export default function CallSheet({ companies, isOpen, onClose }: CallSheetProps
                 </div>
 
                 <div className="overflow-y-auto pr-2 space-y-8 custom-scrollbar">
-                    {tiers.map(tier => {
-                        const tierCompanies = getCompaniesByTier(tier);
-                        if (tierCompanies.length === 0) return null;
+                    {priorities.map(priority => {
+                        const priorityCompanies = getCompaniesByPriority(priority);
+                        if (priorityCompanies.length === 0) return null;
 
                         return (
-                            <div key={tier}>
+                            <div key={priority}>
                                 <div className="flex items-center gap-3 mb-4">
-                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${tier === 'A' ? 'bg-green-100 text-green-700' :
-                                            tier === 'B' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
+                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs ${priority === 'A' ? 'bg-green-100 text-green-700' :
+                                        priority === 'B' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
                                         }`}>
-                                        {tier}
+                                        {priority}
                                     </span>
                                     <h3 className="font-black uppercase tracking-widest text-xs text-gray-500">
-                                        Tier {tier} <span className="font-medium normal-case ml-2">({getTierLabel(tier)})</span>
+                                        Priority {priority} <span className="font-medium normal-case ml-2">({getPriorityLabel(priority as 'A' | 'B' | 'C')})</span>
                                     </h3>
                                     <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800" />
-                                    <span className="text-[10px] font-bold text-gray-400">{tierCompanies.length} companies</span>
+                                    <span className="text-[10px] font-bold text-gray-400">{priorityCompanies.length} companies</span>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {tierCompanies.map(company => (
+                                    {priorityCompanies.map(company => (
                                         <div key={company.id} className="p-5 bg-gray-50 dark:bg-white/5 rounded-2xl border border-transparent hover:border-red-600/30 transition-all flex justify-between items-center group">
                                             <div>
-                                                <div className="font-bold text-sm mb-1 group-hover:text-red-600 transition-colors">{company.name}</div>
+                                                <div className="font-bold text-sm mb-1 group-hover:text-red-600 transition-colors">{company.companyName}</div>
                                                 <div className="flex items-center gap-2 text-xs text-gray-500">
                                                     <Phone size={10} /> {company.phone}
                                                 </div>

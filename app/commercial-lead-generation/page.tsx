@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Commercial Lead Generation & Revenue Analysis | Market Lead Engine",
-  description: "Professional commercial lead generation services. Fix revenue leakage, qualify high-ticket B2B leads, and optimize your sales pipeline with AI-powered analysis.",
-  keywords: ["commercial lead generation", "B2B lead qualification", "revenue leakage", "lead analysis", "commercial sales"],
+  title: "Commercial Market Intelligence & Revenue Analysis | Index Intelligence Engine",
+  description: "Professional market intelligence services. Fix revenue leakage, qualify high-ticket B2B leads, and optimize your sales pipeline with AI-powered analysis.",
+  keywords: ["market intelligence", "B2B lead qualification", "revenue leakage", "lead analysis", "commercial sales"],
 };
 
 export default function CommercialLeadGenPage() {
@@ -18,14 +18,14 @@ export default function CommercialLeadGenPage() {
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
           </div>
-          <span>MLE</span>
+          <span>IIE</span>
         </div>
         <div className="nav-links">
           <a href="/#workflow" className="nav-link">How It Works</a>
           <a href="/#usecases" className="nav-link">Use Cases</a>
           <a href="/#extension" className="nav-link">Extension</a>
           <a href="/#pilot" className="nav-link">Pilot</a>
-          <a href="https://github.com/Btwndlinez/Market-Lead-Engine" target="_blank" rel="noopener" className="nav-link">GitHub</a>
+          <a href="https://github.com/Btwndlinez/Index-Intelligence-Engine" target="_blank" rel="noopener" className="nav-link">GitHub</a>
         </div>
         <div className="nav-actions">
           <a href="/#pilot" className="btn btn-primary">Pilot Access</a>
@@ -38,19 +38,19 @@ export default function CommercialLeadGenPage() {
           <div className="hero-badge-dot" />
           Semantic SEO Optimized
         </div>
-        
+
         <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: "1.1" }}>
-          Professional Commercial Lead Generation <span>&amp; Revenue Analysis</span>
+          Professional Commercial Market Intelligence <span>&amp; Revenue Analysis</span>
         </h1>
-        
+
         <p className="hero-sub" style={{ maxWidth: "720px" }}>
-          Acquiring high-quality commercial prospects requires more than volume—it demands 
-          precision. Our lead engine identifies revenue leakage, qualifies high-ticket B2B opportunities, 
+          Acquiring high-quality commercial prospects requires more than volume—it demands
+          precision. Our intelligence engine identifies revenue leakage, qualifies high-ticket B2B opportunities,
           and transforms your pipeline into a predictable revenue machine.
         </p>
-        
+
         <div className="hero-cta">
-          <a href="/#engine" className="btn btn-primary">Launch Lead Engine</a>
+          <a href="/#engine" className="btn btn-primary">Launch IIE</a>
           <a href="#segments" className="btn btn-secondary">Explore Segments</a>
         </div>
       </section>
@@ -60,14 +60,14 @@ export default function CommercialLeadGenPage() {
         <div className="section-label">• Problem Identification</div>
         <h2 className="section-title">Identifying and Fixing Revenue Leakage in B2B Markets</h2>
         <p className="section-desc">
-          Revenue leakage occurs when qualified prospects slip through your sales process unnoticed. 
-          In commercial B2B markets, this typically happens during lead handoff, qualification gaps, 
+          Revenue leakage occurs when qualified prospects slip through your sales process unnoticed.
+          In commercial B2B markets, this typically happens during lead handoff, qualification gaps,
           or delayed follow-up. Our analysis engine detects these friction points before they cost you deals.
         </p>
-        
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: "24px",
           marginTop: "40px"
         }}>
@@ -82,11 +82,11 @@ export default function CommercialLeadGenPage() {
             <p className="card-label">LEAK SOURCE</p>
             <h3 className="card-title">Delayed Response</h3>
             <p className="card-desc">
-              B2B buyers expect sub-hour response times. Delays beyond 2 hours reduce 
+              B2B buyers expect sub-hour response times. Delays beyond 2 hours reduce
               conversion probability by 80%.
             </p>
           </div>
-          
+
           <div className="engine-card" style={{ cursor: "default" }}>
             <div className="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -99,11 +99,11 @@ export default function CommercialLeadGenPage() {
             <p className="card-label">LEAK SOURCE</p>
             <h3 className="card-title">Poor Qualification</h3>
             <p className="card-desc">
-              Without proper lead scoring, sales teams waste cycles on unqualified prospects 
+              Without proper lead scoring, sales teams waste cycles on unqualified prospects
               while hot leads go cold.
             </p>
           </div>
-          
+
           <div className="engine-card" style={{ cursor: "default" }}>
             <div className="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -115,7 +115,7 @@ export default function CommercialLeadGenPage() {
             <p className="card-label">LEAK SOURCE</p>
             <h3 className="card-title">Data Silos</h3>
             <p className="card-desc">
-              When lead data lives in disconnected systems, context gets lost and 
+              When lead data lives in disconnected systems, context gets lost and
               personalization becomes impossible.
             </p>
           </div>
@@ -127,11 +127,11 @@ export default function CommercialLeadGenPage() {
         <div className="section-label">• Service Specialization</div>
         <h2 className="section-title">Our Specialized Commercial Lead Segments</h2>
         <p className="section-desc">
-          Different industries require different qualification criteria. Our engine adapts 
-          to segment-specific signals, ensuring your sales team receives pre-qualified 
+          Different industries require different qualification criteria. Our engine adapts
+          to segment-specific signals, ensuring your sales team receives pre-qualified
           prospects that match your ideal customer profile.
         </p>
-        
+
         <div className="card-grid">
           <div className="engine-card" style={{ cursor: "default" }}>
             <div className="card-icon">
@@ -142,11 +142,11 @@ export default function CommercialLeadGenPage() {
             <p className="card-label">SEGMENT</p>
             <h3 className="card-title">High-Ticket Service Lead Qualification</h3>
             <p className="card-desc">
-              For consultancies, agencies, and professional services commanding $50K+ contracts. 
+              For consultancies, agencies, and professional services commanding $50K+ contracts.
               We identify decision-makers with budget authority and immediate need signals.
             </p>
           </div>
-          
+
           <div className="engine-card" style={{ cursor: "default" }}>
             <div className="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -155,13 +155,13 @@ export default function CommercialLeadGenPage() {
               </svg>
             </div>
             <p className="card-label">SEGMENT</p>
-            <h3 className="card-title">Industrial &amp; Manufacturing Lead Engine</h3>
+            <h3 className="card-title">Industrial &amp; Manufacturing Index Intelligence Engine</h3>
             <p className="card-desc">
-              B2B manufacturing requires technical qualification. We capture RFI/RFP intent, 
+              B2B manufacturing requires technical qualification. We capture RFI/RFP intent,
               engineering specifications, and procurement timelines for heavy industry sales.
             </p>
           </div>
-          
+
           <div className="engine-card" style={{ cursor: "default" }}>
             <div className="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -171,7 +171,7 @@ export default function CommercialLeadGenPage() {
             <p className="card-label">SEGMENT</p>
             <h3 className="card-title">Enterprise SaaS Revenue Recovery</h3>
             <p className="card-desc">
-              SaaS churn and expansion revenue require different signals. We identify usage 
+              SaaS churn and expansion revenue require different signals. We identify usage
               patterns that predict upgrades, cross-sells, and renewal risks before they occur.
             </p>
           </div>
@@ -183,10 +183,10 @@ export default function CommercialLeadGenPage() {
         <div className="section-label">• Common Questions</div>
         <h2 className="section-title">Data-Driven Lead Analysis FAQ</h2>
         <p className="section-desc">
-          Understanding commercial lead generation requires clarity on methodology, 
+          Understanding commercial lead generation requires clarity on methodology,
           timelines, and ROI measurement.
         </p>
-        
+
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           {[
             {
@@ -210,21 +210,21 @@ export default function CommercialLeadGenPage() {
               a: "Quality metrics include: conversion rate to opportunity (target: &gt;25%), sales cycle length reduction, average contract value of qualified leads vs. unqualified, and rep efficiency (deals closed per qualified lead). We provide dashboards tracking these KPIs weekly."
             }
           ].map((faq, i) => (
-            <div key={i} style={{ 
-              borderBottom: "1px solid var(--border)", 
+            <div key={i} style={{
+              borderBottom: "1px solid var(--border)",
               padding: "24px 0",
             }}>
-              <h3 style={{ 
-                fontSize: "1.1rem", 
-                fontWeight: "600", 
+              <h3 style={{
+                fontSize: "1.1rem",
+                fontWeight: "600",
                 marginBottom: "12px",
                 color: "var(--fg)"
               }}>
                 {faq.q}
               </h3>
-              <p style={{ 
-                fontSize: "0.95rem", 
-                lineHeight: "1.6", 
+              <p style={{
+                fontSize: "0.95rem",
+                lineHeight: "1.6",
                 color: "var(--fg-secondary)"
               }}>
                 {faq.a}
@@ -240,13 +240,13 @@ export default function CommercialLeadGenPage() {
         <h2 className="section-title" style={{ marginBottom: "24px" }}>
           Transform Your Commercial Lead Pipeline
         </h2>
-        <p className="section-desc" style={{ margin: "0 auto 32px" }}>
-          Join companies using our lead engine to eliminate revenue leakage and 
+        <p className="hero-sub" style={{ margin: "0 auto 32px" }}>
+          Join companies using our intelligence engine to eliminate revenue leakage and
           accelerate qualified pipeline velocity.
         </p>
         <div className="hero-cta" style={{ justifyContent: "center" }}>
-          <a href="/" className="btn btn-primary">Launch Lead Engine</a>
-          <a href="mailto:contact@marketleadengine.com" className="btn btn-secondary">
+          <a href="/" className="btn btn-primary">Launch IIE</a>
+          <a href="mailto:contact@indexintelligenceengine.com" className="btn btn-secondary">
             Contact Sales
           </a>
         </div>
@@ -261,12 +261,12 @@ export default function CommercialLeadGenPage() {
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
               </svg>
             </div>
-            <span>Market Lead Engine</span>
+            <span>Index Intelligence Engine</span>
           </div>
           <div className="footer-links">
             <a href="/" className="footer-link">Dashboard</a>
             <a href="/commercial-lead-generation" className="footer-link">Commercial</a>
-            <a href="https://github.com/Btwndlinez/Market-Lead-Engine" target="_blank" rel="noopener" className="footer-link">GitHub</a>
+            <a href="https://github.com/Btwndlinez/Index-Intelligence-Engine" target="_blank" rel="noopener" className="footer-link">GitHub</a>
           </div>
           <div style={{ fontSize: "0.8rem", color: "var(--fg-muted)" }}>
             © 2026 • Semantic SEO Optimized

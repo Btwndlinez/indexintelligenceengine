@@ -8,22 +8,22 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.warn("Supabase credentials missing. Engine will be unavailable.")
 }
 
-export const supabase = (supabaseUrl && supabaseAnonKey) 
+export const supabase = (supabaseUrl && supabaseAnonKey)
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null
 
 /**
- * Standardized way to call any of your 10 Market Lead Engine functions
+ * Standardized way to call any of your 10 Index Intelligence Engine (IIE) functions
  */
 export const invokeEngine = async (functionName: string, payload: object) => {
   if (!supabase) {
     throw new Error('Supabase client not initialized. Check environment variables.')
   }
-  
+
   const { data, error } = await supabase.functions.invoke(functionName, {
     body: payload,
   })
-  
+
   if (error) {
     console.error(`Engine Error [${functionName}]:`, error)
     throw error
@@ -32,32 +32,32 @@ export const invokeEngine = async (functionName: string, payload: object) => {
 }
 
 // Pre-configured function calls for common operations
-export const processLead = (message: string, metadata?: object) => 
+export const processLead = (message: string, metadata?: object) =>
   invokeEngine('process-lead', { message, metadata })
 
-export const qualifyLead = (leadId: string) => 
+export const qualifyLead = (leadId: string) =>
   invokeEngine('qualify-ai', { id: leadId })
 
-export const suggestReply = (leadId: string, context?: string) => 
+export const suggestReply = (leadId: string, context?: string) =>
   invokeEngine('suggest-reply', { leadId, context })
 
-export const analyzeConversation = (messages: string[]) => 
+export const analyzeConversation = (messages: string[]) =>
   invokeEngine('analyze-conversation', { messages })
 
-export const checkSLA = () => 
+export const checkSLA = () =>
   invokeEngine('sla-clock', {})
 
-export const getWeeklyReport = () => 
+export const getWeeklyReport = () =>
   invokeEngine('generate-weekly-report', {})
 
-export const getMonthlySummary = () => 
+export const getMonthlySummary = () =>
   invokeEngine('generate-monthly-summary', {})
 
-export const checkRevenueLeakage = () => 
+export const checkRevenueLeakage = () =>
   invokeEngine('alert-revenue-leakage', {})
 
-export const executeNBA = (leadId: string) => 
+export const executeNBA = (leadId: string) =>
   invokeEngine('nba-executor', { leadId })
 
-export const createCheckout = (items: any[]) => 
+export const createCheckout = (items: any[]) =>
   invokeEngine('create-checkout', { items })

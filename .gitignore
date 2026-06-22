@@ -24,7 +24,6 @@
 # misc
 .DS_Store
 *.pem
-progress
 
 # debug
 npm-debug.log*
@@ -32,8 +31,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — secrets managed via Infisical, no local .env files needed
 .env*
+# .infisical.json is intentionally committed (project config only, no secrets)
 
 # vercel
 .vercel
@@ -44,3 +44,22 @@ next-env.d.ts
 
 *storybook.log
 storybook-static
+
+# AI agent configs
+.agents/
+.claude/
+.gemini/
+CLAUDE.md
+GEMINI.md
+
+# generated / build artifacts
+graphify-out/
+saved-searches.json
+skills-lock.json
+
+# scratch / misc
+mem0_quickstart.py
+
+# project docs / tracking (tracked per-user, not in repo)
+PROGRESS.md
+README.md
