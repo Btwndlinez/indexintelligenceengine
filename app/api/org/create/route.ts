@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { validate, orgCreateSchema } from '@/lib/validation';
 import { logger } from '@/lib/logger';
+import { supabaseFetch } from '@/lib/db';
 
 declare global {
   var __organizations: Array<{
@@ -25,19 +26,8 @@ export async function POST(req: NextRequest) {
     if (tenantRes instanceof NextResponse) return tenantRes;
     const tenant = tenantRes;
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (supabaseUrl && serviceRoleKey) {
-      const checkRes = await fetch(
-        `${supabaseUrl}/rest/v1/organizations?id=eq.${tenant.organizationId}&select=id`,
-        {
-          headers: {
-            'apikey': serviceRoleKey,
-            'Authorization': `Bearer ${serviceRoleKey}`
-          }
-        }
-      );
+    try {
+      const checkRes = await supabaseFetch(`/rest/v1/organizations?id=eq.${tenant.organizationId}&select=id`);
       if (checkRes.ok) {
         const existing = await checkRes.json();
         if (existing.length > 0) {
@@ -45,12 +35,10 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      const insertRes = await fetch(`${supabaseUrl}/rest/v1/organizations`, {
+      const insertRes = await supabaseFetch('/rest/v1/organizations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': serviceRoleKey,
-          'Authorization': `Bearer ${serviceRoleKey}`,
           'Prefer': 'return=representation'
         },
         body: JSON.stringify({
@@ -69,6 +57,7 @@ export async function POST(req: NextRequest) {
           organization: { id: created.id, name: created.name, createdAt: created.created_at }
         }, { status: 201 });
       }
+    } catch {
     }
 
     if (globalThis.__organizations.find(o => o.id === tenant.organizationId)) {

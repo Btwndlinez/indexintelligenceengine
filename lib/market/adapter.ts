@@ -16,7 +16,7 @@ export class IndexIntelligenceEngine {
     organizationId?: string
   ): Promise<{ companies: Company[]; contacts: Contact[] }> {
     if (!process.env.GOOGLE_PLACES_API_KEY) {
-      throw new Error("IIE Error: GOOGLE_PLACES_API_KEY environment variable is not configured.");
+      throw new Error("IIE Error: GOOGLE_PLACES_API_KEY is not configured.");
     }
 
     const rawDiscoveryList: Partial<Company>[] = [];

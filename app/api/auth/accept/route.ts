@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
+import { supabaseFetch } from '@/lib/db';
 
 declare global {
   var __invitations: Array<{
@@ -21,39 +22,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invitation token is required.' }, { status: 400 });
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (supabaseUrl && serviceRoleKey) {
-      const res = await fetch(
-        `${supabaseUrl}/rest/v1/org_invitations?token=eq.${token}&accepted=eq.false&select=*`,
-        {
-          headers: {
-            'apikey': serviceRoleKey,
-            'Authorization': `Bearer ${serviceRoleKey}`
-          }
-        }
-      );
+    try {
+      const res = await supabaseFetch(`/rest/v1/org_invitations?token=eq.${token}&accepted=eq.false&select=*`);
       if (res.ok) {
         const rows = await res.json();
         if (rows.length > 0) {
-          await fetch(
-            `${supabaseUrl}/rest/v1/org_invitations?token=eq.${token}`,
-            {
-              method: 'PATCH',
-              headers: {
-                'Content-Type': 'application/json',
-                'apikey': serviceRoleKey,
-                'Authorization': `Bearer ${serviceRoleKey}`
-              },
-              body: JSON.stringify({ accepted: true, accepted_at: new Date().toISOString() })
-            }
-          );
+          await supabaseFetch(`/rest/v1/org_invitations?token=eq.${token}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ accepted: true, accepted_at: new Date().toISOString() })
+          });
           logger.info('Invitation accepted via Supabase', { token });
           return NextResponse.json({ success: true, message: 'Invitation accepted' });
         }
         return NextResponse.json({ error: 'Invalid or expired invitation token.' }, { status: 404 });
       }
+    } catch {
     }
 
     const inviteIdx = globalThis.__invitations.findIndex(i => i.token === token && !i.accepted);

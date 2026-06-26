@@ -1,11 +1,13 @@
-export class GeminiScraperAdapter {
+import { getSecret } from '@/lib/infisical';
+
+export class DeepSeekAdapter {
   name = 'deepseek_scraper';
 
   async scanForSignals(
     websiteUrl: string | undefined,
     equipmentKeywords: string[]
   ): Promise<{ hasSignals: boolean; capabilitySummary: string }> {
-    const apiKey = process.env.DEEPSEEK_API_KEY;
+    const apiKey = await getSecret('DEEPSEEK_API_KEY');
     if (!apiKey || !websiteUrl) {
       return { hasSignals: false, capabilitySummary: '' };
     }

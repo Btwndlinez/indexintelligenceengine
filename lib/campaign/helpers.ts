@@ -1,7 +1,5 @@
 import { logger } from '@/lib/logger';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { supabaseFetch } from '@/lib/db';
 
 export interface Campaign {
   id: string;
@@ -33,18 +31,11 @@ export async function createCampaign(params: {
     updatedAt: now
   };
 
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    inMemoryStore.push(campaign);
-    return campaign;
-  }
-
   try {
-    const res = await fetch(`${SUPABASE_URL()}/rest/v1/campaigns`, {
+    const res = await supabaseFetch('/rest/v1/campaigns', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': SERVICE_KEY()!,
-        'Authorization': `Bearer ${SERVICE_KEY()!}`,
         'Prefer': 'return=representation'
       },
       body: JSON.stringify({
@@ -77,19 +68,9 @@ export async function createCampaign(params: {
 }
 
 export async function listCampaigns(organizationId: string): Promise<Campaign[]> {
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    return inMemoryStore.filter(c => c.organizationId === organizationId);
-  }
-
   try {
-    const res = await fetch(
-      `${SUPABASE_URL()}/rest/v1/campaigns?organization_id=eq.${organizationId}&order=created_at.desc`,
-      {
-        headers: {
-          'apikey': SERVICE_KEY()!,
-          'Authorization': `Bearer ${SERVICE_KEY()!}`,
-        }
-      }
+    const res = await supabaseFetch(
+      `/rest/v1/campaigns?organization_id=eq.${organizationId}&order=created_at.desc`
     );
     if (res.ok) {
       const data = await res.json();
@@ -112,17 +93,8 @@ export async function listCampaigns(organizationId: string): Promise<Campaign[]>
 }
 
 export async function getCampaign(campaignId: string): Promise<Campaign | null> {
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    return inMemoryStore.find(c => c.id === campaignId) || null;
-  }
-
   try {
-    const res = await fetch(`${SUPABASE_URL()}/rest/v1/campaigns?id=eq.${campaignId}`, {
-      headers: {
-        'apikey': SERVICE_KEY()!,
-        'Authorization': `Bearer ${SERVICE_KEY()!}`,
-      }
-    });
+    const res = await supabaseFetch(`/rest/v1/campaigns?id=eq.${campaignId}`);
     if (res.ok) {
       const data = await res.json();
       if (data[0]) {
@@ -152,16 +124,10 @@ export async function updateCampaignStatus(campaignId: string, status: Campaign[
     campaign.updatedAt = new Date().toISOString();
   }
 
-  if (!SUPABASE_URL() || !SERVICE_KEY()) return true;
-
   try {
-    const res = await fetch(`${SUPABASE_URL()}/rest/v1/campaigns?id=eq.${campaignId}`, {
+    const res = await supabaseFetch(`/rest/v1/campaigns?id=eq.${campaignId}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SERVICE_KEY()!,
-        'Authorization': `Bearer ${SERVICE_KEY()!}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status, updated_at: new Date().toISOString() })
     });
     return res.ok;

@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { validate, uuidSchema } from '@/lib/validation';
 import { logger } from '@/lib/logger';
+import { supabaseFetch } from '@/lib/db';
 import { z } from 'zod';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 interface SavedSearchRecord {
   id: string;
@@ -31,39 +29,22 @@ export async function POST(req: NextRequest) {
 
     const { id } = parsed.data!;
 
-    if (!SUPABASE_URL() || !SERVICE_KEY()) {
-      const entry = inMemoryFallback.find(s => s.id === id);
-      if (!entry) {
+    let row: SavedSearchRecord | undefined;
+
+    try {
+      const res = await supabaseFetch(`/rest/v1/saved_searches?id=eq.${id}`);
+      if (res.ok) {
+        const data: SavedSearchRecord[] = await res.json();
+        row = data[0];
+      }
+    } catch {
+    }
+
+    if (!row) {
+      row = inMemoryFallback.find(s => s.id === id);
+      if (!row) {
         return NextResponse.json({ error: 'Not found' }, { status: 404 });
       }
-      return NextResponse.json({
-        success: true,
-        search: {
-          id: entry.id,
-          organizationId: entry.organization_id,
-          verticalSlug: entry.vertical_slug,
-          filters: entry.filters,
-          resultCount: entry.result_count,
-          createdAt: entry.created_at
-        }
-      });
-    }
-
-    const res = await fetch(`${SUPABASE_URL()}/rest/v1/saved_searches?id=eq.${id}`, {
-      headers: {
-        'apikey': SERVICE_KEY()!,
-        'Authorization': `Bearer ${SERVICE_KEY()!}`
-      }
-    });
-
-    if (!res.ok) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    }
-
-    const data: SavedSearchRecord[] = await res.json();
-    const row = data[0];
-    if (!row) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
 
     return NextResponse.json({

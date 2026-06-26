@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { logger } from '@/lib/logger';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { supabaseFetch } from '@/lib/db';
 
 declare global {
   var __iie_subscription:
@@ -22,31 +20,20 @@ export async function POST(req: NextRequest) {
       currentPeriodEnd: string;
     } | null = null;
 
-    if (SUPABASE_URL() && SERVICE_KEY()) {
-      try {
-        const res = await fetch(
-          `${SUPABASE_URL()}/rest/v1/subscriptions?organization_id=eq.${tenant.organizationId}&select=*`,
-          {
-            headers: {
-              apikey: SERVICE_KEY()!,
-              Authorization: `Bearer ${SERVICE_KEY()!}`,
-            },
-          },
-        );
-        if (res.ok) {
-          const data = await res.json();
-          if (data?.[0]) {
-            subscription = {
-              planTier: data[0].plan_tier || 'starter',
-              status: data[0].status || 'active',
-              currentPeriodEnd:
-                data[0].current_period_end || new Date().toISOString(),
-            };
-          }
+    try {
+      const res = await supabaseFetch(`/rest/v1/subscriptions?organization_id=eq.${tenant.organizationId}&select=*`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.[0]) {
+          subscription = {
+            planTier: data[0].plan_tier || 'starter',
+            status: data[0].status || 'active',
+            currentPeriodEnd:
+              data[0].current_period_end || new Date().toISOString(),
+          };
         }
-      } catch {
-        // fall through to in-memory
       }
+    } catch {
     }
 
     if (!subscription) {

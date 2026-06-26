@@ -1,7 +1,5 @@
 import { logger } from '@/lib/logger';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { supabaseFetch } from '@/lib/db';
 
 export interface SavedSearch {
   id: string;
@@ -29,19 +27,10 @@ export async function saveSearch(params: {
     createdAt: new Date().toISOString()
   };
 
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    inMemoryStore.unshift(search);
-    return search;
-  }
-
   try {
-    const res = await fetch(`${SUPABASE_URL()}/rest/v1/saved_searches`, {
+    const res = await supabaseFetch('/rest/v1/saved_searches', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SERVICE_KEY()!,
-        'Authorization': `Bearer ${SERVICE_KEY()!}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         organization_id: params.organizationId,
         vertical_slug: params.verticalSlug,
@@ -76,19 +65,9 @@ export async function saveSearch(params: {
 }
 
 export async function getSearchHistory(organizationId: string): Promise<SavedSearch[]> {
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    return inMemoryStore.filter(s => s.organizationId === organizationId).slice(0, 50);
-  }
-
   try {
-    const res = await fetch(
-      `${SUPABASE_URL()}/rest/v1/saved_searches?organization_id=eq.${organizationId}&order=created_at.desc&limit=50`,
-      {
-        headers: {
-          'apikey': SERVICE_KEY()!,
-          'Authorization': `Bearer ${SERVICE_KEY()!}`,
-        }
-      }
+    const res = await supabaseFetch(
+      `/rest/v1/saved_searches?organization_id=eq.${organizationId}&order=created_at.desc&limit=50`
     );
 
     if (!res.ok) {

@@ -3,13 +3,11 @@ import { z } from 'zod';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { validate } from '@/lib/validation';
 import { logger } from '@/lib/logger';
+import { supabaseRpc } from '@/lib/db';
 
 const usageQuerySchema = z.object({
   period: z.string().optional(),
 });
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 declare global {
   var __iie_usage:
@@ -30,32 +28,18 @@ export async function POST(req: NextRequest) {
     let exports = 0;
     let campaigns = 0;
 
-    if (SUPABASE_URL() && SERVICE_KEY()) {
-      try {
-        const res = await fetch(
-          `${SUPABASE_URL()}/rest/v1/rpc/get_tenant_metrics_by_org`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              apikey: SERVICE_KEY()!,
-              Authorization: `Bearer ${SERVICE_KEY()!}`,
-            },
-            body: JSON.stringify({ p_org_id: tenant.organizationId }),
-          },
-        );
-        if (res.ok) {
-          const data = await res.json();
-          if (data?.[0]) {
-            searches = data[0].search_count ?? 0;
-            enrichments = data[0].enrichment_count ?? 0;
-            exports = data[0].export_count ?? 0;
-            campaigns = data[0].campaign_count ?? 0;
-          }
+    try {
+      const res = await supabaseRpc('get_tenant_metrics_by_org', { p_org_id: tenant.organizationId });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.[0]) {
+          searches = data[0].search_count ?? 0;
+          enrichments = data[0].enrichment_count ?? 0;
+          exports = data[0].export_count ?? 0;
+          campaigns = data[0].campaign_count ?? 0;
         }
-      } catch {
-        // fall through to in-memory
       }
+    } catch {
     }
 
     if (!searches && !enrichments && !exports && !campaigns) {

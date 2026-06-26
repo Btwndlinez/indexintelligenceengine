@@ -1,26 +1,38 @@
 import { createClient } from '@supabase/supabase-js'
+import { getSecret } from '@/lib/infisical'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+let supabaseClient: ReturnType<typeof createClient> | null = null
+let initPromise: Promise<typeof supabaseClient> | null = null
 
-// Fail-safe for build time
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn("Supabase credentials missing. Engine will be unavailable.")
+async function getSupabase(): Promise<ReturnType<typeof createClient> | null> {
+  if (supabaseClient) return supabaseClient
+  if (initPromise) return initPromise
+
+  initPromise = (async () => {
+    const supabaseUrl = await getSecret('NEXT_PUBLIC_SUPABASE_URL')
+    const supabaseAnonKey = await getSecret('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY')
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn("Supabase credentials missing. Engine will be unavailable.")
+      return null
+    }
+
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
+    return supabaseClient
+  })()
+
+  return initPromise
 }
 
-export const supabase = (supabaseUrl && supabaseAnonKey)
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null
+export { getSupabase as supabase }
 
-/**
- * Standardized way to call any of your 10 Index Intelligence Engine (IIE) functions
- */
 export const invokeEngine = async (functionName: string, payload: object) => {
-  if (!supabase) {
+  const client = await supabase()
+  if (!client) {
     throw new Error('Supabase client not initialized. Check environment variables.')
   }
 
-  const { data, error } = await supabase.functions.invoke(functionName, {
+  const { data, error } = await client.functions.invoke(functionName, {
     body: payload,
   })
 
@@ -31,7 +43,6 @@ export const invokeEngine = async (functionName: string, payload: object) => {
   return data
 }
 
-// Pre-configured function calls for common operations
 export const processLead = (message: string, metadata?: object) =>
   invokeEngine('process-lead', { message, metadata })
 

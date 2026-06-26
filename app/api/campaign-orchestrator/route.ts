@@ -1,30 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVerticalConfigByDomain } from '@/lib/market/registry';
 import { OutreachQueueItem, CampaignPerformanceStats } from '@/types/rpc_outreach';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-function checkSupabase(): boolean {
-  return !!(SUPABASE_URL() && SERVICE_KEY());
-}
-
-async function callRPC(functionName: string, payload: Record<string, any>): Promise<any> {
-  const res = await fetch(`${SUPABASE_URL()}/rest/v1/rpc/${functionName}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SERVICE_KEY()!,
-      'Authorization': `Bearer ${SERVICE_KEY()!}`
-    },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`RPC ${functionName} failed: ${text}`);
-  }
-  return res.json();
-}
+import { supabaseFetch, supabaseRpc } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   try {
@@ -54,21 +31,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!checkSupabase()) {
-      return NextResponse.json({
-        success: true,
-        note: 'Supabase credentials not configured. Campaign orchestration unavailable.',
-        actions: { queue: [], logResult: null, analytics: null }
-      });
-    }
-
     if (action === 'fetch-queue') {
-      const data = await callRPC('acquire_outreach_targets_by_org', {
+      const res = await supabaseRpc('acquire_outreach_targets_by_org', {
         p_org_id: verticalConfig.id,
         p_campaign_id: campaignId,
         p_agent_id: agentId || verticalConfig.id,
         p_limit: limit || 5
       });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`RPC acquire_outreach_targets_by_org failed: ${text}`);
+      }
+      const data = await res.json();
 
       const queue: OutreachQueueItem[] = (data || []).map((row: any) => ({
         companyId: row.company_id,
@@ -92,12 +66,10 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Missing core interaction values to construct outreach records.' }, { status: 400 });
       }
 
-      const insertRes = await fetch(`${SUPABASE_URL()}/rest/v1/outreach_logs`, {
+      const insertRes = await supabaseFetch('/rest/v1/outreach_logs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': SERVICE_KEY()!,
-          'Authorization': `Bearer ${SERVICE_KEY()!}`,
           'Prefer': 'return=representation'
         },
         body: JSON.stringify({
@@ -121,10 +93,15 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === 'get-analytics') {
-      const data = await callRPC('get_campaign_analytics_aggregates_by_org', {
+      const res = await supabaseRpc('get_campaign_analytics_aggregates_by_org', {
         p_org_id: verticalConfig.id,
         p_campaign_id: campaignId
       });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`RPC get_campaign_analytics_aggregates_by_org failed: ${text}`);
+      }
+      const data = await res.json();
 
       const rawStats = Array.isArray(data) ? data[0] : data;
       const statistics: CampaignPerformanceStats = {

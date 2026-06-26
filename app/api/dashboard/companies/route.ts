@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { logger } from '@/lib/logger';
+import { supabaseRpc } from '@/lib/db';
 
 const MOCK_COMPANIES = [
   { id: 'c-001', companyName: 'Acme Corp', city: 'San Francisco', phone: '(415) 555-0101', priority: 'A', enrichmentScore: 92, lastContacted: '2026-06-19T14:30:00Z' },
@@ -16,28 +17,9 @@ export async function POST(req: NextRequest) {
   const tenant = await resolveTenant(req);
   if (tenant instanceof NextResponse) return tenant;
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    logger.info('Dashboard companies: Supabase not configured, returning mock data', { tenant: tenant.organizationId });
-    return NextResponse.json({ success: true, companies: MOCK_COMPANIES });
-  }
-
   try {
-    const url = new URL('/rest/v1/rpc/get_dashboard_companies', supabaseUrl);
-    const res = await fetch(url.toString(), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`,
-      },
-      body: JSON.stringify({ p_org_id: tenant.organizationId }),
-    });
-
+    const res = await supabaseRpc('get_dashboard_companies', { p_org_id: tenant.organizationId });
     if (!res.ok) throw new Error(`Supabase responded ${res.status}`);
-
     const companies = await res.json();
     return NextResponse.json({ success: true, companies });
   } catch (err: any) {

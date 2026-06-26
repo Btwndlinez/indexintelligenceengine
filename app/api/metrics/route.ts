@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVerticalConfigByDomain } from '@/lib/market/registry';
 import { TenantPipelineMetrics } from '@/types/rpc';
+import { supabaseFetch, supabaseRpc } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,10 +21,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    let dbMetrics: any;
+    try {
+      const rpcResponse = await supabaseRpc('get_tenant_metrics_by_org', { p_org_id: verticalConfig.id });
 
-    if (!supabaseUrl || !serviceRoleKey) {
+      if (!rpcResponse.ok) {
+        const errorText = await rpcResponse.text();
+        return NextResponse.json({
+          success: false,
+          error: 'Database analytical RPC call failed.',
+          details: errorText
+        }, { status: 502 });
+      }
+
+      dbMetrics = await rpcResponse.json();
+    } catch {
       return NextResponse.json({
         success: true,
         note: 'Supabase credentials not configured. Live database metrics unavailable.',
@@ -32,30 +44,6 @@ export async function POST(req: NextRequest) {
         metrics: null
       });
     }
-
-    const rpcResponse = await fetch(
-      `${supabaseUrl}/rest/v1/rpc/get_tenant_metrics_by_org`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': serviceRoleKey,
-          'Authorization': `Bearer ${serviceRoleKey}`
-        },
-        body: JSON.stringify({ p_org_id: verticalConfig.id })
-      }
-    );
-
-    if (!rpcResponse.ok) {
-      const errorText = await rpcResponse.text();
-      return NextResponse.json({
-        success: false,
-        error: 'Database analytical RPC call failed.',
-        details: errorText
-      }, { status: 502 });
-    }
-
-    const dbMetrics = await rpcResponse.json();
     const row = Array.isArray(dbMetrics) ? dbMetrics[0] : dbMetrics;
 
     const formattedMetrics: TenantPipelineMetrics = {

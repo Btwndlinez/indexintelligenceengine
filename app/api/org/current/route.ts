@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { logger } from '@/lib/logger';
+import { supabaseFetch } from '@/lib/db';
 
 declare global {
   var __organizations: Array<{
@@ -18,19 +19,8 @@ export async function POST(req: NextRequest) {
     if (tenantRes instanceof NextResponse) return tenantRes;
     const tenant = tenantRes;
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (supabaseUrl && serviceRoleKey) {
-      const res = await fetch(
-        `${supabaseUrl}/rest/v1/organizations?id=eq.${tenant.organizationId}&select=id,name,subscription_tier,created_at`,
-        {
-          headers: {
-            'apikey': serviceRoleKey,
-            'Authorization': `Bearer ${serviceRoleKey}`
-          }
-        }
-      );
+    try {
+      const res = await supabaseFetch(`/rest/v1/organizations?id=eq.${tenant.organizationId}&select=id,name,subscription_tier,created_at`);
       if (res.ok) {
         const rows = await res.json();
         if (rows.length > 0) {
@@ -41,6 +31,7 @@ export async function POST(req: NextRequest) {
           });
         }
       }
+    } catch {
     }
 
     const org = globalThis.__organizations.find(o => o.id === tenant.organizationId);

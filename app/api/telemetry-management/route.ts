@@ -1,30 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVerticalConfigByDomain } from '@/lib/market/registry';
 import { SystemObservabilityStats } from '@/types/rpc_telemetry';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-function checkCreds(): boolean {
-  return !!(SUPABASE_URL() && SERVICE_KEY());
-}
-
-async function callRPC(functionName: string, payload: Record<string, any>): Promise<any> {
-  const res = await fetch(`${SUPABASE_URL()}/rest/v1/rpc/${functionName}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SERVICE_KEY()!,
-      'Authorization': `Bearer ${SERVICE_KEY()!}`
-    },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`RPC ${functionName} failed: ${text}`);
-  }
-  return res.json();
-}
+import { supabaseFetch, supabaseRpc } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,18 +24,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!checkCreds()) {
-      return NextResponse.json({
-        success: true,
-        note: 'Supabase credentials not configured. Telemetry and CRUD management unavailable.',
-        actions: { stats: null, verticalId: null, auditResult: null }
-      });
-    }
-
     if (action === 'get-telemetry') {
-      const data = await callRPC('get_system_observability_dashboard_by_org', {
+      const res = await supabaseRpc('get_system_observability_dashboard_by_org', {
         p_org_id: tenantConfig.id
       });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`RPC get_system_observability_dashboard_by_org failed: ${text}`);
+      }
+      const data = await res.json();
 
       const row = Array.isArray(data) ? data[0] : data;
       const stats: SystemObservabilityStats = {
@@ -82,7 +56,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Incomplete parameters to create vertical profile configuration.' }, { status: 400 });
       }
 
-      const data = await callRPC('upsert_vertical_configuration_by_org', {
+      const res = await supabaseRpc('upsert_vertical_configuration_by_org', {
         p_org_id: tenantConfig.id,
         p_slug: verticalConfig.slug,
         p_industry_name: verticalConfig.industryName,
@@ -96,6 +70,11 @@ export async function POST(req: NextRequest) {
           assetSignalWeight: 30
         }
       });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`RPC upsert_vertical_configuration_by_org failed: ${text}`);
+      }
+      const data = await res.json();
 
       return NextResponse.json({
         success: true,
@@ -109,12 +88,10 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Audit metric is missing core latency payload arrays.' }, { status: 400 });
       }
 
-      const insertRes = await fetch(`${SUPABASE_URL()}/rest/v1/provider_audits`, {
+      const insertRes = await supabaseFetch('/rest/v1/provider_audits', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': SERVICE_KEY()!,
-          'Authorization': `Bearer ${SERVICE_KEY()!}`,
           'Prefer': 'return=representation'
         },
         body: JSON.stringify({

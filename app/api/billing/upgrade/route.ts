@@ -4,13 +4,11 @@ import { resolveTenant } from '@/lib/auth/tenant';
 import { validate } from '@/lib/validation';
 import { logger } from '@/lib/logger';
 import { requireRole } from '@/lib/auth/permissions';
+import { supabaseFetch } from '@/lib/db';
 
 const upgradeSchema = z.object({
   planTier: z.enum(['starter', 'pro', 'enterprise']),
 });
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 declare global {
   var __iie_subscription:
@@ -34,28 +32,23 @@ export async function POST(req: NextRequest) {
 
     const { planTier } = parsed.data!;
 
-    if (SUPABASE_URL() && SERVICE_KEY()) {
-      try {
-        await fetch(`${SUPABASE_URL()}/rest/v1/subscriptions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            apikey: SERVICE_KEY()!,
-            Authorization: `Bearer ${SERVICE_KEY()!}`,
-            Prefer: 'resolution=merge-duplicates',
-          },
-          body: JSON.stringify({
-            organization_id: tenant.organizationId,
-            plan_tier: planTier,
-            status: 'active',
-            current_period_end: new Date(
-              Date.now() + 30 * 86400000,
-            ).toISOString(),
-          }),
-        });
-      } catch {
-        // fall through to in-memory
-      }
+    try {
+      await supabaseFetch('/rest/v1/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Prefer: 'resolution=merge-duplicates',
+        },
+        body: JSON.stringify({
+          organization_id: tenant.organizationId,
+          plan_tier: planTier,
+          status: 'active',
+          current_period_end: new Date(
+            Date.now() + 30 * 86400000,
+          ).toISOString(),
+        }),
+      });
+    } catch {
     }
 
     globalThis.__iie_subscription = {

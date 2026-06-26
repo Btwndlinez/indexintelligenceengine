@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getVerticalConfigByDomain } from '@/lib/market/registry';
+import { supabaseFetch } from '@/lib/db';
 
 declare global {
   var __savedSearches: Array<{
@@ -66,9 +67,6 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
       const record = {
         id: `search-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
         organization_id: verticalConfig.id,
@@ -81,30 +79,26 @@ export async function POST(req: NextRequest) {
       };
 
       let persisted = false;
-      if (supabaseUrl && supabaseKey) {
-        try {
-          const res = await fetch(`${supabaseUrl}/rest/v1/searches`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': supabaseKey,
-              'Authorization': `Bearer ${supabaseKey}`,
-              'Prefer': 'return=representation'
-            },
-            body: JSON.stringify({
-              organization_id: record.organization_id,
-              vertical_id: record.vertical_id,
-              name: record.name,
-              zip_code: record.zip_code,
-              radius_miles: record.radius_miles,
-              result_count: record.result_count,
-              created_at: record.created_at
-            })
-          });
-          persisted = res.ok;
-        } catch {
-          persisted = false;
-        }
+      try {
+        const res = await supabaseFetch('/rest/v1/searches', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            organization_id: record.organization_id,
+            vertical_id: record.vertical_id,
+            name: record.name,
+            zip_code: record.zip_code,
+            radius_miles: record.radius_miles,
+            result_count: record.result_count,
+            created_at: record.created_at
+          })
+        });
+        persisted = res.ok;
+      } catch {
+        persisted = false;
       }
 
       if (!persisted) {

@@ -1,7 +1,5 @@
 import { logger } from '@/lib/logger';
-
-const SUPABASE_URL = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { supabaseRpc, supabaseFetch } from '@/lib/db';
 
 const inMemoryLogs: any[] = [];
 
@@ -19,27 +17,14 @@ export async function logOutreach(params: {
     createdAt: new Date().toISOString()
   };
 
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    inMemoryLogs.unshift(entry);
-    return entry;
-  }
-
   try {
-    const res = await fetch(`${SUPABASE_URL()}/rest/v1/rpc/log_outreach_interaction`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SERVICE_KEY()!,
-        'Authorization': `Bearer ${SERVICE_KEY()!}`,
-      },
-      body: JSON.stringify({
-        p_org_id: params.organizationId,
-        p_company_id: params.companyId,
-        p_contact_id: params.contactId || null,
-        p_interaction_type: params.interactionType,
-        p_outcome: params.outcome,
-        p_notes: params.notes || null
-      })
+    const res = await supabaseRpc('log_outreach_interaction', {
+      p_org_id: params.organizationId,
+      p_company_id: params.companyId,
+      p_contact_id: params.contactId || null,
+      p_interaction_type: params.interactionType,
+      p_outcome: params.outcome,
+      p_notes: params.notes || null
     });
 
     if (res.ok) {
@@ -55,19 +40,9 @@ export async function logOutreach(params: {
 }
 
 export async function getCompanyOutreach(companyId: string): Promise<any[]> {
-  if (!SUPABASE_URL() || !SERVICE_KEY()) {
-    return inMemoryLogs.filter(l => l.companyId === companyId);
-  }
-
   try {
-    const res = await fetch(
-      `${SUPABASE_URL()}/rest/v1/outreach_logs?company_id=eq.${companyId}&order=created_at.desc`,
-      {
-        headers: {
-          'apikey': SERVICE_KEY()!,
-          'Authorization': `Bearer ${SERVICE_KEY()!}`,
-        }
-      }
+    const res = await supabaseFetch(
+      `/rest/v1/outreach_logs?company_id=eq.${companyId}&order=created_at.desc`
     );
     if (res.ok) {
       return await res.json();

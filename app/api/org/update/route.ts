@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { resolveTenant } from '@/lib/auth/tenant';
 import { validate, orgUpdateSchema } from '@/lib/validation';
 import { logger } from '@/lib/logger';
+import { supabaseFetch } from '@/lib/db';
 
 declare global {
   var __organizations: Array<{
@@ -25,27 +26,19 @@ export async function POST(req: NextRequest) {
     if (tenantRes instanceof NextResponse) return tenantRes;
     const tenant = tenantRes;
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (supabaseUrl && serviceRoleKey) {
+    try {
       const patchBody: Record<string, any> = {};
       if (data.name) patchBody.name = data.name;
       if (data.subscriptionTier) patchBody.subscription_tier = data.subscriptionTier;
 
-      const res = await fetch(
-        `${supabaseUrl}/rest/v1/organizations?id=eq.${tenant.organizationId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': serviceRoleKey,
-            'Authorization': `Bearer ${serviceRoleKey}`,
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify(patchBody)
-        }
-      );
+      const res = await supabaseFetch(`/rest/v1/organizations?id=eq.${tenant.organizationId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(patchBody)
+      });
       if (res.ok) {
         const updated = await res.json();
         const org = Array.isArray(updated) ? updated[0] : updated;
@@ -55,6 +48,7 @@ export async function POST(req: NextRequest) {
           organization: { id: org.id, name: org.name, subscriptionTier: org.subscription_tier, createdAt: org.created_at }
         });
       }
+    } catch {
     }
 
     const idx = globalThis.__organizations.findIndex(o => o.id === tenant.organizationId);
