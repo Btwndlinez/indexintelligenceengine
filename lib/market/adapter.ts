@@ -79,6 +79,8 @@ export class IndexIntelligenceEngine {
       };
 
       if (isPermit) {
+        const s = base.enrichmentScore ?? 0;
+        base.priority = s >= 80 ? 'A' : s >= 55 ? 'B' : 'C';
         finalizedCompanies.push(base as Company);
         continue;
       }
