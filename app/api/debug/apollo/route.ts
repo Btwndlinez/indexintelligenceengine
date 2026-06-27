@@ -9,7 +9,7 @@ export async function POST() {
     try {
       const res = await fetch('https://api.apollo.io/v1/organizations/enrich', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache', 'Api-Key': apiKey! },
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache', 'X-Api-Key': apiKey! },
         body: JSON.stringify({ domain }),
       });
       const status = res.status;

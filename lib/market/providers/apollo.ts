@@ -33,7 +33,7 @@ export class ApolloAdapter {
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache',
-          'Api-Key': apiKey
+          'X-Api-Key': apiKey
         },
         body: JSON.stringify({ domain: cleanDomain })
       });
