@@ -1,10 +1,10 @@
 import { Company, Contact } from '@/types/company';
 import { VerticalConfig } from '@/types/config';
 
-function countSignalMatches(text: string, signals: string[]): number {
-  if (!text) return 0;
+function countSignalMatches(text: string, signals: string[]): string[] {
+  if (!text) return [];
   const lower = text.toLowerCase();
-  return signals.filter(s => lower.includes(s)).length;
+  return signals.filter(s => lower.includes(s));
 }
 
 function getScoreTier(score: number): 'A' | 'B' | 'C' {
@@ -19,29 +19,37 @@ export function calculateScore(
   contacts?: Partial<Contact>[]
 ): { score: number; tier: 'A' | 'B' | 'C' } {
   const name = company.companyName || '';
-  const signals = config.verticalSignals;
   const summary = company.capabilitySummary || '';
+  const signals = config.verticalSignals;
 
-  const nameSignalCount = countSignalMatches(name, signals);
-  const summarySignalCount = countSignalMatches(summary, signals);
+  const nameMatches = countSignalMatches(name, signals);
+  const summaryMatches = countSignalMatches(summary, signals);
+
+  const nameSignalCount = nameMatches.length;
+  const summarySignalCount = summaryMatches.length;
+
+  const signalCount = nameSignalCount + summarySignalCount;
 
   const verticalMatch = Math.min(
     (nameSignalCount > 0 ? 15 : 0) +
-    (nameSignalCount >= 2 ? 10 : 0) +
-    (nameSignalCount >= 3 ? 5 : 0) +
-    Math.min(summarySignalCount * 10, 15),
+    Math.min(signalCount * 8, 30),
     45
   );
 
   const summaryLen = summary.length;
+  const equipmentMatches = config.equipmentKeywords.filter(kw =>
+    summary.toLowerCase().includes(kw.toLowerCase())
+  ).length;
+
   const serviceCapability = Math.min(
-    (summaryLen > 200 ? 15 : summaryLen > 100 ? 10 : summaryLen > 30 ? 5 : 0) +
-    (summarySignalCount >= 2 ? 10 : summarySignalCount >= 1 ? 5 : 0),
+    (summaryLen > 200 ? 10 : summaryLen > 80 ? 6 : summaryLen > 20 ? 3 : 0) +
+    Math.min(equipmentMatches * 5, 10) +
+    (summarySignalCount > 0 ? 5 : 0),
     25
   );
 
   const dist = company.distanceMiles ?? 0;
-  const distance = Math.max(0, 10 - Math.round(company.distanceMiles != null ? dist / 3 : 0));
+  const distance = Math.max(0, 10 - Math.round(dist / 3));
 
   let contact = 0;
   if (company.website) contact += 3;

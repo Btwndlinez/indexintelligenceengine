@@ -11,16 +11,25 @@ export class GeminiScraperAdapter {
     }
 
     try {
+      const pageText = await this.fetchPageText(websiteUrl);
+      if (!pageText || pageText.length < 50) {
+        return { hasSignals: false, capabilitySummary: '' };
+      }
+
       const body = {
         model: 'deepseek-chat',
         messages: [
           {
             role: 'system',
-            content: 'You are a business intelligence analyst. Analyze company websites for specific industrial capabilities. Respond in JSON only.'
+            content: 'You are a business intelligence analyst. Analyze company website content for specific industrial capabilities. Respond in JSON only.'
           },
           {
             role: 'user',
-            content: `Analyze this company website: ${websiteUrl}
+            content: `Analyze this company website content: ${websiteUrl}
+
+Website content:
+${pageText.slice(0, 3000)}
+
 We need to determine if this company offers:
 - slurry recycling
 - concrete washout
@@ -74,6 +83,31 @@ Respond with JSON:
     }
   }
 
+  private async fetchPageText(url: string): Promise<string> {
+    try {
+      const res = await fetch(url, {
+        signal: AbortSignal.timeout(5000),
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; IndexIntelligenceEngine/1.0)' }
+      });
+      if (!res.ok) return '';
+      const html = await res.text();
+
+      const title = html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1] || '';
+      const desc = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
+      const text = html
+        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&[^;]+;/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      return [title, desc, text.slice(0, 5000)].filter(Boolean).join('\n');
+    } catch {
+      return '';
+    }
+  }
+
   async synthesizeItinerary(events: any[], accommodations: any[], requirements: string[]): Promise<any> {
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey) return { events, accommodations };
@@ -110,6 +144,9 @@ Respond with JSON:
     if (!apiKey) return null;
 
     try {
+      const pageText = await this.fetchPageText(url);
+      if (!pageText || pageText.length < 50) return null;
+
       const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -120,7 +157,7 @@ Respond with JSON:
           model: 'deepseek-chat',
           messages: [
             { role: 'system', content: 'You extract structured data from web content. Return JSON only.' },
-            { role: 'user', content: `URL: ${url}\n\nMission: ${extractionPrompt}` },
+            { role: 'user', content: `URL: ${url}\n\nPage content:\n${pageText.slice(0, 4000)}\n\nMission: ${extractionPrompt}` },
           ],
           response_format: { type: 'json_object' },
           temperature: 0.1,
