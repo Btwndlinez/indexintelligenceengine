@@ -86,7 +86,7 @@ Respond with JSON:
   private async fetchPageText(url: string): Promise<string> {
     try {
       const res = await fetch(url, {
-        signal: AbortSignal.timeout(5000),
+        signal: AbortSignal.timeout(3000),
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; IndexIntelligenceEngine/1.0)' }
       });
       if (!res.ok) return '';

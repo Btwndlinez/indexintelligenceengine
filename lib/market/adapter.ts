@@ -53,7 +53,10 @@ export class IndexIntelligenceEngine {
     const finalizedCompanies: Company[] = [];
     const allContacts: Contact[] = [];
 
-    for (const record of deduplicatedRecords) {
+    const MAX_SCRAPED = 10;
+
+    for (let i = 0; i < deduplicatedRecords.length; i++) {
+      const record = deduplicatedRecords[i];
       const base: Partial<Company> = {
         ...record,
         organizationId,
@@ -67,7 +70,9 @@ export class IndexIntelligenceEngine {
 
       const [apolloResult, scraperResult] = await Promise.all([
         this.apolloAdapter.enrich(base),
-        this.scraperAdapter.scanForSignals(base.website, config.equipmentKeywords)
+        i < MAX_SCRAPED
+          ? this.scraperAdapter.scanForSignals(base.website, config.equipmentKeywords)
+          : Promise.resolve({ hasSignals: false, capabilitySummary: '' })
       ]);
 
       const mergedCompany: Partial<Company> = {

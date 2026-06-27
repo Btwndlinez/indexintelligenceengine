@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     const engine = new IndexIntelligenceEngine();
     const { companies, contacts } = await withTimeout(
       engine.executeMarketDiscovery(body, verticalConfig),
-      25000,
+      60000,
       () => ({ companies: [], contacts: [] } as any)
     );
 
