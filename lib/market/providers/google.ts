@@ -1,8 +1,35 @@
 import { Company } from '@/types/company';
+import { DiscoveryProvider, DiscoveryParams } from './base';
 import { haversineDistance } from '@/lib/geo';
 
-export class GooglePlacesAdapter {
+export class GooglePlacesProvider implements DiscoveryProvider {
   name = 'google_places';
+
+  async search(params: DiscoveryParams): Promise<Partial<Company>[]> {
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+    if (!apiKey) return [];
+
+    const allResults: Partial<Company>[] = [];
+    const searchQueries = [
+      'concrete slurry recycling',
+      'concrete washout',
+      'slurry disposal',
+      'ready mix reclaiming',
+      'concrete reclaiming',
+    ];
+
+    for (const query of searchQueries) {
+      const textQuery = `${query} ${params.zip}`;
+      try {
+        const results = await this.searchWithNegatives(textQuery, [], params.lat, params.lng);
+        allResults.push(...results);
+      } catch (err) {
+        console.error(`[GooglePlacesProvider] Query '${textQuery}' failed:`, err);
+      }
+    }
+
+    return allResults;
+  }
 
   async searchWithNegatives(
     queryText: string,
@@ -70,8 +97,6 @@ export class GooglePlacesAdapter {
       };
     });
   }
-
-  async search(queryText: string): Promise<Partial<Company>[]> {
-    return this.searchWithNegatives(queryText, []);
-  }
 }
+
+export class GooglePlacesAdapter extends GooglePlacesProvider {}

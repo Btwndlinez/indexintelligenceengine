@@ -36,6 +36,7 @@ export interface Company {
   latitude?: number;
   longitude?: number;
   distanceMiles?: number;
+  hasRegulatoryPermit?: boolean;
   enrichmentScore: number;
   priority: PriorityGroup;
   status: CRMStatus;
