@@ -23,7 +23,7 @@ export function calculateScore(
   const nameSignalCount = countSignalMatches(name, signals);
 
   const verticalMatch = Math.min(
-    nameSignalCount * 15 + (nameSignalCount > 0 ? 5 : 0),
+    nameSignalCount * 15 + (nameSignalCount > 0 ? 5 : 0) + (nameSignalCount >= 2 ? 3 : 0),
     45
   );
 
@@ -34,7 +34,7 @@ export function calculateScore(
   const serviceCapability = Math.min(
     (summarySignalCount > 0 ? 10 : 0) +
     Math.min(summaryLen / 40, 5) +
-    (nameSignalCount >= 2 ? 10 : nameSignalCount >= 1 ? 5 : 0),
+    (nameSignalCount >= 2 ? 10 : nameSignalCount >= 1 ? 8 : 0),
     25
   );
 
