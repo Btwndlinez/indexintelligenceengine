@@ -11,7 +11,14 @@ export class ApolloAdapter {
   async enrich(company: Partial<Company>): Promise<ApolloEnrichResult> {
     const empty: ApolloEnrichResult = { companyFields: {}, contacts: [] };
     const apiKey = process.env.APOLLO_API_KEY;
-    if (!apiKey || !company.website) {
+
+    if (!apiKey) {
+      console.error('[Apollo] No API key configured');
+      return empty;
+    }
+
+    if (!company.website) {
+      console.error('[Apollo] No website for company:', company.companyName);
       return empty;
     }
 
@@ -32,6 +39,8 @@ export class ApolloAdapter {
       });
 
       if (!response.ok) {
+        const body = await response.text().catch(() => '');
+        console.error(`[Apollo] API error ${response.status} for ${cleanDomain}: ${body.slice(0, 200)}`);
         return empty;
       }
 
@@ -63,7 +72,7 @@ export class ApolloAdapter {
 
       return { companyFields, contacts };
     } catch (err) {
-      console.error(`Apollo Enrichment execution failure:`, err);
+      console.error(`[Apollo] Enrichment execution failure:`, err);
       return empty;
     }
   }
