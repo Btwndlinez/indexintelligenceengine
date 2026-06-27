@@ -3,6 +3,7 @@ import { VerticalConfig } from '@/types/config';
 import { GooglePlacesAdapter } from './providers/google';
 import { ApolloAdapter } from './providers/apollo';
 import { GeminiScraperAdapter } from './providers/geminiScraper';
+import { RegulatoryPermitScraper } from './providers/regulatoryPermit';
 import { calculateScore } from './scoring';
 import { geocodeZip } from '@/lib/geo';
 
@@ -15,6 +16,7 @@ export class IndexIntelligenceEngine {
   private placesAdapter = new GooglePlacesAdapter();
   private apolloAdapter = new ApolloAdapter();
   private scraperAdapter = new GeminiScraperAdapter();
+  private permitScraper = new RegulatoryPermitScraper();
 
   async executeMarketDiscovery(
     filters: SearchFilters,
@@ -41,9 +43,15 @@ export class IndexIntelligenceEngine {
       }
     }
 
+    const permitResults = await this.permitScraper.discoverLicensedOperators(filters.zip);
+    for (const permit of permitResults) {
+      rawDiscoveryList.push(this.permitScraper.normalizePermitToCompany(permit));
+    }
+
     const uniqueMap = new Map<string, Partial<Company>>();
     for (const item of rawDiscoveryList) {
-      if (item.id) uniqueMap.set(item.id, item);
+      const key = item.id || item.companyName || '';
+      if (key) uniqueMap.set(item.companyName || item.id || '', item);
     }
     let deduplicatedRecords = Array.from(uniqueMap.values());
 
@@ -57,16 +65,23 @@ export class IndexIntelligenceEngine {
 
     for (let i = 0; i < deduplicatedRecords.length; i++) {
       const record = deduplicatedRecords[i];
+      const isPermit = record.source?.startsWith('regulatory_permit');
+
       const base: Partial<Company> = {
         ...record,
         organizationId,
         verticalId: config.id,
-        enrichmentScore: 0,
-        priority: 'C' as const,
+        enrichmentScore: isPermit ? (record.enrichmentScore ?? 85) : 0,
+        priority: isPermit ? (record.priority as any || 'A') : 'C' as const,
         status: 'NOT_CONTACTED' as const,
         createdAt: now,
         updatedAt: now
       };
+
+      if (isPermit) {
+        finalizedCompanies.push(base as Company);
+        continue;
+      }
 
       const [apolloResult, scraperResult] = await Promise.all([
         this.apolloAdapter.enrich(base),

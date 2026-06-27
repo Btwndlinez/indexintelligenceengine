@@ -40,6 +40,7 @@ export interface Company {
   priority: PriorityGroup;
   status: CRMStatus;
   capabilitySummary?: string;
+  notes?: string;
   source?: string;
   createdAt: string;
   updatedAt: string;
