@@ -13,6 +13,7 @@ export interface VerticalConfig {
   equipmentKeywords: string[];
   negativeKeywords: string[];
   searchQueries: string[];
+  verticalSignals: string[];
   baseScoringWeights: ScoringWeights;
   createdAt: string;
 }

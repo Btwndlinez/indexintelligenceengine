@@ -8,10 +8,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'slurry_concrete',
     industryName: 'Concrete Slurry Recycling & Disposal',
     searchQueries: [
-      'concrete recycling',
-      'aggregate recycling',
+      'concrete slurry recycling',
+      'concrete washout',
       'slurry disposal',
-      'concrete contractors'
+      'ready mix reclaiming',
+      'concrete reclaiming'
     ],
     targetNaicsCodes: ['562211', '238110', '562112'],
     equipmentKeywords: [
@@ -24,18 +25,35 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'slurry press'
     ],
     negativeKeywords: [
+      'landscaping',
+      'gardening',
+      'lawn',
+      'tree service',
+      'florist',
+      'residential',
+      'cleaning',
       'municipal dump',
       'residential landfill',
       'household waste',
       'DIY concrete mix',
       'city recycle station',
       'garbage collection',
-      'junk removal'
+      'junk removal',
+      'paving'
+    ],
+    verticalSignals: [
+      'slurry',
+      'concrete washout',
+      'washout',
+      'concrete recycling',
+      'slurry recycling',
+      'concrete reclaiming',
+      'ready mix reclaiming'
     ],
     baseScoringWeights: {
-      distanceWeight: 35,
-      contactEnrichmentWeight: 35,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -45,10 +63,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'grease_trap',
     industryName: 'Commercial Grease Trap Pumping & Recycling',
     searchQueries: [
-      'grease trap pumping',
-      'commercial grease trap service',
+      'grease trap pumping service',
+      'commercial grease trap',
       'waste oil recycling',
-      'restaurant grease disposal'
+      'restaurant grease disposal',
+      'yellow grease collection'
     ],
     targetNaicsCodes: ['562219', '562111', '562998'],
     equipmentKeywords: [
@@ -65,12 +84,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'home kitchen cleaning',
       'sewer line repair',
       'faucet installation',
-      'clogged toilet'
+      'clogged toilet',
+      'residential',
+      'cleaning service',
+      'handyman'
+    ],
+    verticalSignals: [
+      'grease trap',
+      'grease pumping',
+      'waste oil',
+      'grease disposal',
+      'grease recycling',
+      'yellow grease',
+      'grease interceptor'
     ],
     baseScoringWeights: {
-      distanceWeight: 30,
-      contactEnrichmentWeight: 40,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -80,10 +111,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'asbestos_abatement',
     industryName: 'Hazardous Asbestos & Lead Abatement',
     searchQueries: [
-      'asbestos abatement',
-      'lead paint removal',
-      'hazardous materials mitigation',
-      'environmental remediation'
+      'asbestos abatement contractor',
+      'asbestos removal service',
+      'lead paint remediation',
+      'hazardous materials abatement',
+      'environmental remediation contractor'
     ],
     targetNaicsCodes: ['562910', '238910'],
     equipmentKeywords: [
@@ -100,12 +132,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'hardware store',
       'residential painter',
       'mold inspection DIY',
-      'interior design'
+      'interior design',
+      'cleaning service',
+      'carpet cleaning',
+      'property management'
+    ],
+    verticalSignals: [
+      'asbestos abatement',
+      'asbestos removal',
+      'asbestos remediation',
+      'lead abatement',
+      'lead paint removal',
+      'hazardous material removal',
+      'environmental remediation'
     ],
     baseScoringWeights: {
-      distanceWeight: 25,
-      contactEnrichmentWeight: 45,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -115,10 +159,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'hydro_excavation',
     industryName: 'Hydro-Excavation & Non-Destructive Digging',
     searchQueries: [
-      'hydro excavation',
-      'vacuum excavation',
-      'potholing utilities',
-      'daylighting utilities'
+      'hydro excavation service',
+      'vacuum excavation contractor',
+      'utility potholing',
+      'daylighting utilities',
+      'non-destructive digging'
     ],
     targetNaicsCodes: ['562998', '238910', '562119'],
     equipmentKeywords: [
@@ -134,12 +179,23 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'sprinkler installation',
       'hand digging',
       'plumbing repair DIY',
-      'pool excavation'
+      'pool excavation',
+      'residential',
+      'gardening'
+    ],
+    verticalSignals: [
+      'hydro excavation',
+      'vacuum excavation',
+      'hydrovac',
+      'utility potholing',
+      'daylighting',
+      'non-destructive digging',
+      'slurry excavation'
     ],
     baseScoringWeights: {
-      distanceWeight: 40,
-      contactEnrichmentWeight: 30,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -149,10 +205,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'commercial_roofing',
     industryName: 'Industrial & Commercial Flat Roofing',
     searchQueries: [
-      'commercial roofing',
-      'flat roof contractor',
+      'commercial roofing contractor',
+      'flat roof installation',
       'industrial roofing services',
-      'roofing membrane installer'
+      'TPO roofing contractor',
+      'roof membrane replacement'
     ],
     targetNaicsCodes: ['238160'],
     equipmentKeywords: [
@@ -169,12 +226,23 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'handyman services',
       'chimney sweep',
       'DIY shingle replacement',
-      'skylight installation home'
+      'skylight installation home',
+      'home inspector',
+      'real estate'
+    ],
+    verticalSignals: [
+      'commercial roofing',
+      'flat roof',
+      'TPO roofing',
+      'EPDM roofing',
+      'industrial roofing',
+      'roof membrane',
+      'built-up roofing'
     ],
     baseScoringWeights: {
-      distanceWeight: 20,
-      contactEnrichmentWeight: 50,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -184,10 +252,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'medical_waste',
     industryName: 'Biomedical & Infectious Waste Treatment',
     searchQueries: [
-      'medical waste disposal',
+      'medical waste disposal service',
       'sharps disposal service',
       'biohazard waste collection',
-      'clinical waste management'
+      'clinical waste management',
+      'regulated medical waste'
     ],
     targetNaicsCodes: ['562211', '562112'],
     equipmentKeywords: [
@@ -202,12 +271,23 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'dental clinic general',
       'home health aid',
       'veterinarian hospital general',
-      'local doctor office'
+      'local doctor office',
+      'medical supply store',
+      'hospital'
+    ],
+    verticalSignals: [
+      'medical waste',
+      'biohazard disposal',
+      'sharps disposal',
+      'clinical waste',
+      'regulated medical waste',
+      'infectious waste',
+      'pathological waste'
     ],
     baseScoringWeights: {
-      distanceWeight: 30,
-      contactEnrichmentWeight: 40,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -217,10 +297,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'scrap_metal',
     industryName: 'Industrial Scrap Metal Processing',
     searchQueries: [
-      'scrap metal recycling',
+      'scrap metal recycling facility',
+      'ferrous metal recycling',
+      'non-ferrous scrap processing',
       'industrial metal recycling',
-      'scrap yard wholesale',
-      'non-ferrous metal recycling'
+      'scrap yard processing'
     ],
     targetNaicsCodes: ['423930', '562920'],
     equipmentKeywords: [
@@ -237,12 +318,23 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'mechanic shop',
       'pawn shop',
       'residential junk collection',
-      'antique store'
+      'antique store',
+      'appliance repair',
+      'electronics repair'
+    ],
+    verticalSignals: [
+      'scrap metal',
+      'metal recycling',
+      'ferrous scrap',
+      'non-ferrous scrap',
+      'metal processing',
+      'scrap yard',
+      'metal shredding'
     ],
     baseScoringWeights: {
-      distanceWeight: 35,
-      contactEnrichmentWeight: 35,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   },
@@ -252,10 +344,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
     slug: 'marine_construction',
     industryName: 'Heavy Marine & Dock Infrastructure',
     searchQueries: [
-      'marine construction',
-      'seawall repair contractor',
-      'industrial dock builder',
-      'commercial dredging'
+      'marine construction contractor',
+      'seawall repair construction',
+      'industrial dock building',
+      'commercial dredging service',
+      'bulkhead construction'
     ],
     targetNaicsCodes: ['237990', '238910'],
     equipmentKeywords: [
@@ -272,12 +365,23 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfig> = {
       'residential dock repair',
       'yacht club sales',
       'scuba diving school',
-      'marina slips'
+      'marina slips',
+      'fishing charter',
+      'boat storage'
+    ],
+    verticalSignals: [
+      'marine construction',
+      'seawall',
+      'bulkhead',
+      'dock building',
+      'commercial dredging',
+      'pile driving',
+      'marine infrastructure'
     ],
     baseScoringWeights: {
-      distanceWeight: 30,
-      contactEnrichmentWeight: 40,
-      assetSignalWeight: 30
+      distanceWeight: 10,
+      contactEnrichmentWeight: 10,
+      assetSignalWeight: 25
     },
     createdAt: NOW
   }

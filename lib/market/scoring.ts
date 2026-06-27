@@ -1,50 +1,66 @@
 import { Company, Contact } from '@/types/company';
 import { VerticalConfig } from '@/types/config';
 
+function countSignalMatches(text: string, signals: string[]): number {
+  if (!text) return 0;
+  const lower = text.toLowerCase();
+  return signals.filter(s => lower.includes(s)).length;
+}
+
+function getScoreTier(score: number): 'A' | 'B' | 'C' {
+  if (score >= 80) return 'A';
+  if (score >= 55) return 'B';
+  return 'C';
+}
+
 export function calculateScore(
   company: Partial<Company>,
   config: VerticalConfig,
   contacts?: Partial<Contact>[]
-): number {
-  const { distanceWeight, contactEnrichmentWeight, assetSignalWeight } = config.baseScoringWeights;
+): { score: number; tier: 'A' | 'B' | 'C' } {
+  const name = company.companyName || '';
+  const signals = config.verticalSignals;
+  const summary = company.capabilitySummary || '';
 
-  let score = 0;
+  const nameSignalCount = countSignalMatches(name, signals);
+  const summarySignalCount = countSignalMatches(summary, signals);
+
+  const verticalMatch = Math.min(
+    (nameSignalCount > 0 ? 15 : 0) +
+    (nameSignalCount >= 2 ? 10 : 0) +
+    (nameSignalCount >= 3 ? 5 : 0) +
+    Math.min(summarySignalCount * 10, 15),
+    45
+  );
+
+  const summaryLen = summary.length;
+  const serviceCapability = Math.min(
+    (summaryLen > 200 ? 15 : summaryLen > 100 ? 10 : summaryLen > 30 ? 5 : 0) +
+    (summarySignalCount >= 2 ? 10 : summarySignalCount >= 1 ? 5 : 0),
+    25
+  );
 
   const dist = company.distanceMiles ?? 0;
-  const normalizedDist = Math.min(Math.max(dist, 0), 25);
-  const distanceScore = distanceWeight * (1 - normalizedDist / 25);
-  score += Math.round(distanceScore);
+  const distance = Math.max(0, 10 - Math.round(company.distanceMiles != null ? dist / 3 : 0));
 
-  let presenceScore = 0;
-  if (company.website) presenceScore += 6;
-  if (company.phone) presenceScore += 4;
-  if (company.address && company.address.length > 10) presenceScore += 3;
-  if (company.email) presenceScore += 2;
-  score += presenceScore;
+  let contact = 0;
+  if (company.website) contact += 3;
+  if (company.phone) contact += 3;
+  if (company.email) contact += 2;
+  if (company.address && company.address.length > 10) contact += 2;
+  contact = Math.min(contact, 10);
 
-  let contactPoints = 0;
-  if (company.phone) contactPoints += 3;
-  if (company.email) contactPoints += 3;
-
+  let enrichment = 0;
   const primaryContact = contacts?.find(c => c.isPrimary) || contacts?.[0];
   if (primaryContact) {
-    if (primaryContact.firstName || primaryContact.lastName) contactPoints += 5;
-    else if (primaryContact.email) contactPoints += 3;
-    if (primaryContact.title) contactPoints += 3;
-    if (primaryContact.linkedinUrl) contactPoints += 2;
-    if (primaryContact.email) contactPoints += 2;
-    if (primaryContact.phone) contactPoints += 2;
+    if (primaryContact.firstName || primaryContact.lastName) enrichment += 5;
+    if (primaryContact.title) enrichment += 2;
+    if (primaryContact.email) enrichment += 2;
+    if (primaryContact.phone) enrichment += 1;
   }
 
-  const maxContactPoints = 20;
-  const contactFraction = Math.min(contactPoints, maxContactPoints) / maxContactPoints;
-  score += Math.round(contactFraction * contactEnrichmentWeight);
+  const score = Math.min(verticalMatch + serviceCapability + distance + contact + enrichment, 100);
+  const tier = getScoreTier(score);
 
-  if (company.capabilitySummary) {
-    const len = company.capabilitySummary.length;
-    const signalFraction = Math.min(len / 100, 1);
-    score += Math.round(signalFraction * assetSignalWeight);
-  }
-
-  return Math.min(Math.max(score, 0), 100);
+  return { score, tier };
 }

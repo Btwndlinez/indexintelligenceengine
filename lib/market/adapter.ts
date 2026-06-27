@@ -6,6 +6,11 @@ import { GeminiScraperAdapter } from './providers/geminiScraper';
 import { calculateScore } from './scoring';
 import { geocodeZip } from '@/lib/geo';
 
+function isIrrelevant(company: Partial<Company>, config: VerticalConfig): boolean {
+  const haystack = `${company.companyName || ''} ${company.address || ''}`.toLowerCase();
+  return config.negativeKeywords.some(kw => haystack.includes(kw.toLowerCase()));
+}
+
 export class IndexIntelligenceEngine {
   private placesAdapter = new GooglePlacesAdapter();
   private apolloAdapter = new ApolloAdapter();
@@ -24,7 +29,7 @@ export class IndexIntelligenceEngine {
 
     const rawDiscoveryList: Partial<Company>[] = [];
     for (const searchQuery of config.searchQueries) {
-      const textQuery = `${searchQuery} in ${filters.zip}`;
+      const textQuery = `${searchQuery} ${filters.zip}`;
       try {
         const results = await this.placesAdapter.searchWithNegatives(
           textQuery, config.negativeKeywords,
@@ -40,7 +45,9 @@ export class IndexIntelligenceEngine {
     for (const item of rawDiscoveryList) {
       if (item.id) uniqueMap.set(item.id, item);
     }
-    const deduplicatedRecords = Array.from(uniqueMap.values());
+    let deduplicatedRecords = Array.from(uniqueMap.values());
+
+    deduplicatedRecords = deduplicatedRecords.filter(r => !isIrrelevant(r, config));
 
     const now = new Date().toISOString();
     const finalizedCompanies: Company[] = [];
@@ -51,7 +58,7 @@ export class IndexIntelligenceEngine {
         ...record,
         organizationId,
         verticalId: config.id,
-        enrichmentScore: 30,
+        enrichmentScore: 0,
         priority: 'C' as const,
         status: 'NOT_CONTACTED' as const,
         createdAt: now,
@@ -69,15 +76,14 @@ export class IndexIntelligenceEngine {
         capabilitySummary: scraperResult.capabilitySummary
       };
 
-      const distance = mergedCompany.distanceMiles || 0;
-      mergedCompany.priority = distance < 10 ? 'A' : distance < 15 ? 'B' : 'C';
-
       const companyContacts: Partial<Contact>[] = apolloResult.contacts.map((c) => ({
         ...c,
         companyId: mergedCompany.id!
       }));
 
-      mergedCompany.enrichmentScore = calculateScore(mergedCompany, config, companyContacts);
+      const { score, tier } = calculateScore(mergedCompany, config, companyContacts);
+      mergedCompany.enrichmentScore = score;
+      mergedCompany.priority = tier;
 
       const contactId = `contact-${mergedCompany.id}`;
       finalizedCompanies.push(mergedCompany as Company);

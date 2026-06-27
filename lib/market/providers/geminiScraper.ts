@@ -21,8 +21,22 @@ export class GeminiScraperAdapter {
           {
             role: 'user',
             content: `Analyze this company website: ${websiteUrl}
-We need to identify whether this facility manages industrial operations related to: ${equipmentKeywords.join(', ')}.
-Respond with JSON: { "hasCapability": boolean, "foundEquipmentSignals": string[], "summaryNotes": string }`
+We need to determine if this company offers:
+- slurry recycling
+- concrete washout
+- concrete reclaiming
+- ready mix reclaiming
+- ${equipmentKeywords.join(', ')}
+
+Also identify any relevant equipment they operate.
+
+Respond with JSON:
+{
+  "relevant": boolean,
+  "confidence": number (0-100),
+  "detectedSignals": string[],
+  "summaryNotes": string (2-3 sentence description of their capabilities and relevance)
+}`
           }
         ],
         response_format: { type: 'json_object' },
@@ -51,8 +65,8 @@ Respond with JSON: { "hasCapability": boolean, "foundEquipmentSignals": string[]
 
       const parsed = JSON.parse(rawContent);
       return {
-        hasSignals: parsed.hasCapability || (parsed.foundEquipmentSignals?.length > 0),
-        capabilitySummary: parsed.summaryNotes || parsed.foundEquipmentSignals?.join(', ') || '',
+        hasSignals: parsed.relevant || (parsed.detectedSignals?.length > 0),
+        capabilitySummary: parsed.summaryNotes || parsed.detectedSignals?.join(', ') || '',
       };
     } catch (err) {
       console.error('DeepSeek scraping failed:', err);
