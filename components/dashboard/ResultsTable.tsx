@@ -6,12 +6,14 @@ import Badge from '@/components/ui/Badge';
 
 interface Company {
   id: string;
+  companyName?: string;
   company_name?: string;
   name?: string;
   priority: string;
   distance_mi?: number;
   distance?: string;
-  score: number;
+  enrichmentScore?: number;
+  score?: number;
   contact_coverage?: string;
   coverage?: string;
   status: string;
@@ -45,10 +47,26 @@ const statusVariant = (s: string) => {
   }
 };
 
+const statusDisplay = (s: string) => {
+  switch (s) {
+    case 'NOT_CONTACTED': return 'New';
+    case 'IN_PROGRESS': return 'Contacted';
+    case 'CONTACTED': return 'Contacted';
+    case 'QUALIFIED': return 'Qualified';
+    case 'INTERESTED': return 'Interested';
+    case 'CONVERTED': return 'Converted';
+    default: return s || 'New';
+  }
+};
+
 function formatDistance(d: number | string | undefined): string {
   if (!d) return '—';
   if (typeof d === 'string') return d;
   return `${d.toFixed(1)} mi`;
+}
+
+function formatScore(s: number | undefined): number {
+  return s ?? 0;
 }
 
 function formatCoverage(c: string | number | undefined): string {
@@ -100,78 +118,44 @@ export default function ResultsTable({ companies, loading, demo, count }: Result
           </thead>
           <tbody>
             {companies.map((company) => {
-              const cid = company.id || company.company_name || Math.random().toString();
-              const name = company.company_name || company.name || 'Unknown';
+              const cid = company.id || Math.random().toString();
+              const name = company.companyName || company.company_name || company.name || 'Unknown';
+              const score = formatScore(company.enrichmentScore ?? company.score);
               return (
-                <>
-                  <tr
-                    key={cid}
-                    className="border-b border-border hover:bg-surface2 transition-colors cursor-pointer"
-                    onClick={() => setExpanded(expanded === cid ? null : cid)}
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        {expanded === cid ? <ChevronDown className="w-3 h-3 text-muted" /> : <ChevronRight className="w-3 h-3 text-muted" />}
-                        <span className="text-sm font-semibold">{name}</span>
+                <tr key={cid}
+                  className="border-b border-border hover:bg-surface2 transition-colors cursor-pointer"
+                  onClick={() => setExpanded(expanded === cid ? null : cid)}
+                >
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2 max-w-[250px]">
+                      {expanded === cid ? <ChevronDown className="w-3 h-3 text-muted shrink-0" /> : <ChevronRight className="w-3 h-3 text-muted shrink-0" />}
+                      <span className="text-sm font-semibold truncate">{name}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <Badge variant={priorityColor(company.priority) as any}>{company.priority}</Badge>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-muted">{formatDistance(company.distance_mi ?? company.distance)}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-16 h-1.5 rounded-full bg-surface2 overflow-hidden">
+                        <div className="h-full bg-red rounded-full" style={{ width: `${score}%` }} />
                       </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge variant={priorityColor(company.priority) as any}>{company.priority}</Badge>
-                    </td>
-                    <td className="px-4 py-3 text-sm text-muted">{formatDistance(company.distance_mi ?? company.distance)}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-1.5 rounded-full bg-surface2 overflow-hidden">
-                          <div className="h-full bg-red rounded-full" style={{ width: `${company.score}%` }} />
-                        </div>
-                        <span className="text-sm font-semibold">{company.score}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-sm text-muted">{formatCoverage(company.contact_coverage ?? company.coverage)}</td>
-                    <td className="px-4 py-3">
-                      <Badge variant={statusVariant(company.status) as any}>{company.status}</Badge>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-1">
-                        <button className="p-1.5 rounded-lg hover:bg-surface2 text-muted hover:text-text transition-all"><Phone className="w-3.5 h-3.5" /></button>
-                        <button className="p-1.5 rounded-lg hover:bg-surface2 text-muted hover:text-text transition-all"><Mail className="w-3.5 h-3.5" /></button>
-                        <button className="p-1.5 rounded-lg hover:bg-surface2 text-muted hover:text-text transition-all"><ExternalLink className="w-3.5 h-3.5" /></button>
-                      </div>
-                    </td>
-                  </tr>
-                  {expanded === cid && (
-                    <tr key={`${cid}-expanded`}>
-                      <td colSpan={7} className="px-4 py-4 bg-surface2">
-                        <div className="grid grid-cols-3 gap-6">
-                          <div>
-                            <div className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">Contacts</div>
-                            {company.contacts?.length ? company.contacts.map((c, i) => (
-                              <div key={i} className="text-sm mb-1">
-                                <div className="font-medium">{c.name}</div>
-                                <div className="text-muted text-xs">{c.role}</div>
-                                {c.email && <div className="text-xs text-blue">{c.email}</div>}
-                                {c.phone && <div className="text-xs text-muted">{c.phone}</div>}
-                              </div>
-                            )) : <div className="text-xs text-muted">No contacts found</div>}
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">Signals</div>
-                            {company.signals?.length ? company.signals.map((s, i) => (
-                              <div key={i} className="text-sm text-muted">• {s}</div>
-                            )) : <div className="text-xs text-muted">No signals detected</div>}
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">Actions</div>
-                            <div className="flex gap-2">
-                              <button className="px-3 py-1.5 bg-red/10 text-red text-xs font-semibold rounded-lg hover:bg-red/20 transition-all">Call</button>
-                              <button className="px-3 py-1.5 bg-surface text-text text-xs font-semibold rounded-lg border border-border hover:bg-surface2 transition-all">Email</button>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </>
+                      <span className="text-sm font-semibold">{score}</span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-muted">{formatCoverage(company.contact_coverage ?? company.coverage)}</td>
+                  <td className="px-4 py-3">
+                    <Badge variant={statusVariant(company.status) as any}>{statusDisplay(company.status)}</Badge>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-1">
+                      <button className="p-1.5 rounded-lg hover:bg-surface2 text-muted hover:text-text transition-all"><Phone className="w-3.5 h-3.5" /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-surface2 text-muted hover:text-text transition-all"><Mail className="w-3.5 h-3.5" /></button>
+                      <button className="p-1.5 rounded-lg hover:bg-surface2 text-muted hover:text-text transition-all"><ExternalLink className="w-3.5 h-3.5" /></button>
+                    </div>
+                  </td>
+                </tr>
               );
             })}
           </tbody>
