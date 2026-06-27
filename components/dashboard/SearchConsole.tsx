@@ -1,14 +1,42 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, MapPin, Crosshair, Radio } from 'lucide-react';
+import { Search, MapPin, Crosshair, Radio, Loader2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
-export default function SearchConsole() {
+interface SearchConsoleProps {
+  onResults: (data: { companies: any[]; demo: boolean; count: number; industry?: string }) => void;
+  onSearchStart?: () => void;
+}
+
+export default function SearchConsole({ onResults, onSearchStart }: SearchConsoleProps) {
   const [vertical, setVertical] = useState('slurry_concrete');
   const [zip, setZip] = useState('94544');
   const [radius, setRadius] = useState('25');
   const [signals, setSignals] = useState('slurry, concrete, pump');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSearch = async () => {
+    setLoading(true);
+    setError(null);
+    onSearchStart?.();
+
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ zip, radius: parseInt(radius), vertical, signals: signals.split(',').map(s => s.trim()) }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Search failed');
+      onResults(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="p-8 rounded-3xl bg-surface border border-border">
@@ -61,10 +89,17 @@ export default function SearchConsole() {
         </div>
       </div>
 
+      {error && (
+        <div className="mb-4 p-3 rounded-xl bg-red/10 border border-red/20 text-sm text-red">
+          {error}
+        </div>
+      )}
+
       <div className="flex items-center justify-between">
-        <div className="text-xs text-muted">Estimated: ~43 companies in target area</div>
-        <Button>
-          <Search className="w-4 h-4" /> Run Discovery
+        <div className="text-xs text-muted">{loading ? 'Searching East Bay slurry contractors...' : 'Enter parameters and run discovery'}</div>
+        <Button onClick={handleSearch} disabled={loading}>
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+          {loading ? 'Searching...' : 'Run Discovery'}
         </Button>
       </div>
     </div>

@@ -16,6 +16,10 @@ export async function POST(req: NextRequest) {
       searchesToday: 187,
       activeCampaigns: 15,
       totalEnrichments: 3402,
+      google_status: 'healthy',
+      apollo_status: 'healthy',
+      deepseek_status: 'healthy',
+      campaign_status: 'healthy',
     };
 
     return NextResponse.json({ success: true, metrics });

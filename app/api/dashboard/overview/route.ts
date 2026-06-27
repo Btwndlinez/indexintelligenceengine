@@ -8,6 +8,9 @@ const MOCK_METRICS = {
   activeCampaigns: 17,
   callsToday: 342,
   averageScore: 68.4,
+  searchesToday: 2281,
+  totalEnrichments: 3402,
+  pipelineValue: '$482K',
   priorityDistribution: { A: 312, B: 547, C: 389 },
 };
 
