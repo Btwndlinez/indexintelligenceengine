@@ -113,144 +113,6 @@ const SEED_VERTICALS: Record<string, VerticalConfig> = {
   }
 };
 
-const SEED_COMPANIES: Record<string, Company[]> = {
-  slurry_concrete: [
-    {
-      id: 'co-slurry-01',
-      companyName: 'Metro Slurry Management Inc.',
-      website: 'https://www.metroslurryrec.com',
-      phone: '(510) 555-0120',
-      email: 'operations@metroslurryrec.com',
-      address: '2400 Industrial Blvd',
-      city: 'Hayward',
-      state: 'CA',
-      zipCode: '94544',
-      distanceMiles: 4.2,
-      enrichmentScore: 94,
-      priority: 'A',
-      status: 'WON',
-      capabilitySummary: '[Verified Match] Mapped 4 vacuum trucks and 2 industrial filter presses. Operates certified concrete sludge separation cells.',
-      contactName: 'Sarah Jenkins',
-      contactTitle: 'Operations Director',
-      contactLinkedin: 'https://linkedin.com/in/sarah-jenkins-metroslurry'
-    },
-    {
-      id: 'co-slurry-02',
-      companyName: 'Svenson & Sons Dewatering',
-      website: 'https://www.svensondewater.com',
-      phone: '(510) 555-8821',
-      email: 'disposal@svensondewater.com',
-      address: '1420 Depot Road',
-      city: 'Hayward',
-      state: 'CA',
-      zipCode: '94544',
-      distanceMiles: 6.8,
-      enrichmentScore: 82,
-      priority: 'A',
-      status: 'QUALIFIED',
-      capabilitySummary: 'Web crawler signal: Mentions industrial sludge hauling and dewatering tanks, but no direct filter press identified.',
-      contactName: 'Marcus Svenson',
-      contactTitle: 'General Partner',
-      contactLinkedin: 'https://linkedin.com/in/marcus-svenson-dewater'
-    },
-    {
-      id: 'co-slurry-03',
-      companyName: 'Apex Hydro-Vac Logistics',
-      website: 'https://www.apexhydrovac.com',
-      phone: '(510) 555-1940',
-      email: 'contact@apexhydrovac.com',
-      address: '884 Industrial Parkway',
-      city: 'Hayward',
-      state: 'CA',
-      zipCode: '94544',
-      distanceMiles: 11.2,
-      enrichmentScore: 76,
-      priority: 'B',
-      status: 'INTERESTED',
-      capabilitySummary: 'Discovered high-capacity liquid vacuum tankers. Specialized in municipal pipe slurry clearing.',
-      contactName: 'Elena Rostova',
-      contactTitle: 'Fleet Logistics Manager'
-    },
-    {
-      id: 'co-slurry-04',
-      companyName: 'Fremont Concrete Recyclers',
-      website: 'https://www.fremontconrec.com',
-      phone: '(510) 555-4012',
-      address: '41200 Albrae St',
-      city: 'Fremont',
-      state: 'CA',
-      zipCode: '94538',
-      distanceMiles: 16.5,
-      enrichmentScore: 52,
-      priority: 'C',
-      status: 'CALLED',
-      capabilitySummary: 'Regulatory database match for solid concrete recycling. Website scraping returned zero equipment signal matches.',
-      contactName: 'James Lin',
-      contactTitle: 'Site Manager'
-    }
-  ],
-  grease_trap: [
-    {
-      id: 'co-grease-01',
-      companyName: 'Pure Kitchen Organics LLC',
-      website: 'https://www.purekitchenrec.com',
-      phone: '(310) 555-9011',
-      email: 'pickup@purekitchenrec.com',
-      address: '1044 Avalon Blvd',
-      city: 'Los Angeles',
-      state: 'CA',
-      zipCode: '90210',
-      distanceMiles: 5.1,
-      enrichmentScore: 96,
-      priority: 'A',
-      status: 'WON',
-      capabilitySummary: '[Verified Match] Mapped state-certified organic rendering cookers and 5 vacuum interceptor trucks.',
-      contactName: 'David Cho',
-      contactTitle: 'EHS Administrator',
-      contactLinkedin: 'https://linkedin.com/in/david-cho-kitchenrec'
-    },
-    {
-      id: 'co-grease-02',
-      companyName: 'Interceptor Pump Experts',
-      website: 'https://www.interceptorexperts.net',
-      phone: '(310) 555-1422',
-      email: 'service@interceptorexperts.net',
-      address: '5840 Jefferson Blvd',
-      city: 'Los Angeles',
-      state: 'CA',
-      zipCode: '90211',
-      distanceMiles: 9.3,
-      enrichmentScore: 84,
-      priority: 'A',
-      status: 'INTERESTED',
-      capabilitySummary: 'Active matching for commercial trap cleaning and hydro-jetters. Regular food-service routes identified.',
-      contactName: 'Regina Hall',
-      contactTitle: 'Dispatch Coordinator'
-    }
-  ],
-  asbestos_abatement: [
-    {
-      id: 'co-asbestos-01',
-      companyName: 'Precision Hazard Remediation',
-      website: 'https://www.precisionhaz.com',
-      phone: '(510) 555-1992',
-      email: 'safety@precisionhaz.com',
-      address: '4490 Mowry Ave',
-      city: 'Fremont',
-      state: 'CA',
-      zipCode: '94538',
-      distanceMiles: 8.5,
-      enrichmentScore: 99,
-      priority: 'A',
-      status: 'WON',
-      capabilitySummary: '[Verified Match] Mapped negative air scrubbers and HEPA vacuum setups. Fully licensed under EPA Class IV abatement.',
-      contactName: 'Thomas Miller',
-      contactTitle: 'EHS Senior Director',
-      contactLinkedin: 'https://linkedin.com/in/thomas-miller-hazmat'
-    }
-  ]
-};
-
 export default function IndexIntelligenceDashboard() {
   const [selectedTenantKey, setSelectedTenantKey] = useState<string>('slurry_concrete');
   const [zipCode, setZipCode] = useState<string>('94544');
@@ -258,7 +120,7 @@ export default function IndexIntelligenceDashboard() {
   const [activeTab, setActiveTab] = useState<'discovery' | 'callsheet' | 'campaign' | 'governance' | 'telemetry'>('discovery');
 
   const [verticalConfigs, setVerticalConfigs] = useState<Record<string, VerticalConfig>>(SEED_VERTICALS);
-  const [companies, setCompanies] = useState<Record<string, Company[]>>(SEED_COMPANIES);
+  const [companies, setCompanies] = useState<Record<string, Company[]>>({});
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [focusedLeadId, setFocusedLeadId] = useState<string | null>(null);
@@ -266,12 +128,7 @@ export default function IndexIntelligenceDashboard() {
   const [dialerLogOutcome, setDialerLogOutcome] = useState<string>('connected_interested');
   const [dialerLogNotes, setDialerLogNotes] = useState<string>('');
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
-  const [telemetryLogs, setTelemetryLogs] = useState<TelemetryLog[]>([
-    { id: 'tr-01', timestamp: '15:21:05', providerName: 'google_places', action: 'Radius Search TextQuery: 94544', latencyMs: 384, cost: 0.00015, isSuccess: true },
-    { id: 'tr-02', timestamp: '15:21:06', providerName: 'apollo', action: 'Corporate Lookup: Metro Slurry Management', latencyMs: 142, cost: 0.00008, isSuccess: true },
-    { id: 'tr-03', timestamp: '15:21:07', providerName: 'gemini_grounding', action: 'Grounding Crawler: metroslurryrec.com', latencyMs: 1240, cost: 0.00045, isSuccess: true },
-    { id: 'tr-04', timestamp: '15:21:07', providerName: 'system_adapter', action: 'Weighted Deduplication & Score Sync', latencyMs: 14, cost: 0.0, isSuccess: true }
-  ]);
+  const [telemetryLogs, setTelemetryLogs] = useState<TelemetryLog[]>([]);
 
   const activeConfig = useMemo(() => verticalConfigs[selectedTenantKey] || SEED_VERTICALS.slurry_concrete, [verticalConfigs, selectedTenantKey]);
   const activeCompanies = useMemo(() => companies[selectedTenantKey] || [], [companies, selectedTenantKey]);
@@ -313,44 +170,100 @@ export default function IndexIntelligenceDashboard() {
     }
   }, [selectedTenantKey, activeCompanies]);
 
-  const triggerDiscoverySync = () => {
-    setIsSyncing(true);
-    const timestamp = new Date().toLocaleTimeString();
-    const newTraces: TelemetryLog[] = [
-      { id: `tr-${Date.now()}-1`, timestamp, providerName: 'google_places', action: `Places searchText query around [${zipCode}] within range ${radius}mi`, latencyMs: 412, cost: 0.00015, isSuccess: true },
-      { id: `tr-${Date.now()}-2`, timestamp, providerName: 'apollo', action: 'Bulk contact enrichment looking up matched web domains', latencyMs: 210, cost: 0.00016, isSuccess: true },
-      { id: `tr-${Date.now()}-3`, timestamp, providerName: 'gemini_grounding', action: `Analyzing capabilities searching for machinery keywords: ${activeConfig.trackers.join(', ')}`, latencyMs: 1450, cost: 0.00060, isSuccess: true },
-      { id: `tr-${Date.now()}-4`, timestamp, providerName: 'system_adapter', action: 'Committed 4 fresh leads, applied distance scoring metrics', latencyMs: 18, cost: 0.0, isSuccess: true }
-    ];
+  useEffect(() => {
+    fetchCompanies();
+    fetchTelemetry();
+  }, [selectedTenantKey]);
 
-    setTimeout(() => {
-      setTelemetryLogs(prev => [...newTraces, ...prev]);
-      if (selectedTenantKey === 'slurry_concrete' && companies.slurry_concrete.length < 5) {
-        const discoveredItem: Company = {
-          id: 'co-slurry-new-05',
-          companyName: 'J&R Environmental Dewatering',
-          website: 'https://www.jrenvironmental.com',
-          phone: '(510) 555-9014',
-          email: 'logistics@jrenvironmental.com',
-          address: '884 Industrial Parkway',
-          city: 'Hayward',
-          state: 'CA',
-          zipCode: '94544',
-          distanceMiles: 5.2,
-          enrichmentScore: 89,
-          priority: 'B',
-          status: 'NOT_CONTACTED',
-          capabilitySummary: '[Scraper Signal Match] Found references to hydro-jet filtration pumps and wastewater dewatering tanks.',
-          contactName: 'Robert Vance',
-          contactTitle: 'Director of Waste Safety'
-        };
-        setCompanies(prev => ({
-          ...prev,
-          slurry_concrete: [discoveredItem, ...prev.slurry_concrete]
-        }));
+  const fetchCompanies = async () => {
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-iie-client-context': selectedTenantKey,
+        },
+        body: JSON.stringify({ zip: zipCode, radius }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.companies?.length) {
+        setCompanies({ [selectedTenantKey]: data.companies });
       }
-      setIsSyncing(false);
-    }, 1000);
+    } catch {
+      // API not reachable
+    }
+  };
+
+  const fetchTelemetry = async () => {
+    try {
+      const res = await fetch('/api/telemetry-management', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-iie-client-context': selectedTenantKey,
+        },
+        body: JSON.stringify({ action: 'get-telemetry' }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.stats) {
+        const log: TelemetryLog = {
+          id: `tel-${Date.now()}`,
+          timestamp: new Date().toLocaleTimeString(),
+          providerName: 'system_adapter',
+          action: `API calls: ${data.stats.totalApiCalls}, Cost: $${data.stats.accumulatedCost}, Avg latency: ${data.stats.averageLatencyMs}ms`,
+          latencyMs: data.stats.averageLatencyMs,
+          cost: data.stats.accumulatedCost,
+          isSuccess: true,
+        };
+        setTelemetryLogs([log]);
+      }
+    } catch {
+      // API not reachable
+    }
+  };
+
+  const triggerDiscoverySync = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-iie-client-context': selectedTenantKey,
+        },
+        body: JSON.stringify({ zip: zipCode, radius }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.companies?.length) {
+          setCompanies({ [selectedTenantKey]: data.companies });
+        }
+        const trace: TelemetryLog = {
+          id: `tr-${Date.now()}`,
+          timestamp: new Date().toLocaleTimeString(),
+          providerName: 'google_places',
+          action: `Search around ${zipCode} / ${radius}mi for ${selectedTenantKey}`,
+          latencyMs: 0,
+          cost: 0,
+          isSuccess: true,
+        };
+        setTelemetryLogs(prev => [trace, ...prev]);
+      }
+    } catch {
+      const trace: TelemetryLog = {
+        id: `tr-${Date.now()}`,
+        timestamp: new Date().toLocaleTimeString(),
+        providerName: 'system_adapter',
+        action: 'Discovery sync failed — API unreachable',
+        latencyMs: 0,
+        cost: 0,
+        isSuccess: false,
+      };
+      setTelemetryLogs(prev => [trace, ...prev]);
+    }
+    setIsSyncing(false);
   };
 
   const submitInteractionLog = (e: React.FormEvent) => {
@@ -985,41 +898,17 @@ export default function IndexIntelligenceDashboard() {
 
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={() => {
-                    const timestamp = new Date().toLocaleTimeString();
-                    const mockSuccess: TelemetryLog = {
-                      id: `tr-${Date.now()}`,
-                      timestamp,
-                      providerName: 'gemini_grounding',
-                      action: 'Scraped domain with custom parameters. Discovered positive signal indicators.',
-                      latencyMs: Math.floor(Math.random() * 500) + 1000,
-                      cost: 0.00045,
-                      isSuccess: true
-                    };
-                    setTelemetryLogs(prev => [mockSuccess, ...prev]);
-                  }}
+                  onClick={fetchTelemetry}
                   className="w-full bg-indigo-600/10 hover:bg-indigo-600 text-indigo-400 hover:text-white font-bold py-3 rounded-xl text-xs transition"
                 >
-                  Inject Simulated success Trace
+                  Refresh Telemetry from API
                 </button>
 
                 <button
-                  onClick={() => {
-                    const timestamp = new Date().toLocaleTimeString();
-                    const mockFail: TelemetryLog = {
-                      id: `tr-${Date.now()}`,
-                      timestamp,
-                      providerName: 'gemini_grounding',
-                      action: 'Grounding Scraper: Connection Timeout Exception',
-                      latencyMs: 5000,
-                      cost: 0.0,
-                      isSuccess: false
-                    };
-                    setTelemetryLogs(prev => [mockFail, ...prev]);
-                  }}
-                  className="w-full bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white font-bold py-3 rounded-xl text-xs transition"
+                  onClick={() => triggerDiscoverySync()}
+                  className="w-full bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white font-bold py-3 rounded-xl text-xs transition"
                 >
-                  Inject Simulated Failure Trace
+                  Run Discovery Sync
                 </button>
               </div>
             </div>
