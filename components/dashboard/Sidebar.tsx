@@ -26,8 +26,8 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 w-[280px] h-screen bg-surface border-r border-border z-40 flex flex-col">
-      <div className="h-[72px] flex items-center gap-3 px-6 border-b border-border">
+    <aside className="w-72 shrink-0 min-h-screen bg-surface border-r border-border flex flex-col">
+      <div className="h-[72px] flex items-center gap-3 px-6 border-b border-border shrink-0">
         <div className="w-8 h-8 bg-red rounded-lg flex items-center justify-center">
           <Zap className="w-4 h-4 text-white" fill="white" />
         </div>
@@ -61,7 +61,7 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="px-3 py-4 border-t border-border">
+      <div className="px-3 py-4 border-t border-border shrink-0">
         <div className="px-3 py-2.5 rounded-xl bg-surface2 border border-border">
           <div className="text-[10px] text-muted font-medium">Growth Plan</div>
           <div className="text-xs text-text font-semibold mt-1">2,482 / 10,000 credits</div>

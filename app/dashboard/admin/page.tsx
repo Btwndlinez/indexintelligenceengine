@@ -13,7 +13,7 @@ const sections = [
 
 export default function AdminPage() {
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto">
+    <div className="w-full max-w-[1400px] mx-auto space-y-6">
       <div>
         <h1 className="text-xl font-bold">Admin</h1>
         <p className="text-sm text-muted mt-1">System administration and monitoring</p>

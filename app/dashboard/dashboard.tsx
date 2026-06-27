@@ -49,7 +49,7 @@ export default function Dashboard() {
   ] : null;
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto">
+    <div className="w-full max-w-[1400px] mx-auto space-y-6">
       {/* KPI ROW */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {metricsLoading
@@ -59,11 +59,13 @@ export default function Dashboard() {
       </div>
 
       {/* SEARCH CONSOLE */}
-      <SearchConsole onResults={handleResults} onSearchStart={handleSearchStart} />
+      <div className="w-full relative z-10">
+        <SearchConsole onResults={handleResults} onSearchStart={handleSearchStart} />
+      </div>
 
       {/* RESULTS + INTELLIGENCE SPLIT */}
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 lg:col-span-8">
+        <div className="col-span-12 lg:col-span-8 w-full min-w-0 overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="text-xs font-semibold text-muted uppercase tracking-wider">Results</div>
             <div className="text-xs text-muted">

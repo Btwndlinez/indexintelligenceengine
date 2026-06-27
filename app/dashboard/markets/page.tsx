@@ -10,7 +10,7 @@ const markets = [
 
 export default function MarketsPage() {
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto">
+    <div className="w-full max-w-[1400px] mx-auto space-y-6">
       <div>
         <h1 className="text-xl font-bold">Markets</h1>
         <p className="text-sm text-muted mt-1">Monitor your indexed markets</p>

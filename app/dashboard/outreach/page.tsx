@@ -11,7 +11,7 @@ const queue = [
 
 export default function OutreachPage() {
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto">
+    <div className="w-full max-w-[1400px] mx-auto space-y-6">
       <div>
         <h1 className="text-xl font-bold">Outreach</h1>
         <p className="text-sm text-muted mt-1">Mission control for your outreach queue</p>

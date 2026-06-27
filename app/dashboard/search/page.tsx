@@ -21,16 +21,18 @@ export default function SearchPage() {
   }, []);
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto">
+    <div className="w-full max-w-[1400px] mx-auto space-y-6">
       <div>
         <h1 className="text-xl font-bold">Search</h1>
         <p className="text-sm text-muted mt-1">Discover and enrich target companies</p>
       </div>
 
-      <SearchConsole onResults={handleResults} onSearchStart={handleSearchStart} />
+      <div className="w-full relative z-10">
+        <SearchConsole onResults={handleResults} onSearchStart={handleSearchStart} />
+      </div>
 
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 lg:col-span-8">
+        <div className="col-span-12 lg:col-span-8 w-full min-w-0 overflow-hidden">
           <ResultsTable
             companies={searchData?.companies}
             loading={loading}

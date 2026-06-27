@@ -4,7 +4,7 @@ import { Search, Bell, Zap } from 'lucide-react';
 
 export default function Topbar() {
   return (
-    <header className="fixed top-0 left-[280px] right-0 h-[72px] bg-surface/80 backdrop-blur-xl border-b border-border z-30 flex items-center justify-between px-8">
+    <header className="h-[72px] border-b border-border flex items-center justify-between px-6 lg:px-8 bg-surface/80 backdrop-blur-xl">
       <div className="flex items-center gap-4 flex-1 max-w-md">
         <Search className="w-4 h-4 text-muted" />
         <input
