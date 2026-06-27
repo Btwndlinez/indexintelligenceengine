@@ -36,7 +36,6 @@ export default function SearchPage() {
           <ResultsTable
             companies={searchData?.companies}
             loading={loading}
-            demo={searchData?.demo}
             count={searchData?.count}
           />
         </div>

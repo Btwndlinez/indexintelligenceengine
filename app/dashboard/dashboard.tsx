@@ -11,7 +11,6 @@ import UsageCard from '@/components/dashboard/UsageCard';
 
 interface SearchData {
   companies: any[];
-  demo: boolean;
   count: number;
   industry?: string;
 }
@@ -75,7 +74,6 @@ export default function Dashboard() {
           <ResultsTable
             companies={searchData?.companies}
             loading={searchLoading}
-            demo={searchData?.demo}
             count={searchData?.count}
           />
         </div>

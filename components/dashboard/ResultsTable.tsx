@@ -44,7 +44,6 @@ interface ResultsTableProps {
   companies?: CompanyData[];
   contacts?: Contact[];
   loading?: boolean;
-  demo?: boolean;
 }
 
 const priorityColor = (p: string) => {
@@ -90,7 +89,7 @@ function formatCoverage(c: string | number | undefined): string {
   return c;
 }
 
-export default function ResultsTable({ companies, contacts: allContacts, loading, demo }: ResultsTableProps) {
+export default function ResultsTable({ companies, contacts: allContacts, loading }: ResultsTableProps) {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   if (loading) {
@@ -115,11 +114,6 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
 
   return (
     <div className="bg-surface rounded-3xl border border-border overflow-hidden">
-      {demo && (
-        <div className="px-4 py-2 bg-yellow/10 border-b border-yellow/20 text-xs text-yellow font-medium">
-          Demo mode — showing sample data. Connect provider keys for live results.
-        </div>
-      )}
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>

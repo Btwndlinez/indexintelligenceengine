@@ -5,7 +5,7 @@ import { Search, MapPin, Crosshair, Radio, Loader2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
 interface SearchConsoleProps {
-  onResults: (data: { companies: any[]; demo: boolean; count: number; industry?: string }) => void;
+  onResults: (data: { companies: any[]; count: number; industry?: string }) => void;
   onSearchStart?: () => void;
 }
 
@@ -76,8 +76,13 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
           <label className="text-xs font-medium text-muted flex items-center gap-1.5">
             <MapPin className="w-3 h-3" /> Radius (mi)
           </label>
-          <input value={radius} onChange={e => setRadius(e.target.value)}
-            className="h-10 px-3.5 bg-surface2 border border-border rounded-xl text-sm text-text focus:outline-none focus:border-red/50 focus:ring-1 focus:ring-red/20" />
+          <select value={radius} onChange={e => setRadius(e.target.value)}
+            className="h-10 px-3.5 bg-surface2 border border-border rounded-xl text-sm text-text focus:outline-none focus:border-red/50 focus:ring-1 focus:ring-red/20">
+            <option value="10">10 miles</option>
+            <option value="20">20 miles</option>
+            <option value="50">50 miles</option>
+            <option value="100">100 miles</option>
+          </select>
         </div>
 
         <div className="flex flex-col gap-1.5">

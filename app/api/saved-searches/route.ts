@@ -121,8 +121,33 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    if (action === 'delete') {
+      const { id } = body;
+      if (!id) {
+        return NextResponse.json(
+          { error: 'Missing required parameter: id.' },
+          { status: 400 }
+        );
+      }
+
+      globalThis.__savedSearches = globalThis.__savedSearches.filter(
+        (s) => s.id !== id
+      );
+
+      try {
+        await supabaseFetch(
+          `/rest/v1/searches?id=eq.${encodeURIComponent(id)}`,
+          { method: 'DELETE' }
+        );
+      } catch {
+        // In-memory fallback already handled above
+      }
+
+      return NextResponse.json({ success: true, message: 'Search deleted.' });
+    }
+
     return NextResponse.json(
-      { error: "Invalid action. Use 'save' or 'list'." },
+      { error: "Invalid action. Use 'save', 'list', or 'delete'." },
       { status: 400 }
     );
   } catch (err: any) {

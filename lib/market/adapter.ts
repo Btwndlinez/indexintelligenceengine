@@ -18,6 +18,7 @@ export class IndexIntelligenceEngine {
     const configWithProviders = config as VerticalConfigWithProviders;
     const providers = configWithProviders.providers || [];
 
+    const radiusFilter = filters.radius || 50;
     const zipCoords = await geocodeZip(filters.zip);
     const now = new Date().toISOString();
 
@@ -50,7 +51,11 @@ export class IndexIntelligenceEngine {
     }
 
     const negativeKeywords = config.negativeKeywords || [];
-    const filteredPool = candidatePool.filter(c => !isIrrelevant(c, negativeKeywords));
+    const filteredPool = candidatePool.filter(c => {
+      if (isIrrelevant(c, negativeKeywords)) return false;
+      if (c.distanceMiles != null && c.distanceMiles > radiusFilter) return false;
+      return true;
+    });
 
     const finalizedCompanies: Company[] = [];
     const allContacts: Contact[] = [];

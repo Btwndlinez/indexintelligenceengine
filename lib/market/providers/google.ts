@@ -18,10 +18,12 @@ export class GooglePlacesProvider implements DiscoveryProvider {
       'concrete reclaiming',
     ];
 
+    const radiusMeters = params.radius ? params.radius * 1609.34 : 80467;
+
     for (const query of searchQueries) {
       const textQuery = `${query} ${params.zip}`;
       try {
-        const results = await this.searchWithNegatives(textQuery, [], params.lat, params.lng);
+        const results = await this.searchWithNegatives(textQuery, [], params.lat, params.lng, radiusMeters);
         allResults.push(...results);
       } catch (err) {
         console.error(`[GooglePlacesProvider] Query '${textQuery}' failed:`, err);
@@ -35,7 +37,8 @@ export class GooglePlacesProvider implements DiscoveryProvider {
     queryText: string,
     negativeKeywords: string[],
     zipLat?: number,
-    zipLng?: number
+    zipLng?: number,
+    radiusMeters?: number
   ): Promise<Partial<Company>[]> {
     const apiKey = process.env.GOOGLE_PLACES_API_KEY;
     if (!apiKey) {
@@ -44,6 +47,16 @@ export class GooglePlacesProvider implements DiscoveryProvider {
 
     const url = 'https://places.googleapis.com/v1/places:searchText';
 
+    const body: any = { textQuery: queryText };
+    if (zipLat != null && zipLng != null && radiusMeters != null) {
+      body.locationBias = {
+        circle: {
+          center: { latitude: zipLat, longitude: zipLng },
+          radius: radiusMeters,
+        },
+      };
+    }
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -51,7 +64,7 @@ export class GooglePlacesProvider implements DiscoveryProvider {
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.location,places.internationalPhoneNumber,places.websiteUri,places.primaryType'
       },
-      body: JSON.stringify({ textQuery: queryText })
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {

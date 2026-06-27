@@ -3,7 +3,6 @@
 import React from 'react';
 import { Company } from '@/types/company';
 import { Phone, CheckCircle2, AlertCircle, XCircle, FileText } from 'lucide-react';
-import { getPriorityLabel } from '@/lib/mock/companies';
 
 interface CallSheetProps {
     companies: Company[];
@@ -17,6 +16,7 @@ export default function CallSheet({ companies, isOpen, onClose }: CallSheetProps
     const priorities = ['A', 'B', 'C'] as const;
 
     const getCompaniesByPriority = (priority: string) => companies.filter(c => c.priority === priority);
+    const priorityLabel = (p: string) => p === 'A' ? '0-10 miles' : p === 'B' ? '10-15 miles' : '15-20 miles';
 
     return (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
@@ -52,7 +52,7 @@ export default function CallSheet({ companies, isOpen, onClose }: CallSheetProps
                                         {priority}
                                     </span>
                                     <h3 className="font-black uppercase tracking-widest text-xs text-gray-500">
-                                        Priority {priority} <span className="font-medium normal-case ml-2">({getPriorityLabel(priority as 'A' | 'B' | 'C')})</span>
+                                        Priority {priority} <span className="font-medium normal-case ml-2">({priorityLabel(priority)})</span>
                                     </h3>
                                     <div className="h-[1px] flex-1 bg-gray-100 dark:bg-gray-800" />
                                     <span className="text-[10px] font-bold text-gray-400">{priorityCompanies.length} companies</span>
