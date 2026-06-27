@@ -34,10 +34,10 @@ export async function POST(req: NextRequest) {
     }
 
     const engine = new IndexIntelligenceEngine();
-    const { companies } = await withTimeout(
+    const { companies, contacts } = await withTimeout(
       engine.executeMarketDiscovery(body, verticalConfig),
       25000,
-      () => ({ companies: [] } as any)
+      () => ({ companies: [], contacts: [] } as any)
     );
 
     writeAudit({
@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
       industry: verticalConfig.industryName,
       count: companies.length,
       companies,
+      contacts,
     });
   } catch (err: any) {
     console.error("Core Engine Error:", err);
