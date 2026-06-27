@@ -6,33 +6,45 @@ export function calculateScore(
   config: VerticalConfig,
   contacts?: Partial<Contact>[]
 ): number {
-  let score = 30;
+  const { distanceWeight, contactEnrichmentWeight, assetSignalWeight } = config.baseScoringWeights;
 
-  const dist = company.distanceMiles || 0;
-  if (dist > 0 && dist < 10) {
-    score += config.baseScoringWeights.distanceWeight;
-  } else if (dist >= 10 && dist < 15) {
-    score += config.baseScoringWeights.distanceWeight * 0.6;
-  } else if (dist >= 15 && dist <= 20) {
-    score += config.baseScoringWeights.distanceWeight * 0.3;
-  }
+  let score = 0;
+
+  const dist = company.distanceMiles ?? 0;
+  const normalizedDist = Math.min(Math.max(dist, 0), 25);
+  const distanceScore = distanceWeight * (1 - normalizedDist / 25);
+  score += Math.round(distanceScore);
+
+  let presenceScore = 0;
+  if (company.website) presenceScore += 6;
+  if (company.phone) presenceScore += 4;
+  if (company.address && company.address.length > 10) presenceScore += 3;
+  if (company.email) presenceScore += 2;
+  score += presenceScore;
 
   let contactPoints = 0;
-  if (company.phone) contactPoints += 0.2;
-  if (company.email) contactPoints += 0.2;
+  if (company.phone) contactPoints += 3;
+  if (company.email) contactPoints += 3;
 
-  const primary = contacts?.find(c => c.isPrimary) || contacts?.[0];
-  if (primary?.firstName || primary?.lastName) contactPoints += 0.2;
-  if (primary?.title) contactPoints += 0.1;
-  if (primary?.linkedinUrl) contactPoints += 0.1;
-  if (primary?.email) contactPoints += 0.1;
-  if (primary?.phone) contactPoints += 0.1;
-
-  score += Math.round(contactPoints * config.baseScoringWeights.contactEnrichmentWeight);
-
-  if (company.capabilitySummary && company.capabilitySummary.length > 50) {
-    score += config.baseScoringWeights.assetSignalWeight;
+  const primaryContact = contacts?.find(c => c.isPrimary) || contacts?.[0];
+  if (primaryContact) {
+    if (primaryContact.firstName || primaryContact.lastName) contactPoints += 5;
+    else if (primaryContact.email) contactPoints += 3;
+    if (primaryContact.title) contactPoints += 3;
+    if (primaryContact.linkedinUrl) contactPoints += 2;
+    if (primaryContact.email) contactPoints += 2;
+    if (primaryContact.phone) contactPoints += 2;
   }
 
-  return Math.min(score, 100);
+  const maxContactPoints = 20;
+  const contactFraction = Math.min(contactPoints, maxContactPoints) / maxContactPoints;
+  score += Math.round(contactFraction * contactEnrichmentWeight);
+
+  if (company.capabilitySummary) {
+    const len = company.capabilitySummary.length;
+    const signalFraction = Math.min(len / 100, 1);
+    score += Math.round(signalFraction * assetSignalWeight);
+  }
+
+  return Math.min(Math.max(score, 0), 100);
 }
