@@ -126,7 +126,12 @@ export class IndexIntelligenceEngine {
       })) as Contact[]);
     }
 
-    finalizedCompanies.sort((a, b) => (b.enrichmentScore || 0) - (a.enrichmentScore || 0));
+    const gradeOrder: Record<string, number> = { A: 0, B: 1, C: 2 };
+    finalizedCompanies.sort((a, b) => {
+      const g = (gradeOrder[a.priority || 'C'] ?? 2) - (gradeOrder[b.priority || 'C'] ?? 2);
+      if (g !== 0) return g;
+      return (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity);
+    });
 
     return { companies: finalizedCompanies, contacts: allContacts };
   }
