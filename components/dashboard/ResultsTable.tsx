@@ -135,7 +135,7 @@ export default function ResultsTable({ companies, loading, demo, count }: Result
                   <td className="px-4 py-3">
                     <Badge variant={priorityColor(company.priority) as any}>{company.priority}</Badge>
                   </td>
-                  <td className="px-4 py-3 text-sm text-muted">{formatDistance(company.distance_mi ?? company.distance)}</td>
+                  <td className="px-4 py-3 text-sm text-muted">{formatDistance(company.distanceMiles ?? company.distance_mi ?? company.distance)}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="w-16 h-1.5 rounded-full bg-surface2 overflow-hidden">

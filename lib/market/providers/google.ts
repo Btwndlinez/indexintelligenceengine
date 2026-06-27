@@ -1,11 +1,14 @@
 import { Company } from '@/types/company';
+import { haversineDistance } from '@/lib/geo';
 
 export class GooglePlacesAdapter {
   name = 'google_places';
 
   async searchWithNegatives(
     queryText: string,
-    negativeKeywords: string[]
+    negativeKeywords: string[],
+    zipLat?: number,
+    zipLng?: number
   ): Promise<Partial<Company>[]> {
     const apiKey = process.env.GOOGLE_PLACES_API_KEY;
     if (!apiKey) {
@@ -44,19 +47,28 @@ export class GooglePlacesAdapter {
 
     const now = new Date().toISOString();
 
-    return filteredPlaces.map((p: any) => ({
-      id: p.id,
-      companyName: p.displayName?.text || 'Unindexed Business',
-      address: p.formattedAddress,
-      phone: p.internationalPhoneNumber,
-      website: p.websiteUri,
-      latitude: p.location?.latitude,
-      longitude: p.location?.longitude,
-      source: this.name,
-      status: 'NOT_CONTACTED' as const,
-      createdAt: now,
-      updatedAt: now
-    }));
+    return filteredPlaces.map((p: any) => {
+      const lat = p.location?.latitude;
+      const lng = p.location?.longitude;
+      const distanceMiles = (zipLat != null && zipLng != null && lat != null && lng != null)
+        ? Math.round(haversineDistance(zipLat, zipLng, lat, lng) * 10) / 10
+        : undefined;
+
+      return {
+        id: p.id,
+        companyName: p.displayName?.text || 'Unindexed Business',
+        address: p.formattedAddress,
+        phone: p.internationalPhoneNumber,
+        website: p.websiteUri,
+        latitude: lat,
+        longitude: lng,
+        distanceMiles,
+        source: this.name,
+        status: 'NOT_CONTACTED' as const,
+        createdAt: now,
+        updatedAt: now
+      };
+    });
   }
 
   async search(queryText: string): Promise<Partial<Company>[]> {

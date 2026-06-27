@@ -4,6 +4,7 @@ import { GooglePlacesAdapter } from './providers/google';
 import { ApolloAdapter } from './providers/apollo';
 import { GeminiScraperAdapter } from './providers/geminiScraper';
 import { calculateScore } from './scoring';
+import { geocodeZip } from '@/lib/geo';
 
 export class IndexIntelligenceEngine {
   private placesAdapter = new GooglePlacesAdapter();
@@ -19,11 +20,16 @@ export class IndexIntelligenceEngine {
       throw new Error("IIE Error: GOOGLE_PLACES_API_KEY is not configured.");
     }
 
+    const zipCoords = await geocodeZip(filters.zip);
+
     const rawDiscoveryList: Partial<Company>[] = [];
     for (const searchQuery of config.searchQueries) {
       const textQuery = `${searchQuery} in ${filters.zip}`;
       try {
-        const results = await this.placesAdapter.searchWithNegatives(textQuery, config.negativeKeywords);
+        const results = await this.placesAdapter.searchWithNegatives(
+          textQuery, config.negativeKeywords,
+          zipCoords?.lat, zipCoords?.lng
+        );
         rawDiscoveryList.push(...results);
       } catch (err) {
         console.error(`Query variant '${textQuery}' execution failed:`, err);
