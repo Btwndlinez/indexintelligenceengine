@@ -16,9 +16,9 @@ const metrics = [
 
 export default function Dashboard() {
   return (
-    <div className="space-y-6 max-w-[1600px]">
+    <div className="space-y-6 max-w-[1600px] mx-auto">
       {/* KPI ROW */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {metrics.map((m) => (
           <MetricCard key={m.label} {...m} />
         ))}

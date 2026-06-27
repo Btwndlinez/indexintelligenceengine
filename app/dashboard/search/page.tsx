@@ -8,7 +8,7 @@ import UsageCard from '@/components/dashboard/UsageCard';
 
 export default function SearchPage() {
   return (
-    <div className="space-y-6 max-w-[1600px]">
+    <div className="space-y-6 max-w-[1600px] mx-auto">
       <div>
         <h1 className="text-xl font-bold">Search</h1>
         <p className="text-sm text-muted mt-1">Discover and enrich target companies</p>

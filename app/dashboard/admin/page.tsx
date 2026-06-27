@@ -13,13 +13,13 @@ const sections = [
 
 export default function AdminPage() {
   return (
-    <div className="space-y-6 max-w-[1600px]">
+    <div className="space-y-6 max-w-[1600px] mx-auto">
       <div>
         <h1 className="text-xl font-bold">Admin</h1>
         <p className="text-sm text-muted mt-1">System administration and monitoring</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {sections.map((s) => (
           <div key={s.label} className="p-6 rounded-2xl bg-surface border border-border hover:border-border/80 transition-all cursor-pointer">
             <div className="flex items-start justify-between mb-4">

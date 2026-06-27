@@ -10,13 +10,13 @@ const markets = [
 
 export default function MarketsPage() {
   return (
-    <div className="space-y-6 max-w-[1600px]">
+    <div className="space-y-6 max-w-[1600px] mx-auto">
       <div>
         <h1 className="text-xl font-bold">Markets</h1>
         <p className="text-sm text-muted mt-1">Monitor your indexed markets</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <MetricCard label="Total Markets" value="48" change="+3 this month" positive />
         <MetricCard label="Active Markets" value="12" />
         <MetricCard label="Total Companies" value="2.4M" />

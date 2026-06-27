@@ -49,7 +49,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-bg text-text">
       {/* NAVBAR */}
       <nav className={`fixed top-0 w-full h-20 border-b z-50 transition-all duration-300 ${scrolled ? 'border-border bg-bg/80 backdrop-blur-xl' : 'border-transparent bg-transparent'}`}>
-        <div className="max-w-[1400px] mx-auto px-8 h-full flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-red rounded-xl flex items-center justify-center shadow-lg shadow-red/25">
               <Zap className="w-4 h-4 text-white" fill="white" />
@@ -77,7 +77,7 @@ export default function LandingPage() {
         </div>
 
         {mobileOpen && (
-          <div className="md:hidden bg-surface border-t border-border px-8 py-6 space-y-2">
+          <div className="md:hidden bg-surface border-t border-border px-6 lg:px-8 py-6 space-y-2">
             {navLinks.map(link => (
               <a key={link.label} href={link.href} className="block px-4 py-3 text-sm text-muted hover:bg-surface2 rounded-xl" onClick={() => setMobileOpen(false)}>{link.label}</a>
             ))}
@@ -91,8 +91,8 @@ export default function LandingPage() {
 
       {/* HERO */}
       <section className="min-h-screen pt-32 pb-24 lg:pt-44 lg:pb-36">
-        <div className="max-w-[1400px] mx-auto px-8">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface2 border border-border text-muted text-xs font-semibold">
                 <span className="relative flex h-2 w-2">
@@ -159,8 +159,8 @@ export default function LandingPage() {
 
       {/* LIVE METRICS */}
       <section className="py-16 border-y border-border">
-        <div className="max-w-[1400px] mx-auto px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {metrics.map((m) => (
               <div key={m.label} className="text-center p-8 rounded-3xl bg-surface border border-border hover:border-border/80 transition-all">
                 <div className="text-4xl lg:text-5xl font-black text-text mb-2">{m.value}</div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
 
       {/* CORE ENGINES */}
       <section id="engines" className="py-24">
-        <div className="max-w-[1400px] mx-auto px-8">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface2 border border-border text-muted text-xs font-semibold mb-6">
               <Layers className="w-3 h-3" />
@@ -185,7 +185,7 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             {engines.map((e) => (
               <div key={e.title} className="group p-8 rounded-2xl bg-surface border border-border hover:border-border/80 transition-all duration-300 hover:-translate-y-1">
                 <div className="w-14 h-14 rounded-2xl bg-surface2 border border-border flex items-center justify-center mb-6 group-hover:border-red/30 transition-all">
@@ -201,7 +201,7 @@ export default function LandingPage() {
 
       {/* VERTICALS */}
       <section id="verticals" className="py-24 border-y border-border">
-        <div className="max-w-[1400px] mx-auto px-8">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface2 border border-border text-muted text-xs font-semibold mb-6">
               <Layers className="w-3 h-3" />
@@ -213,7 +213,7 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {verticals.map((v) => (
               <div key={v.name} className={`p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
                 v.status === 'Live'
@@ -236,7 +236,7 @@ export default function LandingPage() {
 
       {/* PRODUCT SCREENSHOT */}
       <section className="py-24">
-        <div className="max-w-[1400px] mx-auto px-8">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
           <div className="relative">
             <div className="absolute -inset-8 bg-gradient-to-r from-red/5 via-blue/5 to-transparent rounded-[40px] blur-3xl" />
             <div className="relative bg-surface border border-border rounded-3xl overflow-hidden shadow-2xl">
@@ -253,7 +253,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="p-8">
-                <div className="grid grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   {[{ l: 'Markets', v: '48' }, { l: 'Companies', v: '2.4M' }, { l: 'Campaigns', v: '18K' }, { l: 'Accuracy', v: '94.2%' }].map((k) => (
                     <div key={k.l} className="p-4 rounded-xl bg-surface2 border border-border">
                       <div className="text-[10px] text-muted uppercase tracking-wider mb-1">{k.l}</div>
@@ -275,7 +275,7 @@ export default function LandingPage() {
       {/* CTA */}
       <section id="cta" className="py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-red/5 to-transparent" />
-        <div className="max-w-3xl mx-auto px-8 text-center relative">
+        <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center relative">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             Start Building{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red to-orange-500">Your Index</span>
@@ -296,7 +296,7 @@ export default function LandingPage() {
 
       {/* FOOTER */}
       <footer className="py-16 border-t border-border">
-        <div className="max-w-[1400px] mx-auto px-8">
+        <div className="max-w-[1600px] mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-red rounded-xl flex items-center justify-center">

@@ -22,7 +22,7 @@ export default function SearchConsole() {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-medium text-muted flex items-center gap-1.5">
             <Crosshair className="w-3 h-3" /> Vertical
