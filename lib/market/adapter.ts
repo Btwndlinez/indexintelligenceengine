@@ -1,14 +1,14 @@
 import { Company, Contact, SearchFilters } from '@/types/company';
 import { VerticalConfig } from '@/types/config';
-import { VerticalConfigWithProviders, VERTICAL_REGISTRY, isIrrelevant } from './registry';
+import { VerticalConfigWithProviders, isIrrelevant } from './registry';
 import { ApolloAdapter } from './providers/apollo';
-import { GeminiScraperAdapter } from './providers/geminiScraper';
+import { KeywordSignalExtractor } from './signals';
 import { calculateCompositeScore, getTier } from './scoring';
 import { geocodeZip, haversineDistance } from '@/lib/geo';
 
 export class IndexIntelligenceEngine {
   private apolloAdapter = new ApolloAdapter();
-  private scraperAdapter = new GeminiScraperAdapter();
+  private signalExtractor = new KeywordSignalExtractor();
 
   async executeMarketDiscovery(
     filters: SearchFilters,
@@ -64,7 +64,6 @@ export class IndexIntelligenceEngine {
 
     const finalizedCompanies: Company[] = [];
     const allContacts: Contact[] = [];
-    const MAX_SCRAPED = 10;
 
     for (let i = 0; i < filteredPool.length; i++) {
       const record = filteredPool[i];
@@ -95,17 +94,18 @@ export class IndexIntelligenceEngine {
         continue;
       }
 
-      const [apolloResult, scraperResult] = await Promise.all([
-        this.apolloAdapter.enrich(base),
-        i < MAX_SCRAPED
-          ? this.scraperAdapter.scanForSignals(base.website, config.equipmentKeywords)
-          : Promise.resolve({ hasSignals: false, capabilitySummary: '' })
-      ]);
+      const apolloResult = await this.apolloAdapter.enrich(base);
+      const signalResult = this.signalExtractor.extract(
+        base.companyName,
+        base.notes,
+        config.verticalSignals,
+        config.equipmentKeywords
+      );
 
       const mergedCompany: Partial<Company> = {
         ...base,
         ...apolloResult.companyFields,
-        capabilitySummary: scraperResult.capabilitySummary,
+        capabilitySummary: signalResult.capabilitySummary,
       };
 
       const companyContacts: Partial<Contact>[] = apolloResult.contacts.map(c => ({
