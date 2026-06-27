@@ -11,13 +11,18 @@ interface SearchConsoleProps {
 
 export default function SearchConsole({ onResults, onSearchStart }: SearchConsoleProps) {
   const [vertical, setVertical] = useState('slurry_concrete');
-  const [zip, setZip] = useState('94544');
+  const [zip, setZip] = useState('');
   const [radius, setRadius] = useState('10');
   const [signals, setSignals] = useState('slurry, concrete, pump');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
+    if (!zip.trim()) {
+      setError('Please enter a ZIP code.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     onSearchStart?.();
@@ -26,7 +31,7 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
       const res = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ zip, radius: parseInt(radius), vertical, signals: signals.split(',').map(s => s.trim()) }),
+        body: JSON.stringify({ zip: zip.trim(), radius: parseInt(radius), vertical, signals: signals.split(',').map(s => s.trim()) }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Search failed');
@@ -68,8 +73,8 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
           <label className="text-xs font-medium text-muted flex items-center gap-1.5">
             <MapPin className="w-3 h-3" /> ZIP Code
           </label>
-          <input value={zip} onChange={e => setZip(e.target.value)}
-            className="h-10 px-3.5 bg-surface2 border border-border rounded-xl text-sm text-text focus:outline-none focus:border-red/50 focus:ring-1 focus:ring-red/20" />
+          <input value={zip} onChange={e => setZip(e.target.value)} placeholder="Enter ZIP code"
+            className="h-10 px-3.5 bg-surface2 border border-border rounded-xl text-sm text-text placeholder-muted focus:outline-none focus:border-red/50 focus:ring-1 focus:ring-red/20" />
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -101,7 +106,7 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
       )}
 
       <div className="flex items-center justify-between">
-        <div className="text-xs text-muted">{loading ? 'Searching East Bay slurry contractors...' : 'Enter parameters and run discovery'}</div>
+        <div className="text-xs text-muted">{loading ? 'Searching...' : 'Enter parameters and run discovery'}</div>
         <Button onClick={handleSearch} disabled={loading}>
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
           {loading ? 'Searching...' : 'Run Discovery'}
