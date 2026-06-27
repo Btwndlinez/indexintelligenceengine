@@ -45,14 +45,6 @@ export class GooglePlacesProvider implements DiscoveryProvider {
     const url = 'https://places.googleapis.com/v1/places:searchText';
 
     const body: any = { textQuery: queryText };
-    if (zipLat != null && zipLng != null) {
-      body.locationBias = {
-        circle: {
-          center: { latitude: zipLat, longitude: zipLng },
-          radius: 80467,
-        },
-      };
-    }
 
     const response = await fetch(url, {
       method: 'POST',
