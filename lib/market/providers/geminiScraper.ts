@@ -59,4 +59,66 @@ Respond with JSON: { "hasCapability": boolean, "foundEquipmentSignals": string[]
       return { hasSignals: false, capabilitySummary: '' };
     }
   }
+
+  async synthesizeItinerary(events: any[], accommodations: any[], requirements: string[]): Promise<any> {
+    const apiKey = process.env.DEEPSEEK_API_KEY;
+    if (!apiKey) return { events, accommodations };
+
+    try {
+      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: 'You are an itinerary planner. Synthesize events and accommodations into a cohesive travel plan. Respond in JSON only.' },
+            { role: 'user', content: `Events: ${JSON.stringify(events)}\nAccommodations: ${JSON.stringify(accommodations)}\nRequirements: ${requirements.join(', ')}\n\nReturn JSON: { itinerary: { day: string, event: string, accommodation: string, notes: string }[] }` },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1,
+        }),
+      });
+
+      if (!response.ok) return { events, accommodations };
+      const result = await response.json();
+      const rawContent = result.choices?.[0]?.message?.content;
+      return rawContent ? JSON.parse(rawContent) : { events, accommodations };
+    } catch {
+      return { events, accommodations };
+    }
+  }
+
+  async autonomousScrape(url: string, extractionPrompt: string): Promise<any> {
+    const apiKey = process.env.DEEPSEEK_API_KEY;
+    if (!apiKey) return null;
+
+    try {
+      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: 'You extract structured data from web content. Return JSON only.' },
+            { role: 'user', content: `URL: ${url}\n\nMission: ${extractionPrompt}` },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.1,
+        }),
+      });
+
+      if (!response.ok) return null;
+      const result = await response.json();
+      const rawContent = result.choices?.[0]?.message?.content;
+      return rawContent ? JSON.parse(rawContent) : null;
+    } catch {
+      return null;
+    }
+  }
 }

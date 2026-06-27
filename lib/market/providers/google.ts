@@ -58,4 +58,8 @@ export class GooglePlacesAdapter {
       updatedAt: now
     }));
   }
+
+  async search(queryText: string): Promise<Partial<Company>[]> {
+    return this.searchWithNegatives(queryText, []);
+  }
 }
