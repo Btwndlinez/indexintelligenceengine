@@ -1,351 +1,473 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Zap,
-  Search,
-  Database,
-  Target,
-  TrendingUp,
-  Phone,
-  Mail,
-  FileDown,
-  RefreshCw,
-  AlertTriangle
+  Zap, Search, Database, Target, TrendingUp, Phone, Mail,
+  FileDown, RefreshCw, AlertTriangle, BarChart3, Activity,
+  Clock, Users, Building2, CheckCircle, XCircle, MapPin,
 } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
-import { Company } from '@/types/company';
+
+interface Company {
+  id: string;
+  companyName: string;
+  website?: string;
+  phone?: string;
+  email?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  distanceMiles?: number;
+  enrichmentScore: number;
+  priority: string;
+  status: string;
+  capabilitySummary?: string;
+  industry?: string;
+}
+
+interface SearchRecord {
+  id: string;
+  vertical: string;
+  zip: string;
+  radius: number;
+  resultCount: number;
+  createdAt: string;
+}
+
+interface Campaign {
+  id: string;
+  name: string;
+  status: string;
+  createdAt: string;
+}
+
+interface ProviderHealth {
+  status: string;
+  failures: number;
+  open: boolean;
+}
 
 const DEFAULT_METRICS = {
-  totalLeads: 0,
-  priorityA: 0,
-  priorityB: 0,
-  enrichmentPercentage: 0,
-  contactedCount: 0,
-  conversionRate: 0
+  totalLeads: 0, priorityA: 0, enrichmentPercentage: 0, conversionRate: 0,
 };
 
 export default function Dashboard() {
-  const [activeVertical, setActiveVertical] = useState('slurry_concrete');
-  const [zipCode, setZipCode] = useState('94544');
+  const [verticals, setVerticals] = useState<{ id: string; slug: string; name: string }[]>([]);
+  const [selectedVertical, setSelectedVertical] = useState('');
+  const [zip, setZip] = useState('94544');
   const [radius, setRadius] = useState(15);
   const [searchQuery, setSearchQuery] = useState('');
 
   const [companies, setCompanies] = useState<Company[]>([]);
   const [metrics, setMetrics] = useState(DEFAULT_METRICS);
+  const [searchHistory, setSearchHistory] = useState<SearchRecord[]>([]);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [providerHealth, setProviderHealth] = useState<Record<string, ProviderHealth>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [isLiveConnection, setIsLiveConnection] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Load verticals on mount
   useEffect(() => {
-    async function checkConnection() {
-      try {
-        const { data, error } = await supabase.from('organizations').select('id').limit(1);
-        if (!error) {
-          setIsLiveConnection(true);
-          setErrorMessage(null);
-        } else {
-          throw error;
-        }
-      } catch (err: any) {
-        console.warn('[Supabase Connection] Active tables not detected or unauthorized. falling back.');
-        setIsLiveConnection(false);
-      }
-    }
-    checkConnection();
+    fetch('/api/verticals').then(r => r.json()).then(data => {
+      setVerticals(data.verticals || []);
+      if (data.verticals?.length) setSelectedVertical(data.verticals[0].slug);
+    }).catch(() => {});
   }, []);
 
-  const handleMarketDiscovery = async (e?: React.FormEvent) => {
+  // Load search history
+  const loadSearchHistory = useCallback(async () => {
+    try {
+      const res = await fetch('/api/search/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-iie-client-context': selectedVertical },
+        body: JSON.stringify({ action: 'list' }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSearchHistory(data.searches || []);
+      }
+    } catch {}
+  }, [selectedVertical]);
+
+  // Load campaigns
+  const loadCampaigns = useCallback(async () => {
+    try {
+      const res = await fetch('/api/campaigns', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-iie-client-context': selectedVertical },
+        body: JSON.stringify({}),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCampaigns(data.campaigns || []);
+      }
+    } catch {}
+  }, [selectedVertical]);
+
+  // Load provider health
+  const loadProviderHealth = useCallback(async () => {
+    try {
+      const res = await fetch('/api/health');
+      if (res.ok) {
+        const data = await res.json();
+        setProviderHealth(data.providers || {});
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => { loadProviderHealth(); }, []);
+
+  const handleDiscovery = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    if (!selectedVertical) return;
     setIsLoading(true);
     setErrorMessage(null);
 
     try {
-      const response = await fetch('/api/search', {
+      const res = await fetch('/api/search', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-iie-client-context': activeVertical
-        },
-        body: JSON.stringify({ zip: zipCode, radius: Number(radius), search: searchQuery })
+        headers: { 'Content-Type': 'application/json', 'x-iie-client-context': selectedVertical },
+        body: JSON.stringify({ zip, radius: Number(radius), search: searchQuery }),
       });
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || 'Serverless API Execution Rejected.');
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || 'Discovery failed');
       }
 
-      const result = await response.json();
+      const result = await res.json();
       setCompanies(result.companies || []);
 
-      if (result.companies && result.companies.length > 0) {
+      if (result.companies?.length) {
         const total = result.companies.length;
-        const priorityA = result.companies.filter((c: Company) => c.priority === 'A').length;
-        const priorityB = result.companies.filter((c: Company) => c.priority === 'B').length;
+        const pA = result.companies.filter((c: Company) => c.priority === 'A').length;
         const enriched = result.companies.filter((c: Company) => c.email || c.phone).length;
-        const contacted = result.companies.filter((c: Company) => c.status !== 'NOT_CONTACTED').length;
-
         setMetrics({
           totalLeads: total,
-          priorityA,
-          priorityB,
+          priorityA: pA,
           enrichmentPercentage: Math.round((enriched / total) * 100),
-          contactedCount: contacted,
-          conversionRate: total > 0 ? Math.round((contacted / total) * 100) : 0
+          conversionRate: Math.round(result.companies.filter((c: Company) => c.status !== 'NOT_CONTACTED').length / total * 100),
         });
       } else {
         setMetrics(DEFAULT_METRICS);
       }
+
+      loadSearchHistory();
+      loadCampaigns();
+      loadProviderHealth();
     } catch (err: any) {
-      console.error(err);
-      setErrorMessage(err.message || 'Failed to complete market discovery.');
+      setErrorMessage(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    handleMarketDiscovery();
-  }, [activeVertical]);
-
-  const handleExportCSV = async () => {
-    if (companies.length === 0) return;
+  const handleExport = async () => {
+    if (!companies.length) return;
     try {
-      const response = await fetch('/api/export', {
+      const res = await fetch('/api/export', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-iie-client-context': activeVertical
-        },
-        body: JSON.stringify({ companies })
+        headers: { 'Content-Type': 'application/json', 'x-iie-client-context': selectedVertical },
+        body: JSON.stringify({ companies }),
       });
-      const data = await response.json();
-      if (data.success && data.url) {
-        const link = document.createElement('a');
-        link.href = data.url;
-        link.setAttribute('download', data.fileName);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      const data = await res.json();
+      if (data.url) {
+        const a = document.createElement('a');
+        a.href = data.url;
+        a.download = data.fileName || 'iie-export.csv';
+        a.click();
       }
-    } catch (err) {
-      alert('Failed to generate export file.');
+    } catch {}
+  };
+
+  const statusColor = (s: string) => {
+    switch (s) {
+      case 'NOT_CONTACTED': return 'bg-gray-800 text-gray-400';
+      case 'CALLED': case 'EMAILED': return 'bg-blue-500/10 text-blue-400';
+      case 'INTERESTED': case 'FOLLOW_UP': return 'bg-amber-500/10 text-amber-400';
+      case 'QUALIFIED': return 'bg-purple-500/10 text-purple-400';
+      case 'WON': return 'bg-emerald-500/10 text-emerald-400';
+      case 'LOST': return 'bg-red-500/10 text-red-400';
+      default: return 'bg-gray-800 text-gray-400';
     }
   };
 
+  const healthColor = (status: string) => {
+    switch (status) {
+      case 'HEALTHY': return 'bg-green-500';
+      case 'DEGRADED': return 'bg-yellow-500';
+      case 'OPEN': return 'bg-red-500';
+      default: return 'bg-gray-500';
+    }
+  };
+
+  const currentVertical = verticals.find(v => v.slug === selectedVertical);
+  const activeCampaigns = campaigns.filter(c => c.status === 'active').length;
+  const campaignConversion = campaigns.length ? Math.round(activeCampaigns / campaigns.length * 100) : 0;
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-gray-100 font-sans p-6">
-
-      {!isLiveConnection && (
-        <div className="mb-6 p-4 bg-amber-950/40 border border-amber-800/40 text-amber-300 rounded-xl flex items-start gap-3 text-xs">
-          <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <span className="font-bold block">Local Fallback / Mock Mode Active</span>
-            <p className="leading-relaxed">
-              The dashboard cannot reach your Supabase database at <span className="font-mono text-cyan-400">https://ciysvuxxxsqkpbgugcyi.supabase.co</span>.
-              To activate real-time calculations and live API crawls, configure your <span className="font-mono font-bold">NEXT_PUBLIC_SUPABASE_ANON_KEY</span> inside your Vercel project's Environment Variables.
-            </p>
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Top Nav */}
+      <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#dc2626]">
+              <Zap className="h-3.5 w-3.5 text-white" />
+            </div>
+            <span className="text-sm font-bold tracking-tight">Index Intelligence Engine</span>
+            <span className="hidden rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-white/40 md:inline">Command Center</span>
           </div>
-        </div>
-      )}
 
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-gray-800 mb-8">
-        <div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-red-600 rounded flex items-center justify-center">
-              <Zap className="w-3.5 h-3.5 text-white" fill="white" />
-            </div>
-            <span className="text-xs uppercase font-mono tracking-widest text-red-500 font-bold">Market Intelligence Control</span>
-          </div>
-          <h1 className="text-2xl font-black tracking-tight text-white mt-1">SaaS Prospecting Engine</h1>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <select
-            value={activeVertical}
-            onChange={(e) => setActiveVertical(e.target.value)}
-            className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-600 cursor-pointer"
-          >
-            <option value="slurry_concrete">Concrete Slurry Outbound</option>
-            <option value="grease_trap">Commercial Grease Trap</option>
-            <option value="asbestos_abatement">Asbestos Remediation</option>
-            <option value="hydro_excavation">Hydro-Excavation</option>
-            <option value="commercial_roofing">Industrial Roofing</option>
-            <option value="medical_waste">Infectious Waste</option>
-            <option value="scrap_metal">Scrap Metal Processing</option>
-            <option value="marine_construction">Heavy Marine Construction</option>
-          </select>
-
-          <button
-            onClick={() => handleMarketDiscovery()}
-            disabled={isLoading}
-            className="p-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-gray-300 hover:text-white transition disabled:opacity-50"
-          >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-          </button>
-        </div>
-      </header>
-
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 relative">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Total Discovered</span>
-          <span className="text-3xl font-mono font-extrabold text-white mt-2 block">{metrics.totalLeads}</span>
-          <span className="text-[9px] text-gray-500 font-mono block mt-1">Local Addressable Market Size</span>
-        </div>
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 relative">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">High Priority (Group A)</span>
-          <span className="text-3xl font-mono font-extrabold text-red-500 mt-2 block">{metrics.priorityA}</span>
-          <span className="text-[9px] text-gray-500 font-mono block mt-1">Within immediate 10-mile radius</span>
-        </div>
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 relative">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Contact Enrichment</span>
-          <span className="text-3xl font-mono font-extrabold text-cyan-400 mt-2 block">{metrics.enrichmentPercentage}%</span>
-          <span className="text-[9px] text-gray-500 font-mono block mt-1">Verified with direct email/phone</span>
-        </div>
-
-        <div className="bg-[#111] border border-gray-800 rounded-2xl p-5 relative">
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">CRM Conversion Rate</span>
-          <span className="text-3xl font-mono font-extrabold text-emerald-400 mt-2 block">{metrics.conversionRate}%</span>
-          <span className="text-[9px] text-gray-500 font-mono block mt-1">Advanced status leads count</span>
-        </div>
-      </section>
-
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-        <form onSubmit={handleMarketDiscovery} className="lg:col-span-4 bg-[#111] border border-gray-800 p-6 rounded-2xl space-y-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2 flex items-center gap-2">
-            <Search className="w-4 h-4 text-red-600" />
-            Geospatial Search Parameters
-          </h2>
-
-          <div className="space-y-3">
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">ZIP Code Range</label>
-              <input
-                type="text"
-                required
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value)}
-                className="w-full bg-gray-950 border border-gray-800 px-3 py-2 rounded-xl text-sm focus:outline-none focus:border-red-600 font-mono"
-                placeholder="e.g. 94544"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">Hauling Radius: {radius} miles</label>
-              <input
-                type="range"
-                min="5"
-                max="50"
-                step="5"
-                value={radius}
-                onChange={(e) => setRadius(Number(e.target.value))}
-                className="w-full accent-red-600 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">Signal Keywords / Exclusions</label>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-950 border border-gray-800 px-3 py-2 rounded-xl text-sm focus:outline-none focus:border-red-600"
-                placeholder="e.g. filter press"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-800 transition text-white font-bold text-xs py-3 rounded-xl uppercase tracking-wider flex justify-center items-center gap-2 shadow-lg shadow-red-600/10 mt-4"
+          <div className="flex items-center gap-3">
+            <select
+              value={selectedVertical}
+              onChange={(e) => setSelectedVertical(e.target.value)}
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium outline-none focus:border-[#dc2626]/50"
             >
-              {isLoading ? 'Scanning Target Market...' : 'Run Market Sweep'}
+              {verticals.map(v => (
+                <option key={v.slug} value={v.slug} className="bg-[#0a0a0a]">{v.name}</option>
+              ))}
+            </select>
+            <button
+              onClick={handleDiscovery}
+              disabled={isLoading}
+              className="flex items-center gap-1.5 rounded-lg bg-[#dc2626] px-4 py-1.5 text-xs font-medium hover:bg-[#b91c1c] disabled:opacity-50"
+            >
+              {isLoading ? <RefreshCw className="h-3 w-3 animate-spin" /> : <Search className="h-3 w-3" />}
+              Run Discovery
             </button>
           </div>
-        </form>
+        </div>
+      </nav>
 
-        <div className="lg:col-span-8 bg-[#111] border border-gray-800 p-6 rounded-2xl flex flex-col gap-4">
-          <div className="flex justify-between items-center border-b border-gray-800 pb-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 flex items-center gap-2">
-              <Database className="w-4 h-4 text-red-600" />
-              Target Pipeline Listings
+      <main className="mx-auto max-w-7xl space-y-6 px-4 py-6">
+        {/* Row 1: KPI Cards */}
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div className="flex items-center gap-2 text-xs text-white/40">
+              <Building2 className="h-3.5 w-3.5" /> Total Leads
+            </div>
+            <div className="mt-1 text-2xl font-bold">{metrics.totalLeads}</div>
+          </div>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div className="flex items-center gap-2 text-xs text-white/40">
+              <Target className="h-3.5 w-3.5" /> Priority A
+            </div>
+            <div className="mt-1 text-2xl font-bold text-emerald-400">{metrics.priorityA}</div>
+          </div>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div className="flex items-center gap-2 text-xs text-white/40">
+              <TrendingUp className="h-3.5 w-3.5" /> Enrichment
+            </div>
+            <div className="mt-1 text-2xl font-bold text-cyan-400">{metrics.enrichmentPercentage}%</div>
+          </div>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div className="flex items-center gap-2 text-xs text-white/40">
+              <BarChart3 className="h-3.5 w-3.5" /> Campaign Conv.
+            </div>
+            <div className="mt-1 text-2xl font-bold text-purple-400">{campaignConversion}%</div>
+          </div>
+        </div>
+
+        {/* Row 2: Discovery + Provider Health */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {/* Discovery Engine */}
+          <div className="lg:col-span-2 rounded-xl border border-white/5 bg-white/[0.02] p-5">
+            <h2 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40">
+              <Search className="h-3.5 w-3.5" /> Discovery Engine
             </h2>
-            {companies.length > 0 && (
+            <form onSubmit={handleDiscovery} className="flex flex-wrap items-end gap-3">
+              <div>
+                <label className="mb-1 block text-[10px] text-white/30">ZIP Code</label>
+                <input
+                  type="text" required value={zip}
+                  onChange={(e) => setZip(e.target.value)}
+                  className="w-28 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#dc2626]/50"
+                />
+              </div>
+              <div className="flex-1">
+                <label className="mb-1 block text-[10px] text-white/30">Radius: {radius} mi</label>
+                <input
+                  type="range" min="5" max="50" step="5" value={radius}
+                  onChange={(e) => setRadius(Number(e.target.value))}
+                  className="w-full accent-[#dc2626]"
+                />
+              </div>
+              <div className="flex-[2]">
+                <label className="mb-1 block text-[10px] text-white/30">Keywords / Filters</label>
+                <input
+                  type="text" value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="e.g. filter press, hazmat"
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#dc2626]/50"
+                />
+              </div>
               <button
-                onClick={handleExportCSV}
-                className="text-xs px-3 py-1.5 bg-gray-900 border border-gray-800 text-gray-300 hover:text-white rounded-xl transition flex items-center gap-1.5"
+                type="submit" disabled={isLoading}
+                className="flex h-9 items-center gap-1.5 rounded-lg bg-[#dc2626] px-4 text-xs font-medium hover:bg-[#b91c1c] disabled:opacity-50"
               >
-                <FileDown className="w-3.5 h-3.5" /> Export CSV
+                {isLoading ? <RefreshCw className="h-3 w-3 animate-spin" /> : <Search className="h-3 w-3" />}
+                Search
               </button>
+            </form>
+
+            {errorMessage && (
+              <div className="mt-3 flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">
+                <AlertTriangle className="h-3 w-3" /> {errorMessage}
+              </div>
             )}
           </div>
 
-          {errorMessage && (
-            <div className="p-3 bg-red-950/20 border border-red-900/40 text-red-400 text-xs rounded-xl">
-              {errorMessage}
+          {/* Provider Health */}
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-5">
+            <h2 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40">
+              <Activity className="h-3.5 w-3.5" /> Provider Health
+            </h2>
+            <div className="space-y-3">
+              {Object.keys(providerHealth).length === 0 ? (
+                <div className="text-xs text-white/30">No provider data — run a discovery first.</div>
+              ) : (
+                Object.entries(providerHealth).map(([name, h]) => (
+                  <div key={name} className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className={`h-2 w-2 rounded-full ${healthColor(h.status)}`} />
+                      <span className="text-xs capitalize text-white/60">{name.replace('_', ' ')}</span>
+                    </div>
+                    <span className={`text-[10px] font-medium ${
+                      h.status === 'HEALTHY' ? 'text-green-400' :
+                      h.status === 'DEGRADED' ? 'text-yellow-400' : 'text-red-400'
+                    }`}>
+                      {h.status}
+                    </span>
+                  </div>
+                ))
+              )}
             </div>
-          )}
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="text-gray-400 uppercase tracking-wider border-b border-gray-850">
-                  <th className="pb-3">Company Name</th>
-                  <th className="pb-3">Priority</th>
-                  <th className="pb-3">Enrichment Score</th>
-                  <th className="pb-3">Contacts</th>
-                  <th className="pb-3 text-right">Scraped Signals</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-850 text-gray-300">
-                {companies.map((c) => (
-                  <tr key={c.id} className="hover:bg-gray-900/20 transition-colors">
-                    <td className="py-3 font-semibold text-white">{c.companyName}</td>
-                    <td className="py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                        c.priority === 'A' ? 'bg-red-950 text-red-400 border border-red-900/30' :
-                        c.priority === 'B' ? 'bg-yellow-950 text-yellow-400 border border-yellow-900/30' :
-                        'bg-gray-800 text-gray-400'
-                      }`}>
-                        Group {c.priority}
-                      </span>
-                    </td>
-                    <td className="py-3 font-mono font-bold text-red-400">{c.enrichmentScore || 30}</td>
-                    <td className="py-3 space-y-1">
-                      {c.phone && (
-                        <div className="flex items-center gap-1 text-[10px] text-gray-400 font-mono">
-                          <Phone className="w-2.5 h-2.5 text-red-500" /> {c.phone}
-                        </div>
-                      )}
-                      {c.email && (
-                        <div className="flex items-center gap-1 text-[10px] text-gray-400 font-mono">
-                          <Mail className="w-2.5 h-2.5 text-cyan-500" /> {c.email}
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-3 text-right max-w-[200px] truncate text-gray-500" title={c.capabilitySummary}>
-                      {c.capabilitySummary || '—'}
-                    </td>
-                  </tr>
-                ))}
-
-                {companies.length === 0 && !isLoading && (
-                  <tr>
-                    <td colSpan={5} className="text-center py-12 text-gray-500 italic">
-                      No prospects found. Run a "Market Sweep" to ingest live geographic data into the pipeline.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
           </div>
         </div>
 
-      </section>
+        {/* Row 3: Companies Table + Search History */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+          {/* Companies Table */}
+          <div className="lg:col-span-3 rounded-xl border border-white/5 bg-white/[0.02] overflow-hidden">
+            <div className="flex items-center justify-between border-b border-white/5 px-5 py-3">
+              <h2 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40">
+                <Database className="h-3.5 w-3.5" /> Pipeline ({companies.length})
+              </h2>
+              {companies.length > 0 && (
+                <button onClick={handleExport} className="flex items-center gap-1 rounded-lg border border-white/10 px-3 py-1 text-[10px] hover:bg-white/5">
+                  <FileDown className="h-3 w-3" /> Export
+                </button>
+              )}
+            </div>
 
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-white/5 text-white/30">
+                    <th className="px-5 py-3 font-medium">Company</th>
+                    <th className="px-5 py-3 font-medium">Priority</th>
+                    <th className="px-5 py-3 font-medium">Score</th>
+                    <th className="px-5 py-3 font-medium">Distance</th>
+                    <th className="px-5 py-3 font-medium">Status</th>
+                    <th className="px-5 py-3 font-medium">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 text-white/70">
+                  {companies.map((c) => (
+                    <tr key={c.id} className="hover:bg-white/[0.02]">
+                      <td className="px-5 py-3">
+                        <div className="font-medium text-white">{c.companyName}</div>
+                        <div className="text-[10px] text-white/30">{c.city}{c.state ? `, ${c.state}` : ''}</div>
+                      </td>
+                      <td className="px-5 py-3">
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                          c.priority === 'A' ? 'bg-emerald-500/20 text-emerald-400' :
+                          c.priority === 'B' ? 'bg-amber-500/20 text-amber-400' :
+                          'bg-white/10 text-white/40'
+                        }`}>{c.priority || 'C'}</span>
+                      </td>
+                      <td className="px-5 py-3 font-mono text-white/60">{c.enrichmentScore || '-'}</td>
+                      <td className="px-5 py-3 text-white/40">{c.distanceMiles ? `${c.distanceMiles} mi` : '-'}</td>
+                      <td className="px-5 py-3">
+                        <span className={`rounded px-2 py-0.5 text-[10px] font-medium ${statusColor(c.status)}`}>
+                          {c.status?.replace(/_/g, ' ') || 'NEW'}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3">
+                        <div className="flex gap-1">
+                          <button
+                            title="Call"
+                            className="rounded border border-white/10 p-1 hover:bg-white/10"
+                            onClick={() => window.open(`tel:${c.phone}`, '_blank')}
+                          >
+                            <Phone className="h-3 w-3" />
+                          </button>
+                          <button
+                            title="Email"
+                            className="rounded border border-white/10 p-1 hover:bg-white/10"
+                            onClick={() => window.open(`mailto:${c.email}`, '_blank')}
+                          >
+                            <Mail className="h-3 w-3" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {companies.length === 0 && (
+                    <tr><td colSpan={6} className="px-5 py-12 text-center text-white/30 italic">Run a discovery to populate the pipeline.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Search History Sidebar */}
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-5">
+            <h2 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40">
+              <Clock className="h-3.5 w-3.5" /> Search History
+            </h2>
+            {searchHistory.length === 0 ? (
+              <div className="text-xs text-white/30">No searches yet.</div>
+            ) : (
+              <div className="space-y-2">
+                {searchHistory.slice(0, 10).map((s) => (
+                  <div key={s.id} className="rounded-lg border border-white/5 px-3 py-2">
+                    <div className="text-xs text-white/70">{s.zip} • {s.radius}mi</div>
+                    <div className="text-[10px] text-white/30">{s.resultCount} results • {new Date(s.createdAt).toLocaleDateString()}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Row 4: Campaign Manager */}
+        <div className="rounded-xl border border-white/5 bg-white/[0.02] p-5">
+          <h2 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/40">
+            <Target className="h-3.5 w-3.5" /> Campaign Manager
+          </h2>
+          {campaigns.length === 0 ? (
+            <div className="text-xs text-white/30">No campaigns yet. Create one to start outreach.</div>
+          ) : (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {['draft', 'active', 'paused', 'completed'].map((status) => {
+                const count = campaigns.filter(c => c.status === status).length;
+                if (!count) return null;
+                return (
+                  <div key={status} className="rounded-lg border border-white/5 px-4 py-3">
+                    <div className="text-xs capitalize text-white/40">{status}</div>
+                    <div className="mt-1 text-lg font-bold">{count}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="py-4 text-center text-[10px] text-white/20">
+          IIE v1.0 • Discovery & Outreach Command Center
+        </div>
+      </main>
     </div>
   );
 }
