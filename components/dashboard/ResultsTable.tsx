@@ -98,7 +98,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
       <div className="bg-surface rounded-3xl border border-border p-12 flex flex-col items-center justify-center text-center">
         <Loader2 className="w-8 h-8 text-red animate-spin mb-4" />
         <div className="text-sm font-medium mb-1">Discovering companies...</div>
-        <div className="text-xs text-muted">Searching Google Places, enriching contacts, detecting signals</div>
+        <div className="text-xs text-muted">Searching, enriching contacts, detecting signals</div>
       </div>
     );
   }
@@ -242,7 +242,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                                 <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Status</div>
                                 <div className="flex items-center gap-2">
                                   <Badge variant={statusVariant(company.status) as any}>{statusDisplay(company.status)}</Badge>
-                                  <span className="text-xs text-muted">Source: {company.source || 'google_places'}</span>
+
                                 </div>
                               </div>
                             </div>
