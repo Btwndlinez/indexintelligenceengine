@@ -53,7 +53,12 @@ export class IndexIntelligenceEngine {
     const negativeKeywords = config.negativeKeywords || [];
     const filteredPool = candidatePool.filter(c => {
       if (isIrrelevant(c, negativeKeywords)) return false;
-      if (c.distanceMiles != null && c.distanceMiles > radiusFilter) return false;
+      const d = c.distanceMiles ?? (
+        c.latitude != null && c.longitude != null && zipCoords
+          ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, c.latitude, c.longitude) * 10) / 10
+          : undefined
+      );
+      if (d != null && d > radiusFilter) return false;
       return true;
     });
 

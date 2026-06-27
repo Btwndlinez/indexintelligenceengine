@@ -12,7 +12,7 @@ interface SearchConsoleProps {
 export default function SearchConsole({ onResults, onSearchStart }: SearchConsoleProps) {
   const [vertical, setVertical] = useState('slurry_concrete');
   const [zip, setZip] = useState('94544');
-  const [radius, setRadius] = useState('25');
+  const [radius, setRadius] = useState('10');
   const [signals, setSignals] = useState('slurry, concrete, pump');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
