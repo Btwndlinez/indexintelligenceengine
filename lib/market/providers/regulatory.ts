@@ -73,6 +73,24 @@ export class RegulatoryProvider implements DiscoveryProvider {
           createdAt: now,
           updatedAt: now,
         },
+        {
+          id: 'reg-ca-slurry-station',
+          companyName: 'Slurry Station',
+          address: '2480 Athens Ave',
+          city: 'Lincoln',
+          state: 'CA',
+          zipCode: '95648',
+          latitude: 38.891,
+          longitude: -121.293,
+          website: 'slurrystation.com',
+          phone: '+1 916-434-0395',
+          notes: 'Concrete slurry recycling, washout services, slurry disposal, and ready mix reclaiming. Full-service slurry management for construction sites.',
+          source: this.name,
+          hasRegulatoryPermit: true,
+          distanceMiles: calcDist(38.891, -121.293),
+          createdAt: now,
+          updatedAt: now,
+        },
       ];
     }
 
