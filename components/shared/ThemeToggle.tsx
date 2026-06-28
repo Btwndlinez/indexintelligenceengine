@@ -1,33 +1,22 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
+import { useTheme } from './ThemeProvider';
 
-export default function ThemeToggle() {
-    const [theme, setTheme] = useState<'light' | 'dark'>('light');
+export default function ThemeToggle({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
+  const { theme, toggle } = useTheme();
+  const isDay = theme === 'day';
 
-    useEffect(() => {
-        const current = document.documentElement.getAttribute('data-theme') as 'light' | 'dark' || 'light';
-        setTheme(current);
-    }, []);
-
-    const toggleTheme = () => {
-        const next = theme === 'light' ? 'dark' : 'light';
-        setTheme(next);
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('mie-theme', next);
-    };
-
-    return (
-        <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label="Toggle dark mode"
-            id="theme-toggle"
-        >
-            <div className="theme-toggle-knob">
-                {theme === 'light' ? <Sun size={14} /> : <Moon size={14} />}
-            </div>
-        </button>
-    );
+  return (
+    <button
+      onClick={toggle}
+      className="theme-toggle"
+      aria-label={isDay ? 'Switch to Night Mode' : 'Switch to Day Mode'}
+      title={isDay ? 'Switch to Night Mode (dark, for night crews)' : 'Switch to Day Mode (bright sun / outdoor)'}
+    >
+      <div className="theme-toggle-knob">
+        {isDay ? <Moon size={12} strokeWidth={2.5} /> : <Sun size={12} strokeWidth={2.5} />}
+      </div>
+    </button>
+  );
 }

@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
 
 export async function POST(req: NextRequest) {
   try {
-    const context = await resolveTenant(req);
-    const { vertical = 'slurry_concrete', state = 'CA', city = 'Hayward' } = context || {};
+    const body = await req.json().catch(() => ({}));
+    const vertical = req.headers.get('x-iie-client-context') || 'slurry_concrete';
+    const state = body.state || 'CA';
+    const city = body.city || 'Hayward';
+
+    const feed = getDefaultFeed(vertical, state, city);
 
     const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-
-    const systemPrompt = `You are the master regulatory and procurement intelligence engine of the Index Intelligence Engine.
+    if (DEEPSEEK_API_KEY) {
+      const systemPrompt = `You are the master regulatory and procurement intelligence engine of the Index Intelligence Engine.
 Your task is to generate 3 highly realistic, actionable, and localized items for a local contractor's daily newsfeed.
 Generate data specific to the user's Vertical: "${vertical}", State: "${state}", and City/County Area: "${city}".
 
@@ -50,44 +53,36 @@ You must return a valid JSON object matching this schema:
   ]
 }`;
 
-    const userPrompt = `Generate the daily dashboard items for vertical "${vertical}" in ${city}, ${state}. Ensure the municipal bids, news, and regulatory codes are highly realistic for this industry.`;
+      const userPrompt = `Generate the daily dashboard items for vertical "${vertical}" in ${city}, ${state}. Ensure the municipal bids, news, and regulatory codes are highly realistic for this industry.`;
 
-    let intelligenceFeed;
-
-    if (DEEPSEEK_API_KEY) {
-      try {
-        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-          },
-          body: JSON.stringify({
-            model: 'deepseek-chat',
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt }
-            ],
-            response_format: { type: 'json_object' },
-            temperature: 0.2
-          }),
-          signal: AbortSignal.timeout(8000)
-        });
-
-        if (response.ok) {
-          const rawData = await response.json();
-          intelligenceFeed = JSON.parse(rawData.choices[0].message.content);
-        }
-      } catch (err) {
-        console.warn('[Intelligence API] Failed calling DeepSeek, falling back to database default templates.', err);
-      }
+      fetch('https://api.deepseek.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.2
+        }),
+        signal: AbortSignal.timeout(5000)
+      })
+        .then(res => res.json())
+        .then(raw => {
+          const aiFeed = JSON.parse(raw.choices[0].message.content);
+          if (aiFeed && aiFeed.bids) {
+            console.log('[Intelligence] DeepSeek enrichment received');
+          }
+        })
+        .catch(err => console.warn('[Intelligence] DeepSeek enrichment failed:', err));
     }
 
-    if (!intelligenceFeed) {
-      intelligenceFeed = getDefaultFeed(vertical, state, city);
-    }
-
-    return NextResponse.json({ success: true, ...intelligenceFeed });
+    return NextResponse.json({ success: true, ...feed });
   } catch (error: any) {
     console.error('[Daily Intelligence Route] Error:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

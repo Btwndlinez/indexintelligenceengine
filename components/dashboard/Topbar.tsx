@@ -1,29 +1,108 @@
 'use client';
 
-import { Search, Bell, Zap } from 'lucide-react';
+import { Bell, Sun, Moon } from 'lucide-react';
+import ThemeToggle from '@/components/shared/ThemeToggle';
+import { useTheme } from '@/components/shared/ThemeProvider';
 
-export default function Topbar() {
+interface TopbarProps {
+  mobile?: boolean;
+}
+
+export default function Topbar({ mobile = false }: TopbarProps) {
+  const { theme } = useTheme();
+
+  /* ── Mobile: compact actions only (no search bar) ── */
+  if (mobile) {
+    return (
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
+        <button
+          className="relative p-2.5 rounded-xl transition-all"
+          style={{ background: 'var(--color-surface2)' }}
+          aria-label="Notifications"
+        >
+          <Bell
+            className="w-5 h-5"
+            style={{ color: 'var(--color-muted)' }}
+          />
+          <span
+            className="absolute top-2 right-2 w-2 h-2 rounded-full"
+            style={{ background: 'var(--color-red)' }}
+          />
+        </button>
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm text-white"
+          style={{ background: 'linear-gradient(135deg, var(--color-red), color-mix(in srgb, var(--color-red) 60%, black))' }}
+        >
+          U
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Desktop full topbar ── */
   return (
-    <header className="h-[72px] border-b border-border flex items-center justify-between px-6 lg:px-8 bg-surface/80 backdrop-blur-xl">
-      <div className="flex items-center gap-4 flex-1 max-w-md">
-        <Search className="w-4 h-4 text-muted" />
-        <input
-          type="text"
-          placeholder="Search companies, markets, campaigns..."
-          className="flex-1 bg-transparent text-sm text-text placeholder:text-muted/50 focus:outline-none"
-        />
+    <header
+      className="h-20 border-b flex items-center justify-between px-8"
+      style={{
+        borderColor: 'var(--color-border)',
+        background: 'color-mix(in srgb, var(--color-surface) 90%, transparent)',
+        backdropFilter: 'blur(12px)',
+      }}
+    >
+      {/* Page title — injected by route context in future, generic for now */}
+      <div>
+        <h1
+          className="font-black leading-none"
+          style={{
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: '1.75rem',
+            letterSpacing: '-0.01em',
+            color: 'var(--color-text)',
+          }}
+        >
+          DASHBOARD
+        </h1>
+        <p className="text-sm font-medium mt-0.5" style={{ color: 'var(--color-muted)' }}>
+          Construction market intelligence
+        </p>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface2 border border-border text-xs">
-          <Zap className="w-3 h-3 text-yellow" />
-          <span className="text-muted">2,482 / 10,000</span>
+        {/* Day / Night context label */}
+        <div
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold"
+          style={{
+            background: 'var(--color-surface2)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-muted)',
+          }}
+        >
+          {theme === 'day' ? (
+            <><Sun className="w-4 h-4" style={{ color: 'var(--color-yellow)' }} /> Day Mode</>
+          ) : (
+            <><Moon className="w-4 h-4" style={{ color: 'var(--color-blue)' }} /> Night Mode</>
+          )}
         </div>
-        <button className="relative p-2 rounded-lg hover:bg-surface2 transition-all">
-          <Bell className="w-4 h-4 text-muted" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red rounded-full" />
+
+        <ThemeToggle />
+
+        <button
+          className="relative p-2.5 rounded-xl transition-all"
+          style={{ background: 'var(--color-surface2)' }}
+          aria-label="Notifications"
+        >
+          <Bell className="w-5 h-5" style={{ color: 'var(--color-muted)' }} />
+          <span
+            className="absolute top-2 right-2 w-2 h-2 rounded-full"
+            style={{ background: 'var(--color-red)' }}
+          />
         </button>
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red to-red/60 flex items-center justify-center text-xs font-bold">
+
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm text-white"
+          style={{ background: 'linear-gradient(135deg, var(--color-red), color-mix(in srgb, var(--color-red) 60%, black))' }}
+        >
           U
         </div>
       </div>

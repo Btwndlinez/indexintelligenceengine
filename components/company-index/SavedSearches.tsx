@@ -29,12 +29,12 @@ export default function SavedSearches({ searches, onSelect, onDelete }: SavedSea
                         <div className="flex flex-col">
                             <span className="text-xs font-black uppercase tracking-tight">{search.name}</span>
                             <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{search.filters.zip} • {search.filters.radius}mi • {search.filters.industry}</span>
+                                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{search.zipCode} • {search.radiusMiles}mi • {search.verticalId}</span>
                             </div>
                         </div>
                         <div className="flex items-center gap-3 ml-2 border-l border-gray-100 dark:border-gray-800 pl-4">
                             <div className="flex flex-col items-center">
-                                <span className="text-xs font-black text-red-600">{search.count}</span>
+                                <span className="text-xs font-black text-red-600">{search.resultCount}</span>
                                 <span className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter">Results</span>
                             </div>
                             <button

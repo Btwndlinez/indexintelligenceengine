@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Index Intelligence Engine (IIE) | AI-Powered Alpha",
+  title: "Index Intelligence Engine — Field-Grade Market Intelligence",
   description:
-    "AI-powered market intelligence, record enrichment, and multi-vertical business discovery engine.",
-  keywords: "Market Intelligence, AI leads, business discovery, enrichment, sales leads",
+    "AI-powered construction market intelligence. Search by zip, score companies, deploy outreach. Built for teams in the field.",
+  keywords: "construction market intelligence, AI leads, company discovery, field operations, IIE",
 };
 
 export default function RootLayout({
@@ -15,9 +15,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-black text-white overflow-x-hidden">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Blocking theme init — prevents flash of wrong theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('iie-theme');if(t==='day'||t==='night'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.setAttribute('data-theme','night');}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="overflow-x-hidden">
         {children}
       </body>
     </html>
   );
 }
+

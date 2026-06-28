@@ -10,6 +10,7 @@ interface ResultsViewProps {
   loading: boolean;
 }
 
+/* ── Mobile card view — optimised for glove use ── */
 function ResultsCards({ results }: { results: SearchResult[] }) {
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -17,49 +18,106 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
     <div className="space-y-3">
       {results.map((r) => {
         const isExpanded = expanded === r.id;
+        const gradeColor =
+          r.grade === 'A' ? 'var(--color-green)' :
+          r.grade === 'B' ? 'var(--color-yellow)' :
+          'var(--color-muted)';
+
         return (
-          <div key={r.id} className="rounded-2xl border border-border bg-surface">
-            <div className="p-4">
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <div className="font-semibold text-sm">{r.companyName}</div>
-                  <div className="text-muted text-xs mt-0.5">
-                    {r.distanceMiles != null ? `${r.distanceMiles.toFixed(1)} mi` : ''}
+          <div
+            key={r.id}
+            className="rounded-xl overflow-hidden"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
+          >
+            <div className="p-5">
+              {/* Company name + grade row */}
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex-1 min-w-0 pr-3">
+                  <div
+                    className="font-bold leading-tight truncate"
+                    style={{ fontSize: '1.125rem', color: 'var(--color-text)' }}
+                  >
+                    {r.companyName}
+                  </div>
+                  {r.distanceMiles != null && (
+                    <div
+                      className="text-sm font-medium mt-1"
+                      style={{ color: 'var(--color-muted)' }}
+                    >
+                      {r.distanceMiles.toFixed(1)} mi away
+                    </div>
+                  )}
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <div
+                    className="font-black leading-none"
+                    style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: '2rem',
+                      color: gradeColor,
+                    }}
+                  >
+                    {r.grade}
+                  </div>
+                  <div className="text-sm font-bold mt-0.5" style={{ color: 'var(--color-muted)' }}>
+                    {r.leadScore}
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-green font-bold">{r.grade}</div>
-                  <div className="text-xs text-muted">{r.leadScore}</div>
-                </div>
               </div>
-              <div className="flex gap-2">
+
+              {/* Action buttons — 56px height for gloves */}
+              <div className="flex gap-3">
                 <a
                   href={r.phone ? `tel:${r.phone}` : '#'}
-                  className="flex-1 rounded-lg border border-border py-2 text-xs text-center"
+                  className="flex-1 flex items-center justify-center gap-2 rounded-xl font-bold text-base transition-all"
+                  style={{
+                    height: '56px',
+                    background: 'var(--color-surface2)',
+                    border: '1px solid var(--color-border)',
+                    color: 'var(--color-text)',
+                    textDecoration: 'none',
+                    opacity: r.phone ? 1 : 0.4,
+                    pointerEvents: r.phone ? 'auto' : 'none',
+                  }}
                 >
+                  <Phone className="w-5 h-5" />
                   Call
                 </a>
                 <button
                   onClick={() => setExpanded(isExpanded ? null : r.id)}
-                  className="flex-1 rounded-lg bg-red py-2 text-xs font-semibold text-white flex items-center justify-center gap-1"
+                  className="flex-1 flex items-center justify-center gap-2 rounded-xl font-bold text-base text-white transition-all"
+                  style={{
+                    height: '56px',
+                    background: 'var(--color-red)',
+                    border: 'none',
+                    cursor: 'pointer',
+                  }}
                 >
-                  {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                  {isExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
                   Details
                 </button>
               </div>
             </div>
 
+            {/* Expanded detail panel */}
             {isExpanded && (
-              <div className="border-t border-border p-4 space-y-3">
+              <div
+                className="px-5 pb-5 pt-4 space-y-4 border-t"
+                style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface2)' }}
+              >
                 {r.address && (
-                  <div className="flex items-start gap-2 text-sm text-muted">
-                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                    <span>{r.address}</span>
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-muted)' }} />
+                    <span className="text-base" style={{ color: 'var(--color-muted)' }}>{r.address}</span>
                   </div>
                 )}
                 {r.phone && (
-                  <a href={`tel:${r.phone}`} className="flex items-center gap-2 text-sm text-muted hover:text-text">
-                    <Phone className="w-3.5 h-3.5" />
+                  <a
+                    href={`tel:${r.phone}`}
+                    className="flex items-center gap-3 text-base"
+                    style={{ color: 'var(--color-blue)', textDecoration: 'none' }}
+                  >
+                    <Phone className="w-5 h-5 flex-shrink-0" />
                     {r.phone}
                   </a>
                 )}
@@ -68,16 +126,24 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
                     href={`https://${r.website.replace(/^https?:\/\//, '').replace(/^https?\//, '').replace(/^\//, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-muted hover:text-text"
+                    className="flex items-center gap-3 text-base"
+                    style={{ color: 'var(--color-blue)', textDecoration: 'none' }}
                   >
-                    <Globe className="w-3.5 h-3.5" />
-                    {r.website}
+                    <Globe className="w-5 h-5 flex-shrink-0" />
+                    <span className="truncate">{r.website}</span>
                   </a>
                 )}
                 {r.capabilitySummary && (
                   <div>
-                    <div className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-1">Signals</div>
-                    <p className="text-xs text-muted leading-relaxed">{r.capabilitySummary}</p>
+                    <div
+                      className="text-xs font-black uppercase tracking-widest mb-2"
+                      style={{ color: 'var(--color-muted)' }}
+                    >
+                      Signals
+                    </div>
+                    <p className="text-base leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                      {r.capabilitySummary}
+                    </p>
                   </div>
                 )}
               </div>
@@ -89,33 +155,63 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
   );
 }
 
+/* ── Main export: table on desktop, cards on mobile ── */
 export default function ResultsView({ results, loading }: ResultsViewProps) {
+  /* Empty / loading states */
+  const EmptyState = ({ msg }: { msg: string }) => (
+    <div
+      className="rounded-xl p-12 flex flex-col items-center justify-center text-center"
+      style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
+    >
+      <Search className="w-10 h-10 mb-4" style={{ color: 'var(--color-muted)' }} />
+      <div
+        className="font-bold mb-2"
+        style={{ fontSize: '1.125rem', color: 'var(--color-text)' }}
+      >
+        No results yet
+      </div>
+      <div className="text-base" style={{ color: 'var(--color-muted)' }}>{msg}</div>
+    </div>
+  );
+
+  const LoadingCards = () => (
+    <div className="space-y-3">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className="rounded-xl p-5 animate-pulse"
+          style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
+        >
+          <div
+            className="h-5 rounded w-2/3 mb-2"
+            style={{ background: 'var(--color-surface2)' }}
+          />
+          <div
+            className="h-4 rounded w-1/4 mb-4"
+            style={{ background: 'var(--color-surface2)' }}
+          />
+          <div className="flex gap-3">
+            <div className="flex-1 h-14 rounded-xl" style={{ background: 'var(--color-surface2)' }} />
+            <div className="flex-1 h-14 rounded-xl" style={{ background: 'var(--color-surface2)' }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <>
+      {/* Desktop: table */}
       <div className="hidden lg:block">
-        <ResultsTable companies={results} loading={loading} />
+        <ResultsTable companies={results ?? undefined} loading={loading} />
       </div>
 
+      {/* Mobile / tablet: cards */}
       <div className="block lg:hidden">
         {loading ? (
-          <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-2xl border border-border bg-surface p-4 animate-pulse">
-                <div className="h-4 bg-surface2 rounded w-2/3 mb-2" />
-                <div className="h-3 bg-surface2 rounded w-1/4 mb-3" />
-                <div className="flex gap-2">
-                  <div className="flex-1 h-9 bg-surface2 rounded-lg" />
-                  <div className="flex-1 h-9 bg-surface2 rounded-lg" />
-                </div>
-              </div>
-            ))}
-          </div>
+          <LoadingCards />
         ) : !results || results.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-surface p-8 flex flex-col items-center justify-center text-center">
-            <Search className="w-8 h-8 text-muted mb-3" />
-            <div className="text-sm font-medium text-text mb-1">No results yet</div>
-            <div className="text-xs text-muted">Set your parameters above and run a discovery search</div>
-          </div>
+          <EmptyState msg="Set your parameters above and run a discovery search" />
         ) : (
           <ResultsCards results={results} />
         )}

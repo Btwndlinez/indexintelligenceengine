@@ -96,15 +96,15 @@ export default function CompanyTable({ companies, onGenerateCallSheet, onExportC
                                 </td>
                                 <td className="py-4 text-right">
                                     <select
-                                        className={`text-[10px] font-black uppercase py-1.5 px-3 rounded-lg border focus:ring-2 focus:ring-red-500/20 outline-none transition-all appearance-none cursor-pointer ${company.status === 'closed' ? 'bg-green-600 text-white border-green-700' :
-                                            company.status === 'interested' ? 'bg-blue-600 text-white border-blue-700' :
-                                                company.status === 'not_contacted' ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-gray-200 dark:border-gray-700' :
+                                        className={`text-[10px] font-black uppercase py-1.5 px-3 rounded-lg border focus:ring-2 focus:ring-red-500/20 outline-none transition-all appearance-none cursor-pointer ${company.status === 'WON' ? 'bg-green-600 text-white border-green-700' :
+                                            company.status === 'INTERESTED' ? 'bg-blue-600 text-white border-blue-700' :
+                                                company.status === 'NOT_CONTACTED' ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-gray-200 dark:border-gray-700' :
                                                     'bg-red-50 dark:bg-red-900/10 text-red-600 border-red-100 dark:border-red-900/30'
                                             }`}
                                         value={company.status}
                                         onChange={(e) => onStatusChange(company.id, e.target.value as Company['status'])}
                                     >
-                                        {['not_contacted', 'called', 'emailed', 'interested', 'follow_up', 'closed'].map(status => (
+                                        {['NOT_CONTACTED', 'CALLED', 'EMAILED', 'INTERESTED', 'FOLLOW_UP', 'QUALIFIED', 'WON', 'LOST'].map(status => (
                                             <option key={status} value={status}>{getStatusLabel(status as Company['status'])}</option>
                                         ))}
                                     </select>

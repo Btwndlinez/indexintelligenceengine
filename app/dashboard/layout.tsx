@@ -1,29 +1,72 @@
+'use client';
+
+import { ThemeProvider } from '@/components/shared/ThemeProvider';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Topbar from '@/components/dashboard/Topbar';
+import MobileBottomNav from '@/components/dashboard/MobileBottomNav';
 import { Zap } from 'lucide-react';
+
+function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)' }}>
+      {/* Desktop: sidebar + topbar */}
+      <div className="hidden lg:flex">
+        <Sidebar />
+        <main className="flex-1 min-w-0 w-full overflow-x-hidden">
+          <Topbar />
+          <div className="p-8">{children}</div>
+        </main>
+      </div>
+
+      {/* Tablet (md–lg): slim sidebar + topbar */}
+      <div className="hidden md:flex lg:hidden">
+        <Sidebar slim />
+        <main className="flex-1 min-w-0 w-full overflow-x-hidden">
+          <Topbar />
+          <div className="p-6">{children}</div>
+        </main>
+      </div>
+
+      {/* Mobile: top mini-bar + bottom nav */}
+      <div className="md:hidden flex flex-col min-h-screen">
+        {/* Mobile topbar */}
+        <header
+          className="h-16 px-4 border-b flex items-center justify-between shrink-0"
+          style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center"
+              style={{ background: 'var(--color-red)' }}
+            >
+              <Zap className="w-4 h-4 text-white" fill="white" />
+            </div>
+            <span
+              className="font-black text-base"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '-0.01em', color: 'var(--color-text)' }}
+            >
+              IIE
+            </span>
+          </div>
+          <Topbar mobile />
+        </header>
+
+        {/* Main content — padded for bottom nav */}
+        <main className="flex-1 overflow-x-hidden pb-20">
+          <div className="p-4">{children}</div>
+        </main>
+
+        {/* Bottom navigation */}
+        <MobileBottomNav />
+      </div>
+    </div>
+  );
+}
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-bg">
-      <div className="lg:flex">
-        <div className="hidden lg:block">
-          <Sidebar />
-        </div>
-        <main className="flex-1 min-w-0 w-full overflow-x-hidden">
-          <div className="hidden lg:block">
-            <Topbar />
-          </div>
-          <div className="lg:hidden h-16 px-4 border-b border-border flex items-center gap-3">
-            <div className="w-8 h-8 bg-red rounded-lg flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" fill="white" />
-            </div>
-            <span className="font-bold text-base tracking-tight">IIE</span>
-          </div>
-          <div className="p-3 md:p-6 lg:p-8">
-            {children}
-          </div>
-        </main>
-      </div>
-    </div>
+    <ThemeProvider>
+      <DashboardLayoutInner>{children}</DashboardLayoutInner>
+    </ThemeProvider>
   );
 }
