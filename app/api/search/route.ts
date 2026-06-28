@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       companyName: c.companyName ?? c.name ?? 'Unknown',
       address: [c.address, c.city, c.state, c.zip].filter(Boolean).join(', ') || null,
       phone: c.phone ?? null,
-      website: c.website ?? null,
+      website: c.website ? c.website.replace(/^https?:\/\//, '').replace(/^https?\//, '').replace(/^\//, '') : null,
       distanceMiles: c.distanceMiles ?? c.distance ?? null,
       leadScore: c.enrichmentScore ?? c.score ?? 0,
       grade: c.priority ?? 'C',

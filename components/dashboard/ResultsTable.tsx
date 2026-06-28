@@ -115,7 +115,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                           <Phone className="w-3.5 h-3.5" />
                         </a>
                         <a
-                          href={company.website ? `https://${company.website}` : '#'}
+                          href={company.website ? `https://${company.website.replace(/^https?:\/\//, '').replace(/^https?\//, '').replace(/^\//, '')}` : '#'}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
@@ -149,7 +149,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                                 {company.website && (
                                   <div className="flex items-center gap-2 text-sm">
                                     <Globe className="w-3.5 h-3.5 text-muted shrink-0" />
-                                    <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer" className="text-blue hover:underline truncate">{company.website}</a>
+                                    <a href={`https://${company.website.replace(/^https?:\/\//, '').replace(/^https?\//, '').replace(/^\//, '')}`} target="_blank" rel="noopener noreferrer" className="text-blue hover:underline truncate">{company.website}</a>
                                   </div>
                                 )}
                               </div>

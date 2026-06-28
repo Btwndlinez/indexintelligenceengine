@@ -65,7 +65,7 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
                 )}
                 {r.website && (
                   <a
-                    href={r.website.startsWith('http') ? r.website : `https://${r.website}`}
+                    href={`https://${r.website.replace(/^https?:\/\//, '').replace(/^https?\//, '').replace(/^\//, '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-sm text-muted hover:text-text"
