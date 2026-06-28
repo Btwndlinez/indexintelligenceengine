@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
     const normalized: SearchResult[] = companies.map((c: any) => ({
       id: c.id,
       companyName: c.companyName ?? c.name ?? 'Unknown',
+      address: [c.address, c.city, c.state, c.zip].filter(Boolean).join(', ') || null,
       phone: c.phone ?? null,
       website: c.website ?? null,
       distanceMiles: c.distanceMiles ?? c.distance ?? null,

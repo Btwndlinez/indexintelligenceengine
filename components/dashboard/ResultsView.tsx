@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, ChevronDown, ChevronRight, Phone, Globe } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Phone, Globe, MapPin } from 'lucide-react';
 import ResultsTable from './ResultsTable';
 import type { SearchResult } from '@/types/search';
 
@@ -51,6 +51,12 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
 
             {isExpanded && (
               <div className="border-t border-border p-4 space-y-3">
+                {r.address && (
+                  <div className="flex items-start gap-2 text-sm text-muted">
+                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                    <span>{r.address}</span>
+                  </div>
+                )}
                 {r.phone && (
                   <a href={`tel:${r.phone}`} className="flex items-center gap-2 text-sm text-muted hover:text-text">
                     <Phone className="w-3.5 h-3.5" />

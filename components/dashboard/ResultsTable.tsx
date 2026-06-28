@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useState } from 'react';
-import { ChevronDown, ChevronRight, Phone, Mail, ExternalLink, Loader2, Search, MapPin, Globe, User } from 'lucide-react';
+import { ChevronDown, ChevronRight, Phone, ExternalLink, Loader2, Search, MapPin, Globe } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
 import type { SearchResult } from '@/types/search';
 
@@ -134,6 +134,12 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                               <div className="space-y-2">
                                 <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Contact</div>
+                                {company.address && (
+                                  <div className="flex items-start gap-2 text-sm">
+                                    <MapPin className="w-3.5 h-3.5 text-muted shrink-0 mt-0.5" />
+                                    <span className="text-muted">{company.address}</span>
+                                  </div>
+                                )}
                                 {company.phone && (
                                   <div className="flex items-center gap-2 text-sm">
                                     <Phone className="w-3.5 h-3.5 text-muted shrink-0" />
