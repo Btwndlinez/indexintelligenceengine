@@ -8,42 +8,54 @@ export function calculateCompositeScore(
 ): number {
   let total = 0;
 
-  const regulatoryScore = company.hasRegulatoryPermit ? 40 : 0;
-  total += regulatoryScore;
+  const nameText = (company.companyName || '').toLowerCase();
+  const contentText = `${company.notes || ''} ${company.capabilitySummary || ''}`.toLowerCase();
 
-  const targetText = `${company.companyName || ''} ${company.notes || ''} ${company.capabilitySummary || ''}`.toLowerCase();
-  const signalMatches = config.verticalSignals.filter(sig =>
-    targetText.includes(sig.toLowerCase())
+  // Name relevance (up to 35) — strongest signal: company name contains vertical keywords
+  const nameMatches = config.verticalSignals.filter(sig =>
+    nameText.includes(sig.toLowerCase())
   ).length;
+  if (nameMatches >= 3) total += 35;
+  else if (nameMatches === 2) total += 30;
+  else if (nameMatches === 1) total += 28;
 
-  let verticalScore = 0;
-  if (signalMatches >= 3) verticalScore = 30;
-  else if (signalMatches === 2) verticalScore = 20;
-  else if (signalMatches === 1) verticalScore = 10;
-  total += verticalScore;
+  // Content signal matching (up to 20)
+  const contentMatches = config.verticalSignals.filter(sig =>
+    contentText.includes(sig.toLowerCase())
+  ).length;
+  if (contentMatches >= 4) total += 20;
+  else if (contentMatches >= 2) total += 14;
+  else if (contentMatches === 1) total += 7;
 
-  const googleScore = company.website ? 15 : 5;
-  total += googleScore;
+  // Regulatory permit (15)
+  if (company.hasRegulatoryPermit) total += 15;
 
-  let contactScore = 0;
-  if (company.phone) contactScore += 4;
-  if (company.email) contactScore += 4;
-  if (company.address) contactScore += 2;
-  total += contactScore;
+  // Digital presence (10)
+  total += company.website ? 10 : 2;
 
-  let distanceScore = 0;
+  // Contact completeness (up to 12)
+  if (company.phone) total += 5;
+  if (company.email) total += 5;
+  if (company.address) total += 2;
+
+  // Proximity (up to 10)
   if (distanceMiles !== undefined) {
-    if (distanceMiles <= 10) distanceScore = 5;
-    else if (distanceMiles <= 25) distanceScore = 3;
-    else if (distanceMiles <= 50) distanceScore = 1;
+    if (distanceMiles <= 10) total += 10;
+    else if (distanceMiles <= 25) total += 8;
+    else if (distanceMiles <= 50) total += 5;
+    else if (distanceMiles <= 100) total += 3;
+    else total += 1;
   }
-  total += distanceScore;
+
+  // Established business bonus (up to 8)
+  if (company.phone && company.website) total += 5;
+  if (company.phone && company.website && company.address) total += 3;
 
   return Math.min(total, 100);
 }
 
 export function getTier(score: number): 'A' | 'B' | 'C' {
-  if (score >= 85) return 'A';
-  if (score >= 55) return 'B';
+  if (score >= 55) return 'A';
+  if (score >= 25) return 'B';
   return 'C';
 }
