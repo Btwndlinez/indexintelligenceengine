@@ -3,6 +3,7 @@ import { IndexIntelligenceEngine } from '@/lib/market/adapter';
 import { getVerticalConfigByDomain } from '@/lib/market/registry';
 import { withTimeout } from '@/lib/timeouts';
 import { writeAudit } from '@/lib/telemetry/index';
+import type { SearchResult } from '@/types/search';
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,12 +39,23 @@ export async function POST(req: NextRequest) {
       metadata: { zip: body.zip, radius: body.radius, vertical: clientHeader, companyCount: companies?.length || 0 },
     });
 
+    const normalized: SearchResult[] = companies.map((c: any) => ({
+      id: c.id,
+      companyName: c.companyName ?? c.name ?? 'Unknown',
+      phone: c.phone ?? null,
+      website: c.website ?? null,
+      distanceMiles: c.distanceMiles ?? c.distance ?? null,
+      leadScore: c.enrichmentScore ?? c.score ?? 0,
+      grade: c.priority ?? 'C',
+      capabilitySummary: c.capabilitySummary ?? null,
+    }));
+
     return NextResponse.json({
       success: true,
       tenant: verticalConfig.id,
       industry: verticalConfig.industryName,
-      count: companies.length,
-      companies,
+      count: normalized.length,
+      companies: normalized,
       contacts,
     });
   } catch (err: any) {

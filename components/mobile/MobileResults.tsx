@@ -1,9 +1,10 @@
 'use client';
 
 import { Search } from 'lucide-react';
+import type { SearchResult } from '@/types/search';
 
 interface MobileResultsProps {
-  results: any[] | null;
+  results: SearchResult[] | null;
   loading: boolean;
 }
 
@@ -40,37 +41,37 @@ export default function MobileResults({ results, loading }: MobileResultsProps) 
       <div className="text-xs text-zinc-500 font-medium">
         {results.length} {results.length === 1 ? 'company' : 'companies'} found
       </div>
-      {results.map((r: any, i: number) => (
+      {results.map((r) => (
         <div
-          key={r.id || r.companyName || i}
+          key={r.id}
           className="rounded-2xl border border-white/10 bg-zinc-950 p-4"
         >
           <div className="flex justify-between items-start mb-3">
             <div>
-              <div className="font-semibold">{r.companyName || r.name}</div>
+              <div className="font-semibold">{r.companyName}</div>
               <div className="text-zinc-500 text-sm">
-                {r.distance
-                  ? typeof r.distance === 'string'
-                    ? r.distance
-                    : `${r.distance} mi`
-                  : r.city
-                  ? `${r.city}, ${r.state || ''}`
-                  : ''}
+                {r.distanceMiles != null ? `${r.distanceMiles.toFixed(1)} mi` : ''}
               </div>
             </div>
 
             <div className="text-right">
-              <div className="text-green-400 font-bold">{r.score || r.grade || '—'}</div>
-              <div className="text-sm text-zinc-500">{r.score_value || r.value || ''}</div>
+              <div className="text-green-400 font-bold">{r.grade}</div>
+              <div className="text-sm text-zinc-500">{r.leadScore}</div>
             </div>
           </div>
 
           <div className="flex gap-2">
-            <button className="flex-1 rounded-lg border border-white/10 py-2 text-sm">
+            <a
+              href={r.phone ? `tel:${r.phone}` : '#'}
+              className="flex-1 rounded-lg border border-white/10 py-2 text-sm text-center block"
+            >
               Call
-            </button>
+            </a>
 
-            <button className="flex-1 rounded-lg bg-red-600 py-2 text-sm font-semibold">
+            <button
+              onClick={() => window.location.href = `/dashboard/company/${r.id}`}
+              className="flex-1 rounded-lg bg-red-600 py-2 text-sm font-semibold"
+            >
               Details
             </button>
           </div>

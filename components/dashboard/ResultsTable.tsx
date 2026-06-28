@@ -3,30 +3,7 @@
 import { Fragment, useState } from 'react';
 import { ChevronDown, ChevronRight, Phone, Mail, ExternalLink, Loader2, Search, MapPin, Globe, User } from 'lucide-react';
 import Badge from '@/components/ui/Badge';
-
-interface CompanyData {
-  id: string;
-  companyName?: string;
-  company_name?: string;
-  name?: string;
-  priority: string;
-  address?: string;
-  phone?: string;
-  email?: string;
-  website?: string;
-  source?: string;
-  distanceMiles?: number;
-  distance_mi?: number;
-  distance?: string;
-  enrichmentScore?: number;
-  score?: number;
-  contact_coverage?: string;
-  coverage?: string;
-  status: string;
-  capabilitySummary?: string;
-  contacts?: { name?: string; role?: string; email?: string; phone?: string }[];
-  signals?: string[];
-}
+import type { SearchResult } from '@/types/search';
 
 interface Contact {
   id: string;
@@ -41,52 +18,24 @@ interface Contact {
 }
 
 interface ResultsTableProps {
-  companies?: CompanyData[];
+  companies?: SearchResult[];
   contacts?: Contact[];
   loading?: boolean;
 }
 
-const priorityColor = (p: string) => {
-  switch (p?.toLowerCase()) {
-    case 'a': return 'green';
-    case 'b': return 'yellow';
-    case 'c': return 'default';
+const gradeColor = (g: string) => {
+  switch (g?.toUpperCase()) {
+    case 'A': return 'green';
+    case 'B': return 'yellow';
+    case 'C':
+    case 'D': return 'default';
     default: return 'default';
   }
 };
 
-const statusVariant = (s: string) => {
-  switch (s?.toLowerCase()) {
-    case 'interested': return 'green';
-    case 'qualified': return 'blue';
-    case 'contacted':
-    case 'active': return 'yellow';
-    default: return 'default';
-  }
-};
-
-const statusDisplay = (s: string) => {
-  switch (s) {
-    case 'NOT_CONTACTED': return 'New';
-    case 'IN_PROGRESS': return 'Contacted';
-    case 'CONTACTED': return 'Contacted';
-    case 'QUALIFIED': return 'Qualified';
-    case 'INTERESTED': return 'Interested';
-    case 'CONVERTED': return 'Converted';
-    default: return s || 'New';
-  }
-};
-
-function formatDistance(d: number | string | undefined): string {
-  if (!d) return '—';
-  if (typeof d === 'string') return d;
+function formatDistance(d: number | null): string {
+  if (d == null) return '—';
   return `${d.toFixed(1)} mi`;
-}
-
-function formatCoverage(c: string | number | undefined): string {
-  if (!c) return '—';
-  if (typeof c === 'number') return `${c}%`;
-  return c;
 }
 
 export default function ResultsTable({ companies, contacts: allContacts, loading }: ResultsTableProps) {
@@ -115,10 +64,10 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
   return (
     <div className="bg-surface rounded-3xl border border-border overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="w-full min-w-[900px]">
           <thead>
             <tr className="border-b border-border">
-              {['Company', 'Priority', 'Distance', 'Score', 'Contact Coverage', 'Status', ''].map((h) => (
+              {['Company', 'Grade', 'Distance', 'Lead Score', 'Signals', ''].map((h) => (
                 <th key={h} className="text-left text-[10px] font-semibold text-muted uppercase tracking-wider px-4 py-3">
                   {h}
                 </th>
@@ -127,39 +76,34 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
           </thead>
           <tbody>
             {companies.map((company) => {
-              const cid = company.id || Math.random().toString();
-              const name = company.companyName || company.company_name || company.name || 'Unknown';
-              const score = company.enrichmentScore ?? company.score ?? 0;
-              const companyContacts = allContacts?.filter(c => c.companyId === cid) || company.contacts || [];
-              const isExpanded = expanded === cid;
+              const isExpanded = expanded === company.id;
 
               return (
-                <Fragment key={cid}>
+                <Fragment key={company.id}>
                   <tr
                     className="border-b border-border hover:bg-surface2 transition-colors cursor-pointer"
-                    onClick={() => setExpanded(isExpanded ? null : cid)}
+                    onClick={() => setExpanded(isExpanded ? null : company.id)}
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2 max-w-[280px]">
                         {isExpanded ? <ChevronDown className="w-3 h-3 text-muted shrink-0" /> : <ChevronRight className="w-3 h-3 text-muted shrink-0" />}
-                        <span className="text-sm font-semibold truncate">{name}</span>
+                        <span className="text-sm font-semibold truncate">{company.companyName}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <Badge variant={priorityColor(company.priority) as any}>{company.priority}</Badge>
+                      <Badge variant={gradeColor(company.grade) as any}>{company.grade}</Badge>
                     </td>
-                    <td className="px-4 py-3 text-sm text-muted">{formatDistance(company.distanceMiles ?? company.distance_mi ?? company.distance)}</td>
+                    <td className="px-4 py-3 text-sm text-muted">{formatDistance(company.distanceMiles)}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className="w-16 h-1.5 rounded-full bg-surface2 overflow-hidden">
-                          <div className="h-full bg-red rounded-full" style={{ width: `${score}%` }} />
+                          <div className="h-full bg-red rounded-full" style={{ width: `${company.leadScore}%` }} />
                         </div>
-                        <span className="text-sm font-semibold">{score}</span>
+                        <span className="text-sm font-semibold">{company.leadScore}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-muted">{formatCoverage(company.contact_coverage ?? company.coverage)}</td>
-                    <td className="px-4 py-3">
-                      <Badge variant={statusVariant(company.status) as any}>{statusDisplay(company.status)}</Badge>
+                    <td className="px-4 py-3 text-sm text-muted max-w-[200px] truncate">
+                      {company.capabilitySummary || '—'}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
@@ -171,14 +115,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                           <Phone className="w-3.5 h-3.5" />
                         </a>
                         <a
-                          href={company.email ? `mailto:${company.email}` : '#'}
-                          onClick={(e) => e.stopPropagation()}
-                          className={`p-1.5 rounded-lg transition-all ${company.email ? 'hover:bg-surface2 text-muted hover:text-blue' : 'text-border cursor-not-allowed'}`}
-                        >
-                          <Mail className="w-3.5 h-3.5" />
-                        </a>
-                        <a
-                          href={company.website || '#'}
+                          href={company.website ? `https://${company.website}` : '#'}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
@@ -191,32 +128,22 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                   </tr>
                   {isExpanded && (
                     <tr>
-                      <td colSpan={7} className="p-0">
+                      <td colSpan={6} className="p-0">
                         <div className="border-t border-border bg-surface2/50">
                           <div className="p-5 space-y-5">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                               <div className="space-y-2">
                                 <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Contact</div>
-                                <div className="flex items-center gap-2 text-sm">
-                                  <MapPin className="w-3.5 h-3.5 text-muted shrink-0" />
-                                  <span className="text-muted">{company.address || 'No address'}</span>
-                                </div>
                                 {company.phone && (
                                   <div className="flex items-center gap-2 text-sm">
                                     <Phone className="w-3.5 h-3.5 text-muted shrink-0" />
                                     <a href={`tel:${company.phone}`} className="text-blue hover:underline">{company.phone}</a>
                                   </div>
                                 )}
-                                {company.email && (
-                                  <div className="flex items-center gap-2 text-sm">
-                                    <Mail className="w-3.5 h-3.5 text-muted shrink-0" />
-                                    <a href={`mailto:${company.email}`} className="text-blue hover:underline">{company.email}</a>
-                                  </div>
-                                )}
                                 {company.website && (
                                   <div className="flex items-center gap-2 text-sm">
                                     <Globe className="w-3.5 h-3.5 text-muted shrink-0" />
-                                    <a href={company.website} target="_blank" rel="noopener noreferrer" className="text-blue hover:underline truncate">{company.website}</a>
+                                    <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer" className="text-blue hover:underline truncate">{company.website}</a>
                                   </div>
                                 )}
                               </div>
@@ -225,66 +152,23 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                                 <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Lead Score</div>
                                 <div className="flex items-center gap-3">
                                   <div className="w-full max-w-[120px] h-2 rounded-full bg-surface2 overflow-hidden">
-                                    <div className="h-full bg-red rounded-full" style={{ width: `${score}%` }} />
+                                    <div className="h-full bg-red rounded-full" style={{ width: `${company.leadScore}%` }} />
                                   </div>
-                                  <span className="text-lg font-bold">{score}</span>
-                                  <Badge variant={priorityColor(company.priority) as any}>{company.priority}</Badge>
+                                  <span className="text-lg font-bold">{company.leadScore}</span>
+                                  <Badge variant={gradeColor(company.grade) as any}>{company.grade}</Badge>
                                 </div>
                               </div>
 
                               <div className="space-y-2">
-                                <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Status</div>
-                                <div className="flex items-center gap-2">
-                                  <Badge variant={statusVariant(company.status) as any}>{statusDisplay(company.status)}</Badge>
-
-                                </div>
+                                <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Distance</div>
+                                <div className="text-sm">{formatDistance(company.distanceMiles)}</div>
                               </div>
                             </div>
 
-                            {company.capabilitySummary && company.capabilitySummary.length > 0 && (
+                            {company.capabilitySummary && (
                               <div className="space-y-2">
                                 <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Signals</div>
                                 <p className="text-sm text-muted leading-relaxed">{company.capabilitySummary}</p>
-                              </div>
-                            )}
-
-                            {company.signals && company.signals.length > 0 && (
-                              <div className="space-y-2">
-                                <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Detected Signals</div>
-                                <div className="flex flex-wrap gap-2">
-                                  {company.signals.map((s, i) => (
-                                    <span key={i} className="px-2 py-1 text-xs rounded-lg bg-surface2 text-muted border border-border">{s}</span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-
-                            {companyContacts.length > 0 && (
-                              <div className="space-y-2">
-                                <div className="text-[10px] font-semibold text-muted uppercase tracking-wider">Contacts ({companyContacts.length})</div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                  {companyContacts.map((ct, i) => {
-                                    const ctName = 'firstName' in ct
-                                      ? [ct.firstName, ct.lastName].filter(Boolean).join(' ')
-                                      : (ct as any).name || 'Unknown';
-                                    return (
-                                      <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-surface border border-border">
-                                        <div className="w-8 h-8 rounded-full bg-surface2 flex items-center justify-center shrink-0">
-                                          <User className="w-4 h-4 text-muted" />
-                                        </div>
-                                        <div className="min-w-0">
-                                          <div className="text-sm font-semibold">{ctName}</div>
-                                          {'title' in ct && ct.title && <div className="text-xs text-muted">{ct.title}</div>}
-                                          {'role' in ct && (ct as any).role && <div className="text-xs text-muted">{(ct as any).role}</div>}
-                                          <div className="flex items-center gap-2 mt-1">
-                                            {'phone' in ct && ct.phone && <a href={`tel:${ct.phone}`} className="p-1 rounded-lg hover:bg-surface2 text-muted hover:text-green transition-all"><Phone className="w-3 h-3" /></a>}
-                                            {'email' in ct && ct.email && <a href={`mailto:${ct.email}`} className="p-1 rounded-lg hover:bg-surface2 text-muted hover:text-blue transition-all"><Mail className="w-3 h-3" /></a>}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
-                                </div>
                               </div>
                             )}
                           </div>

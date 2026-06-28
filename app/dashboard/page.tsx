@@ -1,11 +1,11 @@
-import DesktopDashboard from "@/components/desktop/DesktopDashboard";
+import DashboardContent from "@/components/desktop/DashboardContent";
 import MobileDashboard from "@/components/mobile/MobileDashboard";
 
 export default function DashboardPage() {
   return (
     <>
       <div className="hidden lg:block">
-        <DesktopDashboard />
+        <DashboardContent />
       </div>
 
       <div className="block lg:hidden">

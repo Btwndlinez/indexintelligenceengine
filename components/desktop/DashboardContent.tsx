@@ -4,20 +4,15 @@ import { useState, useEffect, useCallback } from 'react';
 import MetricCard, { MetricCardLoading } from '@/components/dashboard/MetricCard';
 import SearchConsole from '@/components/dashboard/SearchConsole';
 import ResultsTable from '@/components/dashboard/ResultsTable';
-import MarketReportCard, { MarketReportLoading } from '@/components/dashboard/MarketReportCard';
+import MarketReportCard from '@/components/dashboard/MarketReportCard';
 import ProviderHealthCard from '@/components/dashboard/ProviderHealthCard';
 import UsageCard from '@/components/dashboard/UsageCard';
-
-interface SearchData {
-  companies: any[];
-  count: number;
-  industry?: string;
-}
+import type { SearchResult } from '@/types/search';
 
 export default function DashboardContent() {
   const [metrics, setMetrics] = useState<any>(null);
   const [metricsLoading, setMetricsLoading] = useState(true);
-  const [searchData, setSearchData] = useState<SearchData | null>(null);
+  const [searchData, setSearchData] = useState<{ companies: SearchResult[]; count: number } | null>(null);
   const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
@@ -30,7 +25,7 @@ export default function DashboardContent() {
       .catch(() => setMetricsLoading(false));
   }, []);
 
-  const handleResults = useCallback((data: SearchData) => {
+  const handleResults = useCallback((data: { companies: SearchResult[]; count: number }) => {
     setSearchData(data);
     setSearchLoading(false);
   }, []);
@@ -47,7 +42,7 @@ export default function DashboardContent() {
   ] : null;
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto space-y-6">
+    <div className="w-full min-w-0 max-w-[1400px] mx-auto space-y-6 overflow-x-hidden">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {metricsLoading
           ? Array.from({ length: 4 }).map((_, i) => <MetricCardLoading key={i} />)
@@ -70,14 +65,12 @@ export default function DashboardContent() {
           <ResultsTable
             companies={searchData?.companies}
             loading={searchLoading}
-            count={searchData?.count}
           />
         </div>
         <div className="col-span-12 lg:col-span-4 space-y-4">
           <MarketReportCard
             marketSize={searchData?.count ? `${searchData.count} companies` : undefined}
-            opportunityIndex={searchData?.companies?.length ? Math.round(searchData.companies.filter(c => c.score >= 70).length / searchData.companies.length * 100) : undefined}
-            coverageScore={searchData?.companies?.length ? Math.round(searchData.companies.filter(c => c.contact_coverage && parseInt(c.contact_coverage) > 50).length / searchData.companies.length * 100) : undefined}
+            opportunityIndex={searchData?.companies?.length ? Math.round(searchData.companies.filter(c => c.leadScore >= 70).length / searchData.companies.length * 100) : undefined}
           />
           <ProviderHealthCard />
           <UsageCard />

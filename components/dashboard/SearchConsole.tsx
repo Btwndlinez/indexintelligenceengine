@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { Search, MapPin, Crosshair, Radio, Loader2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
+import type { SearchResult } from '@/types/search';
+
 interface SearchConsoleProps {
-  onResults: (data: { companies: any[]; count: number; industry?: string }) => void;
+  onResults: (data: { companies: SearchResult[]; count: number; industry?: string }) => void;
   onSearchStart?: () => void;
 }
 
@@ -44,7 +46,7 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
   };
 
   return (
-    <div className="p-8 rounded-3xl bg-surface border border-border">
+    <div className="p-4 md:p-6 xl:p-8 rounded-2xl md:rounded-3xl bg-surface border border-border w-full overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-red/10 border border-red/20 flex items-center justify-center">
           <Search className="w-5 h-5 text-red" />
@@ -55,7 +57,7 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-medium text-muted flex items-center gap-1.5">
             <Crosshair className="w-3 h-3" /> Vertical
@@ -105,7 +107,7 @@ export default function SearchConsole({ onResults, onSearchStart }: SearchConsol
         </div>
       )}
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-xs text-muted">{loading ? 'Searching...' : 'Enter parameters and run discovery'}</div>
         <Button onClick={handleSearch} disabled={loading}>
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}

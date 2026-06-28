@@ -6,12 +6,13 @@ import ResultsTable from '@/components/dashboard/ResultsTable';
 import MarketReportCard from '@/components/dashboard/MarketReportCard';
 import ProviderHealthCard from '@/components/dashboard/ProviderHealthCard';
 import UsageCard from '@/components/dashboard/UsageCard';
+import type { SearchResult } from '@/types/search';
 
 export default function SearchPage() {
-  const [searchData, setSearchData] = useState<any>(null);
+  const [searchData, setSearchData] = useState<{ companies: SearchResult[]; count: number } | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleResults = useCallback((data: any) => {
+  const handleResults = useCallback((data: { companies: SearchResult[]; count: number }) => {
     setSearchData(data);
     setLoading(false);
   }, []);
@@ -36,14 +37,12 @@ export default function SearchPage() {
           <ResultsTable
             companies={searchData?.companies}
             loading={loading}
-            count={searchData?.count}
           />
         </div>
         <div className="col-span-12 lg:col-span-4 space-y-4">
           <MarketReportCard
             marketSize={searchData?.count ? `${searchData.count} companies` : undefined}
-            opportunityIndex={searchData?.companies?.length ? Math.round(searchData.companies.filter((c: any) => c.score >= 70).length / searchData.companies.length * 100) : undefined}
-            coverageScore={searchData?.companies?.length ? Math.round(searchData.companies.filter((c: any) => c.contact_coverage && parseInt(c.contact_coverage) > 50).length / searchData.companies.length * 100) : undefined}
+            opportunityIndex={searchData?.companies?.length ? Math.round(searchData.companies.filter(c => c.leadScore >= 70).length / searchData.companies.length * 100) : undefined}
           />
           <ProviderHealthCard />
           <UsageCard />
