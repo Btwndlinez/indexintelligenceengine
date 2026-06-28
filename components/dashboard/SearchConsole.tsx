@@ -9,11 +9,20 @@ import type { SearchResult } from '@/types/search';
 interface SearchConsoleProps {
   onResults: (data: { companies: SearchResult[]; count: number; industry?: string }) => void;
   onSearchStart?: () => void;
+  vertical?: string;
+  onVerticalChange?: (v: string) => void;
+  zip?: string;
+  onZipChange?: (z: string) => void;
 }
 
-export default function SearchConsole({ onResults, onSearchStart }: SearchConsoleProps) {
-  const [vertical, setVertical] = useState('slurry_concrete');
-  const [zip, setZip] = useState('');
+export default function SearchConsole({ onResults, onSearchStart, vertical: controlledVertical, onVerticalChange, zip: controlledZip, onZipChange }: SearchConsoleProps) {
+  const [internalVertical, setInternalVertical] = useState('slurry_concrete');
+  const [internalZip, setInternalZip] = useState('');
+
+  const vertical = controlledVertical ?? internalVertical;
+  const setVertical = onVerticalChange ?? setInternalVertical;
+  const zip = controlledZip ?? internalZip;
+  const setZip = onZipChange ?? setInternalZip;
   const [radius, setRadius] = useState('10');
   const [signals, setSignals] = useState('slurry, concrete, pump');
   const [loading, setLoading] = useState(false);
