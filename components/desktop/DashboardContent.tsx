@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2 } from 'lucide-react';
 import MetricCard, { MetricCardLoading } from '@/components/dashboard/MetricCard';
 import SearchConsole from '@/components/dashboard/SearchConsole';
 import ResultsTable from '@/components/dashboard/ResultsTable';
@@ -15,7 +14,7 @@ interface SearchData {
   industry?: string;
 }
 
-export default function Dashboard() {
+export default function DashboardContent() {
   const [metrics, setMetrics] = useState<any>(null);
   const [metricsLoading, setMetricsLoading] = useState(true);
   const [searchData, setSearchData] = useState<SearchData | null>(null);
@@ -49,7 +48,6 @@ export default function Dashboard() {
 
   return (
     <div className="w-full max-w-[1400px] mx-auto space-y-6">
-      {/* KPI ROW */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {metricsLoading
           ? Array.from({ length: 4 }).map((_, i) => <MetricCardLoading key={i} />)
@@ -57,12 +55,10 @@ export default function Dashboard() {
         }
       </div>
 
-      {/* SEARCH CONSOLE */}
       <div className="w-full relative z-10">
         <SearchConsole onResults={handleResults} onSearchStart={handleSearchStart} />
       </div>
 
-      {/* RESULTS + INTELLIGENCE SPLIT */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 lg:col-span-8 w-full min-w-0 overflow-hidden">
           <div className="flex items-center justify-between mb-4">
