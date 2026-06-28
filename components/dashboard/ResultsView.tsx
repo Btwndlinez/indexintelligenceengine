@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import ResultsTable from './ResultsTable';
 import type { SearchResult } from '@/types/search';
@@ -10,6 +11,8 @@ interface ResultsViewProps {
 }
 
 function ResultsCards({ results }: { results: SearchResult[] }) {
+  const router = useRouter();
+
   return (
     <div className="space-y-3">
       {results.map((r) => (
@@ -34,7 +37,7 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
               Call
             </a>
             <button
-              onClick={() => window.location.href = `/company/${r.id}`}
+              onClick={() => router.push(`/company/${r.id}`)}
               className="flex-1 rounded-lg bg-red py-2 text-xs font-semibold text-white"
             >
               Details
