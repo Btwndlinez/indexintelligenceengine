@@ -29,16 +29,13 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-300 transition-colors mb-6">
-          ← Back to Home
-        </Link>
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
-        <div className="flex items-center gap-2 mb-8">
+        <Link href="/" className="flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
             <span className="text-white font-bold text-sm">IIE</span>
           </div>
           <span className="text-white font-semibold">Index Intelligence Engine</span>
-        </div>
+        </Link>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -81,6 +78,11 @@ export default function LoginPage() {
         <p className="mt-6 text-xs text-gray-500 text-center">
           Powered by Supabase Auth
         </p>
+        <div className="mt-6 pt-4 border-t border-gray-800 text-center">
+          <Link href="/" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     </div>
     </div>
