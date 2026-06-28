@@ -78,11 +78,6 @@ export default function LoginPage() {
         <p className="mt-6 text-xs text-gray-500 text-center">
           Powered by Supabase Auth
         </p>
-        <div className="mt-6 pt-4 border-t border-gray-800 text-center">
-          <Link href="/" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
-            ← Back to Home
-          </Link>
-        </div>
       </div>
     </div>
     </div>
