@@ -29,7 +29,7 @@ export class RegulatoryProvider implements DiscoveryProvider {
           zipCode: '95815',
           latitude: 38.595,
           longitude: -121.430,
-          website: 'cretecrush.com',
+          website: 'cretecrush.net',
           phone: '916-555-0199',
           notes: 'CalRecycle SWIS Permit. Approved for concrete slurry recycling, concrete reclaiming, concrete washout, and slurry disposal.',
           source: this.name,
