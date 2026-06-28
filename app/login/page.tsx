@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -27,7 +28,11 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
-      <div className="w-full max-w-sm bg-[#111] border border-gray-800 rounded-2xl p-8">
+      <div className="w-full max-w-sm">
+        <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-300 transition-colors mb-6">
+          ← Back to Home
+        </Link>
+        <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
         <div className="flex items-center gap-2 mb-8">
           <div className="h-8 w-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
             <span className="text-white font-bold text-sm">IIE</span>
@@ -77,6 +82,7 @@ export default function LoginPage() {
           Powered by Supabase Auth
         </p>
       </div>
+    </div>
     </div>
   );
 }

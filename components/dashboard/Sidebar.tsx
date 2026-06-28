@@ -12,7 +12,7 @@ const navItems = [
   ]},
   { section: 'SALES', items: [
     { icon: Layers, label: 'Campaigns', href: '/dashboard/campaigns' },
-    { icon: Phone, label: 'Outreach', href: '/dashboard/outreach' },
+    { icon: Phone, label: 'Outreach', href: '/login' },
     { icon: BarChart3, label: 'Reports', href: '/dashboard/reports' },
   ]},
   { section: 'ADMIN', items: [
