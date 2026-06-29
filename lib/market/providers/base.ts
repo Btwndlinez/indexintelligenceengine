@@ -6,6 +6,7 @@ export interface DiscoveryParams {
   lat?: number;
   lng?: number;
   radius?: number;
+  searchQueries?: string[];
 }
 
 export interface DiscoveryProvider {

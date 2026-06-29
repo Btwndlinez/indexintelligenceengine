@@ -30,6 +30,7 @@ export class IndexIntelligenceEngine {
           lat: zipCoords?.lat,
           lng: zipCoords?.lng,
           radius: filters.radius,
+          searchQueries: config.searchQueries,
         }).catch(err => {
           console.error(`[${provider.name}] search failed:`, err);
           return [] as Partial<Company>[];

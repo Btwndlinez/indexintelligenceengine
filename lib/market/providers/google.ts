@@ -10,13 +10,15 @@ export class GooglePlacesProvider implements DiscoveryProvider {
     if (!apiKey) return [];
 
     const allResults: Partial<Company>[] = [];
-    const searchQueries = [
-      'concrete slurry recycling',
-      'concrete washout',
-      'slurry disposal',
-      'ready mix reclaiming',
-      'concrete reclaiming',
-    ];
+    const searchQueries = params.searchQueries?.length
+      ? params.searchQueries
+      : [
+          'concrete slurry recycling',
+          'concrete washout',
+          'slurry disposal',
+          'ready mix reclaiming',
+          'concrete reclaiming',
+        ];
 
     for (const query of searchQueries) {
       const textQuery = `${query} ${params.zip}`;

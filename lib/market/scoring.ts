@@ -44,8 +44,8 @@ export function calculateLeadScore(
     }
   }
 
-  // 4. Baseline profile weights — only awarded if relevant signals found or regulatory permit held
-  const hasMatch = matchedSignals.length > 0 || !!company.hasRegulatoryPermit;
+  // 4. Baseline profile weights — only awarded if relevant signals found
+  const hasMatch = matchedSignals.length > 0;
 
   if (hasMatch) {
     if (company.phone) score += config.scoringWeights.hasPhone;
