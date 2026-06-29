@@ -21,7 +21,7 @@ export default function SearchConsole({
   zip: controlledZip,
   onZipChange,
 }: SearchConsoleProps) {
-  const [internalVertical, setInternalVertical] = useState('slurry_concrete');
+  const [internalVertical, setInternalVertical] = useState('');
   const [internalZip, setInternalZip] = useState('');
 
   const vertical = controlledVertical ?? internalVertical;
@@ -36,6 +36,10 @@ export default function SearchConsole({
   const handleSearch = async () => {
     if (!zip.trim()) {
       setError('Enter a ZIP code to begin search.');
+      return;
+    }
+    if (!vertical) {
+      setError('Select an Index to search.');
       return;
     }
 
@@ -107,13 +111,14 @@ export default function SearchConsole({
           <div>
             <label className="field-label">
               <Crosshair className="w-4 h-4" />
-              Vertical
+              Index
             </label>
             <select
               value={vertical}
               onChange={e => setVertical(e.target.value)}
               className="field-input"
             >
+              <option value="" disabled>(Select)</option>
               <option value="asbestos_abatement">Asbestos & Lead Abatement</option>
               <option value="backflow_testing">Backflow Prevention Testing</option>
               <option value="grease_trap">Commercial Grease Trap Pumping</option>
