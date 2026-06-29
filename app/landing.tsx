@@ -125,13 +125,13 @@ function LandingInner() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center flex-nowrap whitespace-nowrap">
             {navLinks.map((l, i) => (
               <Fragment key={l.label}>
-                {i > 0 && <span className="text-sm" style={{ color: 'var(--color-muted)' }}> | </span>}
+                {i > 0 && <span className="text-sm mx-1" style={{ color: 'var(--color-muted)' }}>|</span>}
                 <a
                   href={l.href}
-                  className="px-3 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition-colors"
+                  className="px-2 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition-colors"
                   style={{ color: 'var(--color-muted)' }}
                   onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text)')}
                   onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-muted)')}
