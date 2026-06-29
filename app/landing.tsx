@@ -9,6 +9,7 @@ import {
 import Link from 'next/link';
 import { ThemeProvider } from '@/components/shared/ThemeProvider';
 import ThemeToggle from '@/components/shared/ThemeToggle';
+import DailyIntelligenceHub from '@/components/dashboard/DailyIntelligenceHub';
 
 /* ─── nav ─────────────────────────────────────────────────────── */
 const navLinks = [
@@ -333,6 +334,15 @@ function LandingInner() {
       </section>
 
       {/* ───── PALANTIR-STYLE DIVIDER ───── */}
+      <div className="palantir-rule" />
+
+      {/* ───── DAILY INTELLIGENCE HUB ───── */}
+      <section className="py-24 md:py-36">
+        <div className="max-w-[1400px] mx-auto px-5 md:px-8">
+          <DailyIntelligenceHub />
+        </div>
+      </section>
+
       <div className="palantir-rule" />
 
       {/* ───── HOW IT WORKS ───── */}
