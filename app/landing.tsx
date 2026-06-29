@@ -70,7 +70,7 @@ const verticals = [
   { name: 'Industrial', status: 'Beta', detail: 'Manufacturing, heavy equipment, logistics' },
   { name: 'Energy', status: 'Q3 2026', detail: 'Utilities, renewables, pipeline' },
   { name: 'Hospitality', status: 'Q4 2026', detail: 'Hotels, restaurants, facilities' },
-  { name: 'Events', status: 'Q4 2026', detail: 'Staging, AV, production services' },
+  { name: 'Equipment', status: 'Q4 2026', detail: 'Equipment rentals' },
 ];
 
 /* ─── component ────────────────────────────────────────────────── */
