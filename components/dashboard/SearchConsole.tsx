@@ -117,9 +117,6 @@ export default function SearchConsole({
               className="field-input"
             >
               <option value="slurry_concrete">Slurry / Concrete</option>
-              <option value="construction">Construction</option>
-              <option value="industrial">Industrial</option>
-              <option value="energy">Energy</option>
             </select>
           </div>
 
