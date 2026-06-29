@@ -86,19 +86,42 @@ export class IndexIntelligenceEngine {
             ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, record.latitude, record.longitude) * 10) / 10
             : undefined;
 
-        const text = `${record.companyName || ''} ${record.notes || ''} ${record.capabilitySummary || ''} ${record.address || ''}`;
+        const text = `${record.companyName || ''} ${record.notes || ''} ${record.capabilitySummary || ''} ${record.address || ''} ${record.city || ''} ${record.state || ''}`;
         const result = calculateLeadScore(record, config, text, distance);
         base.enrichmentScore = result.score;
         base.priority = result.priority;
         base.distanceMiles = distance;
+
+        if (result.score < 40 || result.priority === 'D' || result.negativeHits.length >= 1) {
+          continue;
+        }
+
         finalizedCompanies.push(base as Company);
         continue;
       }
 
+      // Stage 1: Fast pre-filter before Apollo (saves API credits)
+      const precheckText = `${record.companyName || ''} ${record.notes || ''} ${record.address || ''} ${record.city || ''} ${record.state || ''}`;
+      const precheck = this.signalExtractor.extract(precheckText, config.signals, config.equipmentKeywords);
+      if (!precheck.hasSignals || precheck.negativeHits.length > 0) {
+        continue;
+      }
+
       const apolloResult = await this.apolloAdapter.enrich(base);
+
+      // Stage 2: Rich signal extraction across all available data
+      const analysisText = `
+${base.companyName || ''}
+${base.notes || ''}
+${base.address || ''}
+${base.city || ''}
+${base.state || ''}
+${apolloResult.companyFields?.industry || ''}
+${apolloResult.companyFields?.description || ''}
+${apolloResult.companyFields?.website || ''}
+`;
       const signalResult = this.signalExtractor.extract(
-        base.companyName,
-        base.notes,
+        analysisText,
         config.signals,
         config.equipmentKeywords
       );
@@ -115,10 +138,27 @@ export class IndexIntelligenceEngine {
       }));
 
       const distance = mergedCompany.distanceMiles;
-      const text = `${mergedCompany.companyName || ''} ${mergedCompany.notes || ''} ${mergedCompany.capabilitySummary || ''} ${mergedCompany.address || ''}`;
-      const result = calculateLeadScore(mergedCompany, config, text, distance);
+      const scoringText = `
+${mergedCompany.companyName || ''}
+${mergedCompany.notes || ''}
+${mergedCompany.capabilitySummary || ''}
+${mergedCompany.address || ''}
+${mergedCompany.city || ''}
+${mergedCompany.state || ''}
+${apolloResult.companyFields?.industry || ''}
+${apolloResult.companyFields?.description || ''}
+`;
+      const result = calculateLeadScore(mergedCompany, config, scoringText, distance);
       mergedCompany.enrichmentScore = result.score;
       mergedCompany.priority = result.priority;
+
+      // Stage 3: Hard filter garbage after scoring
+      if (result.score < 40 || result.priority === 'D' || result.negativeHits.length >= 1) {
+        console.log(`[FILTERED] ${mergedCompany.companyName} — score=${result.score} priority=${result.priority} negatives=${result.negativeHits.join(',')}`);
+        continue;
+      }
+
+      console.log(`[SCORE] ${mergedCompany.companyName} — score=${result.score} priority=${result.priority} matched=${result.matchedSignals.join(',')}`);
 
       const contactId = `contact-${mergedCompany.id}`;
       finalizedCompanies.push(mergedCompany as Company);

@@ -101,6 +101,10 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'restaurant service', weight: 10 },
       ],
       negative: [
+        { term: 'concrete', weight: -60 },
+        { term: 'recycling', weight: -60 },
+        { term: 'landscape', weight: -50 },
+        { term: 'restoration', weight: -50 },
         { term: 'home kitchen', weight: -30 },
         { term: 'cooking oil', weight: -30 },
       ],
