@@ -66,7 +66,6 @@ export async function POST(req: NextRequest) {
       count: 0,
       companies: [],
       contacts: [],
-      _error: err?.message || String(err),
     });
   }
 }

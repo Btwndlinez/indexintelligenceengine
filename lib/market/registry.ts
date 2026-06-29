@@ -26,11 +26,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'slurry_concrete',
     industryName: 'Concrete Slurry Recycling & Disposal',
     searchQueries: [
-      'concrete recycling',
-      'concrete disposal',
-      'construction waste removal',
-      'demolition contractor',
-      'waste management service'
+      'concrete slurry recycling',
+      'concrete washout',
+      'slurry disposal',
+      'ready mix reclaiming',
+      'concrete reclaiming'
     ],
     targetNaicsCodes: ['562211', '238110', '562112'],
     equipmentKeywords: [
@@ -46,14 +46,12 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     signals: {
       primary: [
         { term: 'slurry', weight: 25 },
-        { term: 'concrete', weight: 25 },
         { term: 'concrete washout', weight: 25 },
         { term: 'concrete slurry', weight: 25 },
         { term: 'wash water', weight: 25 },
         { term: 'slurry recycling', weight: 25 },
       ],
       secondary: [
-        { term: 'recycling', weight: 10 },
         { term: 'dewatering', weight: 10 },
         { term: 'filter press', weight: 10 },
         { term: 'roll off', weight: 10 },
@@ -79,9 +77,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'grease_trap',
     industryName: 'Commercial Grease Trap Pumping & Recycling',
     searchQueries: [
-      'septic tank pumping', 'drain cleaning service',
-      'commercial plumbing', 'waste removal service',
-      'grease trap cleaning', 'restaurant grease disposal'
+      'grease trap pumping service', 'commercial grease trap',
+      'waste oil recycling', 'restaurant grease disposal', 'yellow grease collection'
     ],
     targetNaicsCodes: ['562219', '562111', '562998'],
     equipmentKeywords: [
@@ -95,7 +92,6 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
-        { term: 'grease', weight: 25 },
         { term: 'grease trap', weight: 25 },
         { term: 'grease interceptor', weight: 25 },
         { term: 'FOG', weight: 25 },
@@ -174,9 +170,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'hydro_excavation',
     industryName: 'Hydro-Excavation & Non-Destructive Digging',
     searchQueries: [
-      'excavation contractor', 'utility contractor',
-      'underground construction', 'trenching services',
-      'vacuum truck service', 'hydro excavation service'
+      'hydro excavation service', 'vacuum excavation contractor',
+      'utility potholing', 'daylighting utilities', 'non-destructive digging'
     ],
     targetNaicsCodes: ['562998', '238910', '562119'],
     equipmentKeywords: [
@@ -350,9 +345,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'marine_construction',
     industryName: 'Heavy Marine & Dock Infrastructure',
     searchQueries: [
-      'dock builder', 'marine contractor',
-      'waterfront construction', 'pile driving contractor',
-      'marine construction contractor', 'seawall repair construction'
+      'marine construction contractor', 'seawall repair construction',
+      'industrial dock building', 'commercial dredging service',
+      'bulkhead construction'
     ],
     targetNaicsCodes: ['237990', '238910'],
     equipmentKeywords: [
@@ -437,8 +432,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     industryName: 'Stormwater Compliance / SWPPP',
     searchQueries: [
       'SWPPP inspection', 'stormwater compliance',
-      'construction runoff inspection',
-      'environmental consulting', 'construction site inspection'
+      'construction runoff inspection'
     ],
     targetNaicsCodes: ['541620', '562910'],
     equipmentKeywords: [
@@ -452,14 +446,12 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       primary: [
         { term: 'SWPPP', weight: 25 },
         { term: 'stormwater', weight: 25 },
-        { term: 'compliance', weight: 25 },
         { term: 'erosion control', weight: 25 },
       ],
       secondary: [
         { term: 'BMP', weight: 10 },
         { term: 'NPDES', weight: 10 },
         { term: 'runoff', weight: 10 },
-        { term: 'environmental', weight: 10 },
         { term: 'EPA', weight: 10 },
         { term: 'OSHA', weight: 10 },
       ],
@@ -518,9 +510,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'tank_testing',
     industryName: 'Underground Tank Testing',
     searchQueries: [
-      'environmental testing', 'fuel tank service',
-      'oil tank testing', 'storage tank services',
-      'compliance testing', 'tank leak detection'
+      'UST testing', 'underground tank compliance', 'tank leak detection'
     ],
     targetNaicsCodes: ['541380', '562910'],
     equipmentKeywords: [
@@ -564,11 +554,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'elevator_inspection',
     industryName: 'Elevator Inspection & Certification',
     searchQueries: [
-      'elevator inspection',
-      'elevator maintenance service',
-      'commercial elevator repair',
-      'vertical transportation services',
-      'lift safety certification'
+      'elevator inspection', 'elevator certification', 'lift safety testing'
     ],
     targetNaicsCodes: ['238290', '541350'],
     equipmentKeywords: [
@@ -580,7 +566,6 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
-        { term: 'elevator', weight: 25 },
         { term: 'elevator inspection', weight: 25 },
         { term: 'lift certification', weight: 25 },
         { term: 'elevator testing', weight: 25 },
@@ -606,8 +591,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     industryName: 'HVAC Test & Balance',
     searchQueries: [
       'HVAC test and balance', 'air balance contractor',
-      'commercial air balancing', 'commercial HVAC services',
-      'HVAC contractor commercial'
+      'commercial air balancing'
     ],
     targetNaicsCodes: ['238220'],
     equipmentKeywords: [
@@ -619,7 +603,6 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
-        { term: 'HVAC', weight: 25 },
         { term: 'test and balance', weight: 25 },
         { term: 'air balancing', weight: 25 },
         { term: 'HVAC balancing', weight: 25 },
@@ -627,9 +610,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       secondary: [
         { term: 'CFM', weight: 10 },
         { term: 'airflow testing', weight: 10 },
-        { term: 'TAB', weight: 10 },
-        { term: 'air balance', weight: 10 },
-        { term: 'balancing', weight: 10 },
+        { term: 'TAB contractor', weight: 10 },
       ],
       negative: [
         { term: 'window AC', weight: -30 },
@@ -796,11 +777,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'generator_testing',
     industryName: 'Emergency Generator Load Bank Testing',
     searchQueries: [
-      'generator load bank testing',
-      'emergency generator service',
-      'commercial generator maintenance',
-      'backup power systems',
-      'diesel generator repair'
+      'generator load bank testing', 'commercial emergency generator service',
+      'critical backup generator testing'
     ],
     targetNaicsCodes: ['811310', '238210'],
     equipmentKeywords: [
@@ -812,7 +790,6 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
-        { term: 'generator', weight: 25 },
         { term: 'generator testing', weight: 25 },
         { term: 'load bank', weight: 25 },
         { term: 'emergency generator', weight: 25 },

@@ -53,7 +53,7 @@ export class GooglePlacesProvider implements DiscoveryProvider {
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
-        'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.location,places.internationalPhoneNumber,places.websiteUri,places.primaryType,places.types'
+        'X-Goog-FieldMask': 'places.id,places.displayName,places.formattedAddress,places.location,places.internationalPhoneNumber,places.websiteUri,places.primaryType'
       },
       body: JSON.stringify(body)
     });
@@ -85,18 +85,12 @@ export class GooglePlacesProvider implements DiscoveryProvider {
         ? Math.round(haversineDistance(zipLat, zipLng, lat, lng) * 10) / 10
         : undefined;
 
-      const googleType = (p.primaryType || '').replace(/_/g, ' ');
-      const googleTypes = (p.types || [])
-        .filter((t: string) => t !== 'establishment' && t !== 'point_of_interest')
-        .map((t: string) => t.replace(/_/g, ' '));
-      const typeContext = [googleType, ...googleTypes].filter(Boolean).join(', ');
       return {
         id: p.id,
         companyName: p.displayName?.text || 'Unindexed Business',
         address: p.formattedAddress,
         phone: p.internationalPhoneNumber,
         website: p.websiteUri,
-        notes: typeContext || undefined,
         latitude: lat,
         longitude: lng,
         distanceMiles,

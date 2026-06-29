@@ -1,6 +1,5 @@
 import { Company } from '@/types/company';
 import { VerticalConfig } from '@/types/config';
-import { positiveMatch, negativeMatch } from './signalMatch';
 
 export interface ScoreResult {
   score: number;
@@ -19,9 +18,15 @@ export function calculateLeadScore(
   const matchedSignals: string[] = [];
   const negativeHits: string[] = [];
 
+  const checkSignal = (term: string) => {
+    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedTerm}\\b`, 'i');
+    return regex.test(textToAnalyze);
+  };
+
   // 1. Primary signals — strongest buyer intent
   for (const sig of config.signals.primary) {
-    if (positiveMatch(sig.term, textToAnalyze)) {
+    if (checkSignal(sig.term)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
     }
@@ -29,15 +34,15 @@ export function calculateLeadScore(
 
   // 2. Secondary signals — related equipment/services
   for (const sig of config.signals.secondary) {
-    if (positiveMatch(sig.term, textToAnalyze)) {
+    if (checkSignal(sig.term)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
     }
   }
 
-  // 3. Negative / false positive signals — strict phrase match only
+  // 3. Negative / false positive signals
   for (const sig of config.signals.negative) {
-    if (negativeMatch(sig.term, textToAnalyze)) {
+    if (checkSignal(sig.term)) {
       score += sig.weight;
       negativeHits.push(sig.term);
     }
@@ -64,9 +69,9 @@ export function calculateLeadScore(
 
   // 5. Determine priority tier
   let priority: 'A' | 'B' | 'C' | 'D';
-  if (score >= 100) priority = 'A';
-  else if (score >= 60) priority = 'B';
-  else if (score >= 30) priority = 'C';
+  if (score >= 90) priority = 'A';
+  else if (score >= 50) priority = 'B';
+  else if (score >= 20) priority = 'C';
   else priority = 'D';
 
   if (score < 0) priority = 'D';

@@ -1,5 +1,4 @@
 import { SignalLayers } from '@/types/config';
-import { positiveMatch, negativeMatch } from './signalMatch';
 
 export class KeywordSignalExtractor {
   extract(
@@ -12,23 +11,25 @@ export class KeywordSignalExtractor {
     matchedSignals: string[];
     negativeHits: string[];
   } {
+    const normalized = (text || '').toLowerCase();
+
     const matched = new Set<string>();
     const negatives = new Set<string>();
 
     for (const s of signals.primary) {
-      if (positiveMatch(s.term, text)) matched.add(s.term);
+      if (normalized.includes(s.term.toLowerCase())) matched.add(s.term);
     }
 
     for (const s of signals.secondary) {
-      if (positiveMatch(s.term, text)) matched.add(s.term);
+      if (normalized.includes(s.term.toLowerCase())) matched.add(s.term);
     }
 
     for (const keyword of equipmentKeywords) {
-      if (positiveMatch(keyword, text)) matched.add(keyword);
+      if (normalized.includes(keyword.toLowerCase())) matched.add(keyword);
     }
 
     for (const s of signals.negative) {
-      if (negativeMatch(s.term, text)) negatives.add(s.term);
+      if (normalized.includes(s.term.toLowerCase())) negatives.add(s.term);
     }
 
     return {
