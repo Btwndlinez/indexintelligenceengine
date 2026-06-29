@@ -13,9 +13,11 @@ import DailyIntelligenceHub from '@/components/dashboard/DailyIntelligenceHub';
 
 /* ─── nav ─────────────────────────────────────────────────────── */
 const navLinks = [
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Engines', href: '#engines' },
+  { label: 'Daily Intelligence', href: '#daily' },
+  { label: 'Active Bids', href: '#daily' },
+  { label: 'Compliance', href: '#daily' },
   { label: 'Verticals', href: '#verticals' },
+  { label: 'Indexes', href: '#engines' },
 ];
 
 /* ─── steps ───────────────────────────────────────────────────── */
@@ -337,7 +339,7 @@ function LandingInner() {
       <div className="palantir-rule" />
 
       {/* ───── DAILY INTELLIGENCE HUB ───── */}
-      <section className="py-24 md:py-36">
+      <section id="daily" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
           <DailyIntelligenceHub landing />
         </div>
