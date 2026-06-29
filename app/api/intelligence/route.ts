@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getCachedFeed, setCachedFeed } from '@/lib/intelligence/cache';
 
 export async function POST(req: NextRequest) {
   try {
@@ -6,6 +7,20 @@ export async function POST(req: NextRequest) {
     const vertical = req.headers.get('x-iie-client-context') || 'slurry_concrete';
     const state = body.state || 'CA';
     const city = body.city || 'Hayward';
+
+    const cachedBids = await getCachedFeed(vertical, state, 'bids');
+    const cachedNews = await getCachedFeed(vertical, state, 'news');
+    const cachedCompliance = await getCachedFeed(vertical, state, 'compliance');
+
+    if (cachedBids && cachedNews && cachedCompliance) {
+      return NextResponse.json({
+        success: true,
+        source: 'cache',
+        bids: cachedBids,
+        news: cachedNews,
+        compliance: cachedCompliance,
+      });
+    }
 
     const feed = getDefaultFeed(vertical, state, city);
 
@@ -17,40 +32,9 @@ Generate data specific to the user's Vertical: "${vertical}", State: "${state}",
 
 You must return a valid JSON object matching this schema:
 {
-  "bids": [
-    {
-      "id": "string",
-      "title": "string",
-      "agency": "string",
-      "valueEstimate": "string",
-      "deadline": "YYYY-MM-DD",
-      "description": "string",
-      "difficulty": "Easy" | "Medium" | "Complex",
-      "actionUrl": "string"
-    }
-  ],
-  "news": [
-    {
-      "id": "string",
-      "title": "string",
-      "source": "string",
-      "publishedAt": "Relative time (e.g., '14 hours ago')",
-      "summary": "string",
-      "impact": "High" | "Medium" | "Low",
-      "actionableTakeaway": "string"
-    }
-  ],
-  "compliance": [
-    {
-      "id": "string",
-      "title": "string",
-      "authority": "string (e.g., 'CalOSHA', 'Texas TCEQ')",
-      "effectiveDate": "YYYY-MM-DD",
-      "penaltyRisk": "string (e.g., '$15,000 fine per day')",
-      "summary": "string",
-      "requiredAction": "string"
-    }
-  ]
+  "bids": [...],
+  "news": [...],
+  "compliance": [...]
 }`;
 
       const userPrompt = `Generate the daily dashboard items for vertical "${vertical}" in ${city}, ${state}. Ensure the municipal bids, news, and regulatory codes are highly realistic for this industry.`;
@@ -73,16 +57,20 @@ You must return a valid JSON object matching this schema:
         signal: AbortSignal.timeout(5000)
       })
         .then(res => res.json())
-        .then(raw => {
+        .then(async raw => {
           const aiFeed = JSON.parse(raw.choices[0].message.content);
-          if (aiFeed && aiFeed.bids) {
-            console.log('[Intelligence] DeepSeek enrichment received');
-          }
+          if (!aiFeed || !aiFeed.bids) return;
+          await Promise.all([
+            setCachedFeed(vertical, state, 'bids', aiFeed.bids),
+            setCachedFeed(vertical, state, 'news', aiFeed.news),
+            setCachedFeed(vertical, state, 'compliance', aiFeed.compliance),
+          ]);
+          console.log('[Intelligence] DeepSeek enrichment cached');
         })
         .catch(err => console.warn('[Intelligence] DeepSeek enrichment failed:', err));
     }
 
-    return NextResponse.json({ success: true, ...feed });
+    return NextResponse.json({ success: true, source: 'default', ...feed });
   } catch (error: any) {
     console.error('[Daily Intelligence Route] Error:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

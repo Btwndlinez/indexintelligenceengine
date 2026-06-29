@@ -3,6 +3,7 @@ import { Company } from '@/types/company';
 import { StateScraper } from './scrapers/types';
 import { CalRecycleScraper } from './scrapers/calrecycle';
 import { TCEQScraper } from './scrapers/tceq';
+import { getCachedScraperResult, setCachedScraperResult } from '@/lib/scraper/cache';
 
 export class RegulatoryProvider implements DiscoveryProvider {
   name = 'regulatory_permit';
@@ -18,7 +19,14 @@ export class RegulatoryProvider implements DiscoveryProvider {
 
   async search(params: DiscoveryParams): Promise<Partial<Company>[]> {
     const state = getStateFromZip(params.zip);
-    
+    const vertical = params.vertical || 'slurry_concrete';
+
+    const cached = await getCachedScraperResult(state, vertical);
+    if (cached) {
+      console.log(`[RegulatoryProvider] Cache hit for ${state}:${vertical}`);
+      return cached;
+    }
+
     const scraper = this.scrapers.get(state);
     
     if (!scraper) {
@@ -28,6 +36,7 @@ export class RegulatoryProvider implements DiscoveryProvider {
 
     try {
       const result = await scraper.scrape(params);
+      await setCachedScraperResult(state, vertical, result.records);
       return result.records;
     } catch (error) {
       console.error(`[RegulatoryProvider] Scraper failed for ${state}:`, error);
