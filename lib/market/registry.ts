@@ -554,7 +554,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'elevator_inspection',
     industryName: 'Elevator Inspection & Certification',
     searchQueries: [
-      'elevator inspection', 'elevator certification', 'lift safety testing'
+      'elevator inspection',
+      'elevator maintenance service',
+      'commercial elevator repair',
+      'vertical transportation services',
+      'lift safety certification'
     ],
     targetNaicsCodes: ['238290', '541350'],
     equipmentKeywords: [
@@ -777,8 +781,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'generator_testing',
     industryName: 'Emergency Generator Load Bank Testing',
     searchQueries: [
-      'generator load bank testing', 'commercial emergency generator service',
-      'critical backup generator testing'
+      'generator load bank testing',
+      'emergency generator service',
+      'commercial generator maintenance',
+      'backup power systems',
+      'diesel generator repair'
     ],
     targetNaicsCodes: ['811310', '238210'],
     equipmentKeywords: [
