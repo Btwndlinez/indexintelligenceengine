@@ -53,24 +53,26 @@ export default function Sidebar({ slim = false }: SidebarProps) {
         className="h-20 flex items-center justify-center gap-3 border-b shrink-0 px-4"
         style={{ borderColor: 'var(--color-border)' }}
       >
-        <div
-          className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ background: 'var(--color-red)' }}
-        >
-          <Zap className="w-5 h-5 text-white" fill="white" />
-        </div>
-        {!slim && (
-          <span
-            className="font-black text-lg leading-none"
-            style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              letterSpacing: '-0.01em',
-              color: 'var(--color-text)',
-            }}
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+            style={{ background: 'var(--color-red)' }}
           >
-            HHR
-          </span>
-        )}
+            <Zap className="w-5 h-5 text-white" fill="white" />
+          </div>
+          {!slim && (
+            <span
+              className="font-black text-lg leading-none"
+              style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                letterSpacing: '-0.01em',
+                color: 'var(--color-text)',
+              }}
+            >
+              HHR
+            </span>
+          )}
+        </Link>
       </div>
 
       {/* Nav */}
