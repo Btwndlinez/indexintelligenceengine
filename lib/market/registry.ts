@@ -242,6 +242,281 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
+  },
+
+  concrete: {
+    id: 'concrete',
+    slug: 'concrete',
+    industryName: 'Concrete Services',
+    searchQueries: [
+      'concrete contractor commercial', 'concrete pumping service',
+      'ready mix concrete delivery', 'industrial concrete work',
+      'concrete foundation contractor'
+    ],
+    targetNaicsCodes: ['238110', '327320'],
+    equipmentKeywords: [
+      'concrete pump', 'concrete mixer', 'concrete batch plant',
+      'concrete saw', 'power trowel', 'concrete form'
+    ],
+    negativeKeywords: [
+      'residential driveway', 'home repair', 'handyman',
+      'concrete bags retail', 'decorative concrete', 'stamped concrete patio'
+    ],
+    verticalSignals: [
+      'concrete contractor', 'concrete pumping', 'ready mix',
+      'concrete foundation', 'commercial concrete', 'industrial concrete'
+    ],
+    baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  stormwater_compliance: {
+    id: 'stormwater_compliance',
+    slug: 'stormwater_compliance',
+    industryName: 'Stormwater Compliance / SWPPP',
+    searchQueries: [
+      'SWPPP inspection', 'stormwater compliance',
+      'construction runoff inspection'
+    ],
+    targetNaicsCodes: ['541620', '562910'],
+    equipmentKeywords: [
+      'sampling kit', 'turbidity meter', 'pH meter',
+      'erosion control blanket', 'silt fence'
+    ],
+    negativeKeywords: [
+      'rain gutter cleaning', 'residential drainage', 'home waterproofing'
+    ],
+    verticalSignals: [
+      'SWPPP', 'stormwater', 'storm water', 'NPDES',
+      'erosion control', 'runoff monitoring'
+    ],
+    baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  industrial_wastewater: {
+    id: 'industrial_wastewater',
+    slug: 'industrial_wastewater',
+    industryName: 'Industrial Wastewater Treatment',
+    searchQueries: [
+      'industrial wastewater treatment', 'wastewater filtration services',
+      'industrial discharge treatment'
+    ],
+    targetNaicsCodes: ['221320', '562219'],
+    equipmentKeywords: [
+      'filter press', 'clarifier', 'chemical treatment system',
+      'wastewater pump', 'pH neutralization system'
+    ],
+    negativeKeywords: [
+      'residential septic repair', 'pool cleaning', 'home plumbing'
+    ],
+    verticalSignals: [
+      'industrial wastewater', 'wastewater treatment', 'industrial discharge',
+      'process wastewater', 'trade effluent'
+    ],
+    baseScoringWeights: { distanceWeight: 15, contactEnrichmentWeight: 10, assetSignalWeight: 20 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  tank_testing: {
+    id: 'tank_testing',
+    slug: 'tank_testing',
+    industryName: 'Underground Tank Testing',
+    searchQueries: [
+      'UST testing', 'underground tank compliance', 'tank leak detection'
+    ],
+    targetNaicsCodes: ['541380', '562910'],
+    equipmentKeywords: [
+      'leak detector', 'precision test gauge', 'tank tightness tester',
+      'soil vapor probe', 'groundwater monitor'
+    ],
+    negativeKeywords: [
+      'propane grill tank refill', 'home fuel tank', 'tank toys'
+    ],
+    verticalSignals: [
+      'UST', 'underground storage tank', 'tank testing',
+      'tank compliance', 'leak detection'
+    ],
+    baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  elevator_inspection: {
+    id: 'elevator_inspection',
+    slug: 'elevator_inspection',
+    industryName: 'Elevator Inspection & Certification',
+    searchQueries: [
+      'elevator inspection', 'elevator certification', 'lift safety testing'
+    ],
+    targetNaicsCodes: ['238290', '541350'],
+    equipmentKeywords: [
+      'load test weights', 'safety gear tester', 'door force gauge',
+      'elevator leveling tool', 'car top inspection station'
+    ],
+    negativeKeywords: [
+      'home stair lift', 'wheelchair lift', 'DIY repair'
+    ],
+    verticalSignals: [
+      'elevator inspection', 'elevator certification', 'lift inspection',
+      'elevator safety', 'vertical transportation'
+    ],
+    baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  hvac_balance: {
+    id: 'hvac_balance',
+    slug: 'hvac_balance',
+    industryName: 'HVAC Test & Balance',
+    searchQueries: [
+      'HVAC test and balance', 'air balance contractor',
+      'commercial air balancing'
+    ],
+    targetNaicsCodes: ['238220'],
+    equipmentKeywords: [
+      'anemometer', 'manometer', 'flow hood',
+      'balancing damper', 'air velocity meter'
+    ],
+    negativeKeywords: [
+      'home AC repair', 'window unit', 'portable AC'
+    ],
+    verticalSignals: [
+      'HVAC test and balance', 'air balance', 'air balancing',
+      'commercial HVAC', 'TAB contractor'
+    ],
+    baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  fire_sprinkler: {
+    id: 'fire_sprinkler',
+    slug: 'fire_sprinkler',
+    industryName: 'Fire Sprinkler Pressure Testing',
+    searchQueries: [
+      'fire sprinkler testing', 'hydrostatic pressure test sprinkler',
+      'commercial fire sprinkler inspection'
+    ],
+    targetNaicsCodes: ['238220', '561621'],
+    equipmentKeywords: [
+      'hydrostatic test pump', 'sprinkler head gauge', 'backflow preventer tester',
+      'flow test kit', 'fire alarm panel'
+    ],
+    negativeKeywords: [
+      'garden irrigation repair', 'residential lawn sprinkler system', 'plumbing drain unclogging'
+    ],
+    verticalSignals: [
+      'fire sprinkler', 'sprinkler testing', 'hydrostatic test',
+      'fire suppression', 'sprinkler inspection'
+    ],
+    baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  fire_extinguisher: {
+    id: 'fire_extinguisher',
+    slug: 'fire_extinguisher',
+    industryName: 'Fire Extinguisher Inspection & Filling',
+    searchQueries: [
+      'fire extinguisher recharge', 'commercial fire extinguisher inspection',
+      'fire extinguisher hydrotesting'
+    ],
+    targetNaicsCodes: ['423990', '561621', '811490'],
+    equipmentKeywords: [
+      'hydrostatic test unit', 'extinguisher fill station', 'dry chemical refill',
+      'CO2 fill manifold', 'pressure gauge'
+    ],
+    negativeKeywords: [
+      'buy smoke detector home', 'extinguisher mount bracket amazon', 'fire protection engineering degree'
+    ],
+    verticalSignals: [
+      'fire extinguisher', 'extinguisher inspection', 'extinguisher recharge',
+      'extinguisher hydrotest', 'portable extinguisher'
+    ],
+    baseScoringWeights: { distanceWeight: 15, contactEnrichmentWeight: 10, assetSignalWeight: 20 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  kitchen_exhaust: {
+    id: 'kitchen_exhaust',
+    slug: 'kitchen_exhaust',
+    industryName: 'Commercial Kitchen Hood Degreasing',
+    searchQueries: [
+      'commercial kitchen exhaust cleaning', 'restaurant hood degreasing',
+      'exhaust fan cleaning NFPA 96'
+    ],
+    targetNaicsCodes: ['561790', '926150'],
+    equipmentKeywords: [
+      'pressure washer', 'hood filter cart', 'exhaust fan cleaning tool',
+      'grease removal system', 'duct cleaning kit'
+    ],
+    negativeKeywords: [
+      'residential kitchen hood filter replacement', 'home cleaning service', 'maid service'
+    ],
+    verticalSignals: [
+      'kitchen exhaust', 'hood cleaning', 'restaurant hood',
+      'grease hood', 'exhaust degreasing', 'NFPA 96'
+    ],
+    baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  backflow_testing: {
+    id: 'backflow_testing',
+    slug: 'backflow_testing',
+    industryName: 'Backflow Prevention Testing',
+    searchQueries: [
+      'backflow certification testing', 'reduced pressure zone RPZ test',
+      'commercial backflow assembly inspector'
+    ],
+    targetNaicsCodes: ['238220', '541380'],
+    equipmentKeywords: [
+      'backflow test kit', 'pressure gauge', 'differential pressure meter',
+      'RPZ tester', 'double check valve tester'
+    ],
+    negativeKeywords: [
+      'residential water filtration pitcher', 'swimming pool backwash valve', 'sewer line replacement'
+    ],
+    verticalSignals: [
+      'backflow testing', 'backflow certification', 'RPZ testing',
+      'cross connection', 'backflow prevention'
+    ],
+    baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
+    createdAt: NOW,
+    providers: [google],
+  },
+
+  generator_testing: {
+    id: 'generator_testing',
+    slug: 'generator_testing',
+    industryName: 'Emergency Generator Load Bank Testing',
+    searchQueries: [
+      'generator load bank testing', 'commercial emergency generator service',
+      'critical backup generator testing'
+    ],
+    targetNaicsCodes: ['811310', '238210'],
+    equipmentKeywords: [
+      'load bank', 'generator analyzer', 'transfer switch tester',
+      'fuel polishing system', 'battery load tester'
+    ],
+    negativeKeywords: [
+      'portable generator camping sales', 'rv generator repair', 'home solar backup installation'
+    ],
+    verticalSignals: [
+      'generator testing', 'load bank testing', 'emergency generator',
+      'backup generator', 'generator maintenance'
+    ],
+    baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
+    createdAt: NOW,
+    providers: [google],
   }
 };
 

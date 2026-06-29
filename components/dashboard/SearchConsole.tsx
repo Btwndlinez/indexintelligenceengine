@@ -116,7 +116,25 @@ export default function SearchConsole({
               onChange={e => setVertical(e.target.value)}
               className="field-input"
             >
-              <option value="slurry_concrete">Slurry / Concrete</option>
+              <option value="asbestos_abatement">Asbestos & Lead Abatement</option>
+              <option value="backflow_testing">Backflow Prevention Testing</option>
+              <option value="grease_trap">Commercial Grease Trap Pumping</option>
+              <option value="kitchen_exhaust">Commercial Kitchen Hood Degreasing</option>
+              <option value="concrete">Concrete Services</option>
+              <option value="elevator_inspection">Elevator Inspection & Certification</option>
+              <option value="generator_testing">Emergency Generator Load Bank Testing</option>
+              <option value="fire_extinguisher">Fire Extinguisher Inspection & Filling</option>
+              <option value="fire_sprinkler">Fire Sprinkler Pressure Testing</option>
+              <option value="marine_construction">Heavy Marine & Dock Infrastructure</option>
+              <option value="hvac_balance">HVAC Test & Balance</option>
+              <option value="hydro_excavation">Hydro-Excavation & Non-Destructive Digging</option>
+              <option value="commercial_roofing">Industrial & Commercial Flat Roofing</option>
+              <option value="scrap_metal">Industrial Scrap Metal Processing</option>
+              <option value="industrial_wastewater">Industrial Wastewater Treatment</option>
+              <option value="medical_waste">Medical Waste Disposal</option>
+              <option value="slurry_concrete">Slurry</option>
+              <option value="stormwater_compliance">Stormwater Compliance / SWPPP</option>
+              <option value="tank_testing">Underground Tank Testing</option>
             </select>
           </div>
 
