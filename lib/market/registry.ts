@@ -57,6 +57,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'roll off', weight: 10 },
         { term: 'vacuum truck', weight: 10 },
         { term: 'pump', weight: 10 },
+        { term: 'OSHA', weight: 10 },
+        { term: 'EPA', weight: 10 },
       ],
       negative: [
         { term: 'driveway', weight: -30 },
@@ -98,7 +100,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'pumping', weight: 10 },
         { term: 'wastewater', weight: 10 },
         { term: 'hydro jetting', weight: 10 },
+        { term: 'vacuum truck', weight: 10 },
         { term: 'restaurant service', weight: 10 },
+        { term: 'OSHA', weight: 10 },
       ],
       negative: [
         { term: 'concrete', weight: -60 },
@@ -146,6 +150,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'demolition', weight: 10 },
         { term: 'air monitoring', weight: 10 },
         { term: 'encapsulation', weight: 10 },
+        { term: 'OSHA', weight: 10 },
+        { term: 'HAZWOPER', weight: 10 },
+        { term: 'EPA', weight: 10 },
       ],
       negative: [
         { term: 'diy kit', weight: -30 },
@@ -187,6 +194,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'utility potholing', weight: 10 },
         { term: 'daylighting', weight: 10 },
         { term: 'slurry excavation', weight: 10 },
+        { term: 'vactor', weight: 10 },
+        { term: 'OSHA', weight: 10 },
+        { term: 'EPA', weight: 10 },
       ],
       negative: [
         { term: 'landscaping', weight: -30 },
@@ -442,6 +452,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'BMP', weight: 10 },
         { term: 'NPDES', weight: 10 },
         { term: 'runoff', weight: 10 },
+        { term: 'EPA', weight: 10 },
+        { term: 'OSHA', weight: 10 },
       ],
       negative: [
         { term: 'gutter cleaning', weight: -30 },
@@ -479,6 +491,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'filtration', weight: 10 },
         { term: 'clarifier', weight: 10 },
         { term: 'discharge permit', weight: 10 },
+        { term: 'EPA', weight: 10 },
+        { term: 'OSHA', weight: 10 },
+        { term: 'NPDES', weight: 10 },
       ],
       negative: [
         { term: 'home septic', weight: -30 },
@@ -515,6 +530,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'compliance', weight: 10 },
         { term: 'fuel tank', weight: 10 },
         { term: 'tank monitoring', weight: 10 },
+        { term: 'EPA', weight: 10 },
+        { term: 'OSHA', weight: 10 },
       ],
       negative: [
         { term: 'recycling', weight: -60 },
@@ -781,6 +798,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'NFPA 110', weight: 10 },
         { term: 'backup power', weight: 10 },
         { term: 'diesel generator', weight: 10 },
+        { term: 'OSHA', weight: 10 },
       ],
       negative: [
         { term: 'camping generator', weight: -30 },
@@ -800,6 +818,9 @@ export async function getVerticalConfigByDomain(contextHeaderValue: string): Pro
 }
 
 export function isIrrelevant(company: Partial<{ companyName?: string; address?: string }>, negativeKeywords: string[]): boolean {
-  const text = `${company.companyName || ''} ${company.address || ''}`.toLowerCase();
-  return negativeKeywords.some(neg => text.includes(neg));
+  const nameText = (company.companyName || '').toLowerCase();
+  return negativeKeywords.some(neg => {
+    const regex = new RegExp(`\\b${neg.toLowerCase()}\\b`);
+    return regex.test(nameText);
+  });
 }

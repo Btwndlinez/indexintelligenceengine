@@ -18,11 +18,15 @@ export function calculateLeadScore(
   const matchedSignals: string[] = [];
   const negativeHits: string[] = [];
 
-  const lowerText = textToAnalyze.toLowerCase();
+  const checkSignal = (term: string) => {
+    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedTerm}\\b`, 'i');
+    return regex.test(textToAnalyze);
+  };
 
   // 1. Primary signals — strongest buyer intent
   for (const sig of config.signals.primary) {
-    if (lowerText.includes(sig.term.toLowerCase())) {
+    if (checkSignal(sig.term)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
     }
@@ -30,7 +34,7 @@ export function calculateLeadScore(
 
   // 2. Secondary signals — related equipment/services
   for (const sig of config.signals.secondary) {
-    if (lowerText.includes(sig.term.toLowerCase())) {
+    if (checkSignal(sig.term)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
     }
@@ -38,7 +42,7 @@ export function calculateLeadScore(
 
   // 3. Negative / false positive signals
   for (const sig of config.signals.negative) {
-    if (lowerText.includes(sig.term.toLowerCase())) {
+    if (checkSignal(sig.term)) {
       score += sig.weight;
       negativeHits.push(sig.term);
     }
@@ -55,8 +59,11 @@ export function calculateLeadScore(
 
     if (company.hasRegulatoryPermit) score += 15;
 
-    if (distanceMiles !== undefined && distanceMiles <= 25) {
-      score += config.scoringWeights.distanceFactor;
+    // Graduated distance scoring
+    if (distanceMiles !== undefined) {
+      if (distanceMiles <= 10) score += config.scoringWeights.distanceFactor * 1.5;
+      else if (distanceMiles <= 25) score += config.scoringWeights.distanceFactor;
+      else if (distanceMiles <= 50) score += config.scoringWeights.distanceFactor * 0.5;
     }
   }
 

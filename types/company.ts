@@ -8,7 +8,7 @@ export type CRMStatus =
   | 'WON'
   | 'LOST';
 
-export type PriorityGroup = 'A' | 'B' | 'C';
+export type PriorityGroup = 'A' | 'B' | 'C' | 'D';
 
 export type InteractionType = 'CALL' | 'EMAIL' | 'LINKEDIN' | 'NOTE';
 
