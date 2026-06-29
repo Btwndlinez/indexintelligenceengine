@@ -110,6 +110,7 @@ function LanguageToggle({ mobile }: { mobile?: boolean }) {
 function LandingInner() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -167,7 +168,7 @@ function LandingInner() {
                   onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text)')}
                   onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-muted)')}
                 >
-                  {l.label}
+                  {t(l.label)}
                 </a>
               </Fragment>
             ))}
@@ -182,14 +183,14 @@ function LandingInner() {
               className="px-5 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition-colors"
               style={{ color: 'var(--color-muted)' }}
             >
-              Login
+              {t('Login')}
             </Link>
             <a
               href="#cta"
               className="btn-primary"
               style={{ height: '44px', fontSize: '0.875rem', padding: '0 24px' }}
             >
-              Get Access
+              {t('Get Access')}
             </a>
           </div>
 
@@ -222,7 +223,7 @@ function LandingInner() {
                 className="block px-4 py-4 text-base font-semibold rounded-xl transition-colors"
                 style={{ color: 'var(--color-muted)' }}
               >
-                {l.label}
+                {t(l.label)}
               </a>
             ))}
             <div
@@ -236,7 +237,7 @@ function LandingInner() {
                 style={{ width: '100%', height: '56px' }}
                 onClick={() => setMobileOpen(false)}
               >
-                Login
+                {t('Login')}
               </Link>
               <a
                 href="#cta"
@@ -244,7 +245,7 @@ function LandingInner() {
                 style={{ width: '100%', height: '56px' }}
                 onClick={() => setMobileOpen(false)}
               >
-                Get Access →
+                {t('Get Access')} →
               </a>
             </div>
           </div>
@@ -287,7 +288,7 @@ function LandingInner() {
                 style={{ background: 'var(--color-red)' }}
               />
               <span className="section-label tracking-widest">
-                Construction Market Intelligence
+                {t('Construction Market Intelligence')}
               </span>
             </div>
 
@@ -296,8 +297,8 @@ function LandingInner() {
               className="text-hero mb-8"
               style={{ color: 'var(--color-text)' }}
             >
-              Find Every Job.<br />
-              <span style={{ color: 'var(--color-red)' }}>Win Every Bid.</span>
+              {t('Find Every Job')}.<br />
+              <span style={{ color: 'var(--color-red)' }}>{t('Win Every Bid')}.</span>
             </h1>
 
             {/* Sub — large, legible in sunlight */}
@@ -310,18 +311,18 @@ function LandingInner() {
                 fontWeight: 500,
               }}
             >
-              AI-powered market intelligence built for the field.
-              Search by ZIP. Score companies. Close more contracts —
-              whether you're on a job site at noon or running a night crew.
+              {t('AI-powered market intelligence built for the field.')}
+              {t('Search by ZIP. Score companies. Close more contracts —')}
+              {t('whether you\'re on a job site at noon or running a night crew.')}
             </p>
 
             {/* Feature pills */}
             <div className="flex flex-wrap gap-3 mb-12">
               {[
-                { icon: HardHat, label: 'Built for Construction' },
-                { icon: MapPin, label: 'Geo-Targeted Search' },
-                { icon: FileText, label: 'AI Bid Proposals' },
-                { icon: BarChart2, label: 'Live Lead Scoring' },
+                { icon: HardHat, label: t('Built for Construction') },
+                { icon: MapPin, label: t('Geo-Targeted Search') },
+                { icon: FileText, label: t('AI Bid Proposals') },
+                { icon: BarChart2, label: t('Live Lead Scoring') },
               ].map(({ icon: Icon, label }) => (
                 <div
                   key={label}
@@ -352,7 +353,7 @@ function LandingInner() {
                 className="btn-secondary"
                 style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', height: '64px', padding: '0 40px' }}
               >
-                Book a Demo
+                {t('Book a Demo')}
               </a>
             </div>
           </div>
@@ -462,7 +463,7 @@ function LandingInner() {
               </p>
               <div className="mt-10">
                 <Link href="/dashboard" className="btn-primary" style={{ width: '100%', maxWidth: '320px' }}>
-                  Open Dashboard <ArrowRight className="w-5 h-5" />
+                {t('Open Dashboard')} <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             </div>

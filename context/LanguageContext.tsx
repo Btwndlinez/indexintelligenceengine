@@ -55,6 +55,20 @@ const esDictionary: Record<string, string> = {
   'expiring state licenses': 'Licencias Estatales por Expirar',
   'municipal vendor search engine': 'Motor de Búsqueda de Proveedores Municipales',
   'high intent demand alerts': 'Alertas de Demanda de Alta Intención',
+  'construction market intelligence': 'Inteligencia de Mercado para la Construcción',
+  'find every job': 'Encuentre Cada Trabajo',
+  'win every bid': 'Gane Cada Licitación',
+  'ai-powered market intelligence built for the field.': 'Inteligencia de mercado impulsada por IA, construida para el campo.',
+  'search by zip. score companies. close more contracts —': 'Busque por código postal. Califique empresas. Cierre más contratos —',
+  'whether you\'re on a job site at noon or running a night crew.': 'ya sea que esté en un sitio de trabajo al mediodía o dirigiendo un equipo nocturno.',
+  'built for construction': 'Construido para la Construcción',
+  'geo-targeted search': 'Búsqueda Geo-Dirigida',
+  'ai bid proposals': 'Propuestas de Licitación con IA',
+  'live lead scoring': 'Puntuación de Clientes Potenciales en Vivo',
+  'open dashboard': 'Abrir Panel de Control',
+  'book a demo': 'Solicitar una Demostración',
+  'login': 'Iniciar Sesión',
+  'get access': 'Obtener Acceso',
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
