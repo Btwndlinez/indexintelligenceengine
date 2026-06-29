@@ -3,7 +3,7 @@
 import MetricCard from '@/components/dashboard/MetricCard';
 
 const markets = [
-  { name: 'Slurry / Concrete', region: 'San Francisco Bay Area', companies: '1,247', campaigns: 4 },
+  { name: 'Industry Index', region: 'San Francisco Bay Area', companies: '1,247', campaigns: 4 },
   { name: 'Construction', region: 'Los Angeles Metro', companies: '892', campaigns: 2 },
   { name: 'Industrial', region: 'Central Valley', companies: '456', campaigns: 1 },
 ];

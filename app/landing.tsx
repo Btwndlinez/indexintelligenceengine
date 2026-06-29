@@ -67,7 +67,7 @@ const engines = [
 
 /* ─── verticals ────────────────────────────────────────────────── */
 const verticals = [
-  { name: 'Slurry / Concrete', status: 'Live', detail: 'Pumping, ready-mix, soil stabilization' },
+  { name: 'Industry Index', status: 'Live', detail: 'Pumping, ready-mix, soil stabilization' },
   { name: 'Construction', status: 'Live', detail: 'General, earthworks, framing, specialty' },
   { name: 'Industrial', status: 'Beta', detail: 'Manufacturing, heavy equipment, logistics' },
   { name: 'Energy', status: 'Q3 2026', detail: 'Utilities, renewables, pipeline' },
