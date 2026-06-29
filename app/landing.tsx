@@ -68,7 +68,7 @@ const engines = [
 /* ─── verticals ────────────────────────────────────────────────── */
 const verticals = [
   { name: 'Industry Index', status: 'Live', detail: 'Slurry, Concrete, Asbestos, Medical Waste Disposal' },
-  { name: 'Construction', status: 'Live', detail: 'General, earthworks, framing, specialty' },
+  { name: 'Construction', status: 'Beta', detail: 'General, earthworks, framing, specialty' },
   { name: 'Industrial', status: 'Beta', detail: 'Manufacturing, heavy equipment, logistics' },
   { name: 'Energy', status: 'Q3 2026', detail: 'Utilities, renewables, pipeline' },
   { name: 'Hospitality', status: 'Q4 2026', detail: 'Hotels, restaurants, facilities' },
