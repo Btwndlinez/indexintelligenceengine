@@ -15,6 +15,7 @@ export class IndexIntelligenceEngine {
     config: VerticalConfig,
     organizationId?: string
   ): Promise<{ companies: Company[]; contacts: Contact[] }> {
+    try {
     const configWithProviders = config as VerticalConfigWithProviders;
     const providers = configWithProviders.providers || [];
 
@@ -195,6 +196,10 @@ ${apolloResult.companyFields?.notes || ''}
     });
 
     return { companies: finalizedCompanies, contacts: allContacts };
+    } catch (e) {
+      console.error('[CRITICAL] executeMarketDiscovery threw:', e);
+      return { companies: [], contacts: [] };
+    }
   }
 }
 
