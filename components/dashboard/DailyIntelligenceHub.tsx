@@ -206,7 +206,7 @@ Index Intelligence Partner`;
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-[10px] font-bold text-muted uppercase tracking-wider">{item.source}</span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${
+                    <span className={`text-xl px-3 py-1 rounded font-bold ${
                       item.impact === 'High' ? 'bg-red/10 text-red' : 'bg-surface text-muted'
                     }`}>
                       {item.impact} Impact
