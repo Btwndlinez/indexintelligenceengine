@@ -196,11 +196,20 @@ export default function SearchConsole({
 
         {/* Run button */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div
-            className="text-sm font-semibold"
-            style={{ color: 'var(--color-muted)' }}
-          >
-            {loading ? 'Scanning your market...' : 'Set parameters above and run discovery'}
+          <div className="flex flex-col gap-1">
+            <div
+              className="text-sm font-semibold"
+              style={{ color: 'var(--color-muted)' }}
+            >
+              {loading ? 'Scanning your market...' : 'Set parameters above and run discovery'}
+            </div>
+            {!loading && (
+              <div className="text-xs" style={{ color: 'var(--color-muted)' }}>
+                Grading: <span style={{ color: 'var(--color-red)' }}>A</span> = Good to go{' '}
+                <span style={{ color: 'var(--color-red)' }}>B</span> = Check website or call to verify{' '}
+                <span style={{ color: 'var(--color-red)' }}>C</span> = Call to verify
+              </div>
+            )}
           </div>
           <button
             onClick={handleSearch}

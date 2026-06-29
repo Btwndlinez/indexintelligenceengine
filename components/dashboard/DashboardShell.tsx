@@ -11,7 +11,8 @@ export default function DashboardShell() {
   const [searchLoading, setSearchLoading] = useState(false);
 
   const handleResults = useCallback((data: { companies: SearchResult[]; count: number }) => {
-    setSearchData(data);
+    const filtered = data.companies.filter(c => c.grade !== 'D');
+    setSearchData({ companies: filtered, count: filtered.length });
     setSearchLoading(false);
   }, []);
 
@@ -33,7 +34,7 @@ export default function DashboardShell() {
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: '1.375rem',
               letterSpacing: '0.06em',
-              color: 'var(--color-text)',
+              color: 'var(--color-red)',
             }}
           >
             Results
