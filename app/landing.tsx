@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import {
   Search, Database, Target, TrendingUp, Menu, X,
   ArrowRight, ChevronRight, Layers, MapPin, HardHat,
@@ -126,18 +126,20 @@ function LandingInner() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map(l => (
-              <a
-                key={l.label}
-                href={l.href}
-                className="px-5 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition-colors"
-                style={{ color: 'var(--color-muted)' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-muted)')}
-              >
-                {l.label}
-              </a>
+          <div className="hidden md:flex items-center">
+            {navLinks.map((l, i) => (
+              <Fragment key={l.label}>
+                {i > 0 && <span className="text-sm" style={{ color: 'var(--color-muted)' }}> | </span>}
+                <a
+                  href={l.href}
+                  className="px-3 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-lg transition-colors"
+                  style={{ color: 'var(--color-muted)' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-muted)')}
+                >
+                  {l.label}
+                </a>
+              </Fragment>
             ))}
           </div>
 
