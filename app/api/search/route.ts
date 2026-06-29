@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
       contacts,
       _pipeline: pipeline,
       _engineError: engineError,
+      _stack: (result as any)._stack,
     });
   } catch (err: any) {
     console.error("Core Engine Error:", err);

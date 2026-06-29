@@ -198,7 +198,8 @@ ${apolloResult.companyFields?.notes || ''}
     return { companies: finalizedCompanies, contacts: allContacts, _pipeline: { raw: candidatePool.length, filteredPool: filteredPool.length, scored: finalizedCompanies.length } } as any;
     } catch (e) {
       console.error('[CRITICAL] executeMarketDiscovery threw:', e);
-      return { companies: [], contacts: [], _error: String(e) } as any;
+      const errObj = e as any;
+      return { companies: [], contacts: [], _error: errObj?.message || String(e), _stack: errObj?.stack } as any;
     }
   }
 }
