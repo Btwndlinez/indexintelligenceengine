@@ -68,7 +68,7 @@ export default function Sidebar({ slim = false }: SidebarProps) {
               color: 'var(--color-text)',
             }}
           >
-            IIE
+            HHR
           </span>
         )}
       </div>

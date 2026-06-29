@@ -32,9 +32,9 @@ export default function LoginPage() {
         <div className="bg-[#111] border border-gray-800 rounded-2xl p-8">
         <Link href="/" className="flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
-            <span className="text-white font-bold text-sm">IIE</span>
+            <span className="text-white font-bold text-sm">HHR</span>
           </div>
-          <span className="text-white font-semibold">Index Intelligence Engine</span>
+          <span className="text-white font-semibold">Hard Hats Required</span>
         </Link>
 
         <form onSubmit={handleLogin} className="space-y-4">

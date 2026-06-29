@@ -45,7 +45,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
               className="font-black text-base"
               style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '-0.01em', color: 'var(--color-text)' }}
             >
-              IIE
+              HHR
             </span>
           </div>
           <Topbar mobile />

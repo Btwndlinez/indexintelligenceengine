@@ -115,10 +115,10 @@ function LandingInner() {
                 className="font-display text-lg tracking-tight"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900, letterSpacing: '-0.01em' }}
               >
-                IIE
+                HHR
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted)' }}>
-                Intelligence Engine
+                Hard Hats Required
               </span>
             </div>
           </Link>
@@ -612,7 +612,7 @@ function LandingInner() {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
               <ThemeToggle />
               <span className="text-sm" style={{ color: 'var(--color-muted)' }}>
-                © 2026 Index Intelligence Engine. All rights reserved.
+                © 2026 Hard Hats Required. All rights reserved.
               </span>
             </div>
           </div>
