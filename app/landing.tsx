@@ -16,8 +16,7 @@ const navLinks = [
   { label: 'Daily Intelligence', href: '#daily' },
   { label: 'Active Bids', href: '#daily' },
   { label: 'Compliance', href: '#daily' },
-  { label: 'Verticals', href: '#verticals' },
-  { label: 'Indexes', href: '#engines' },
+  { label: 'Market Intelligence', href: '#engines' },
 ];
 
 /* ─── steps ───────────────────────────────────────────────────── */
