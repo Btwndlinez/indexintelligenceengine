@@ -4,35 +4,65 @@ import { getCachedTranslation, setCachedTranslation } from '@/lib/translation/ca
 export async function POST(req: NextRequest) {
   try {
     const { text, target = 'es' } = await req.json();
+
     if (!text) {
-      return NextResponse.json({ error: 'Missing text' }, { status: 400 });
+      return NextResponse.json({ error: 'Missing text payload' }, { status: 400 });
     }
 
-    const cached = await getCachedTranslation(text, target);
-    if (cached !== null) {
-      return NextResponse.json({ success: true, translatedText: cached, source: 'cache' });
+    const isBatch = Array.isArray(text);
+    const textArray: string[] = isBatch ? text : [text];
+
+    const results: string[] = [];
+    const cacheMisses: { text: string; index: number }[] = [];
+
+    for (let i = 0; i < textArray.length; i++) {
+      const cached = await getCachedTranslation(textArray[i], target);
+      if (cached) {
+        results[i] = cached;
+      } else {
+        cacheMisses.push({ text: textArray[i], index: i });
+      }
     }
 
-    const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Translation service not configured' }, { status: 501 });
+    if (cacheMisses.length > 0) {
+      const queryStrings = cacheMisses.map(m => m.text);
+
+      const response = await fetch(
+        `https://translation.googleapis.com/language/translate/v2?key=${process.env.GOOGLE_TRANSLATE_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            q: queryStrings,
+            target,
+            format: 'text',
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Google Translate API Error: ${errText}`);
+      }
+
+      const data = await response.json();
+      const translations = data.data.translations;
+
+      for (let i = 0; i < cacheMisses.length; i++) {
+        const translatedText = translations[i].translatedText;
+        const originalIndex = cacheMisses[i].index;
+
+        results[originalIndex] = translatedText;
+
+        await setCachedTranslation(cacheMisses[i].text, target, translatedText);
+      }
     }
 
-    const response = await fetch(
-      `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ q: text, target }),
-      },
-    );
-
-    const data = await response.json();
-    const translated = data.data.translations[0].translatedText;
-
-    await setCachedTranslation(text, target, translated);
-
-    return NextResponse.json({ success: true, translatedText: translated, source: 'google' });
+    return NextResponse.json({
+      success: true,
+      translatedText: isBatch ? results : results[0],
+      source: cacheMisses.length === 0 ? 'cache' : 'hybrid',
+    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

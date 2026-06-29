@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ClientLayout from "./ClientLayout";
 
 export const metadata: Metadata = {
   title: "Index Intelligence Engine — Field-Grade Market Intelligence",
@@ -26,7 +27,7 @@ export default function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden">
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
