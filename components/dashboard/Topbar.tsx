@@ -1,15 +1,14 @@
 'use client';
 
-import { Bell, Sun, Moon } from 'lucide-react';
+import { Bell } from 'lucide-react';
+import LanguageToggle from '@/components/shared/LanguageToggle';
 import ThemeToggle from '@/components/shared/ThemeToggle';
-import { useTheme } from '@/components/shared/ThemeProvider';
 
 interface TopbarProps {
   mobile?: boolean;
 }
 
 export default function Topbar({ mobile = false }: TopbarProps) {
-  const { theme } = useTheme();
 
   /* ── Mobile: compact actions only (no search bar) ── */
   if (mobile) {
@@ -69,21 +68,7 @@ export default function Topbar({ mobile = false }: TopbarProps) {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Day / Night context label */}
-        <div
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold"
-          style={{
-            background: 'var(--color-surface2)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-muted)',
-          }}
-        >
-          {theme === 'day' ? (
-            <><Sun className="w-4 h-4" style={{ color: 'var(--color-yellow)' }} /> Day Mode</>
-          ) : (
-            <><Moon className="w-4 h-4" style={{ color: 'var(--color-blue)' }} /> Night Mode</>
-          )}
-        </div>
+        <LanguageToggle />
 
         <ThemeToggle />
 
