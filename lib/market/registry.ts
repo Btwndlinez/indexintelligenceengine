@@ -26,11 +26,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'slurry_concrete',
     industryName: 'Concrete Slurry Recycling & Disposal',
     searchQueries: [
-      'concrete slurry recycling',
-      'concrete washout',
-      'slurry disposal',
-      'ready mix reclaiming',
-      'concrete reclaiming'
+      'concrete recycling',
+      'concrete disposal',
+      'construction waste removal',
+      'demolition contractor',
+      'waste management service'
     ],
     targetNaicsCodes: ['562211', '238110', '562112'],
     equipmentKeywords: [
@@ -46,6 +46,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     signals: {
       primary: [
         { term: 'slurry', weight: 25 },
+        { term: 'concrete', weight: 25 },
         { term: 'concrete washout', weight: 25 },
         { term: 'concrete slurry', weight: 25 },
         { term: 'wash water', weight: 25 },
@@ -77,8 +78,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'grease_trap',
     industryName: 'Commercial Grease Trap Pumping & Recycling',
     searchQueries: [
-      'grease trap pumping service', 'commercial grease trap',
-      'waste oil recycling', 'restaurant grease disposal', 'yellow grease collection'
+      'septic tank pumping', 'drain cleaning service',
+      'waste removal service', 'grease trap cleaning',
+      'restaurant grease disposal'
     ],
     targetNaicsCodes: ['562219', '562111', '562998'],
     equipmentKeywords: [
@@ -92,6 +94,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'grease', weight: 25 },
         { term: 'grease trap', weight: 25 },
         { term: 'grease interceptor', weight: 25 },
         { term: 'FOG', weight: 25 },
@@ -170,8 +173,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'hydro_excavation',
     industryName: 'Hydro-Excavation & Non-Destructive Digging',
     searchQueries: [
-      'hydro excavation service', 'vacuum excavation contractor',
-      'utility potholing', 'daylighting utilities', 'non-destructive digging'
+      'excavation contractor', 'utility contractor',
+      'underground construction', 'trenching services',
+      'vacuum truck service', 'hydro excavation service'
     ],
     targetNaicsCodes: ['562998', '238910', '562119'],
     equipmentKeywords: [
@@ -185,6 +189,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'excavation', weight: 25 },
         { term: 'hydro excavation', weight: 25 },
         { term: 'vacuum excavation', weight: 25 },
         { term: 'hydrovac', weight: 25 },
@@ -431,8 +436,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'stormwater_compliance',
     industryName: 'Stormwater Compliance / SWPPP',
     searchQueries: [
-      'SWPPP inspection', 'stormwater compliance',
-      'construction runoff inspection'
+      'stormwater compliance', 'SWPPP inspection',
+      'environmental consulting', 'construction site inspection',
+      'erosion control service'
     ],
     targetNaicsCodes: ['541620', '562910'],
     equipmentKeywords: [
@@ -446,12 +452,14 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       primary: [
         { term: 'SWPPP', weight: 25 },
         { term: 'stormwater', weight: 25 },
+        { term: 'compliance', weight: 25 },
         { term: 'erosion control', weight: 25 },
       ],
       secondary: [
         { term: 'BMP', weight: 10 },
         { term: 'NPDES', weight: 10 },
         { term: 'runoff', weight: 10 },
+        { term: 'environmental', weight: 10 },
         { term: 'EPA', weight: 10 },
         { term: 'OSHA', weight: 10 },
       ],
@@ -470,8 +478,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'industrial_wastewater',
     industryName: 'Industrial Wastewater Treatment',
     searchQueries: [
-      'industrial wastewater treatment', 'wastewater filtration services',
-      'industrial discharge treatment'
+      'industrial wastewater treatment', 'water treatment service',
+      'industrial water filtration', 'wastewater disposal',
+      'environmental remediation'
     ],
     targetNaicsCodes: ['221320', '562219'],
     equipmentKeywords: [
@@ -483,6 +492,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'wastewater', weight: 25 },
         { term: 'industrial wastewater', weight: 25 },
         { term: 'wastewater treatment', weight: 25 },
         { term: 'pretreatment', weight: 25 },
@@ -510,7 +520,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'tank_testing',
     industryName: 'Underground Tank Testing',
     searchQueries: [
-      'UST testing', 'underground tank compliance', 'tank leak detection'
+      'environmental testing', 'fuel tank service',
+      'oil tank testing', 'storage tank services',
+      'compliance testing', 'tank leak detection'
     ],
     targetNaicsCodes: ['541380', '562910'],
     equipmentKeywords: [
@@ -522,6 +534,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'tank', weight: 25 },
         { term: 'UST', weight: 25 },
         { term: 'tank testing', weight: 25 },
         { term: 'leak detection', weight: 25 },
@@ -665,8 +678,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'fire_extinguisher',
     industryName: 'Fire Extinguisher Inspection & Filling',
     searchQueries: [
-      'fire extinguisher recharge', 'commercial fire extinguisher inspection',
-      'fire extinguisher hydrotesting'
+      'fire extinguisher service', 'fire extinguisher inspection',
+      'fire extinguisher recharge', 'commercial fire protection',
+      'fire safety equipment'
     ],
     targetNaicsCodes: ['423990', '561621', '811490'],
     equipmentKeywords: [
@@ -678,6 +692,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'fire', weight: 25 },
         { term: 'fire extinguisher', weight: 25 },
         { term: 'recharge', weight: 25 },
         { term: 'hydrotesting', weight: 25 },
@@ -702,8 +717,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'kitchen_exhaust',
     industryName: 'Commercial Kitchen Hood Degreasing',
     searchQueries: [
-      'commercial kitchen exhaust cleaning', 'restaurant hood degreasing',
-      'exhaust fan cleaning NFPA 96'
+      'restaurant hood cleaning', 'commercial kitchen cleaning',
+      'hood exhaust cleaning', 'kitchen degreasing service',
+      'hood suppression system'
     ],
     targetNaicsCodes: ['561790', '926150'],
     equipmentKeywords: [
@@ -715,8 +731,10 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
-        { term: 'hood cleaning', weight: 25 },
+        { term: 'hood', weight: 25 },
+        { term: 'kitchen', weight: 25 },
         { term: 'kitchen exhaust', weight: 25 },
+        { term: 'hood cleaning', weight: 25 },
         { term: 'grease removal', weight: 25 },
       ],
       secondary: [
@@ -739,7 +757,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'backflow_testing',
     industryName: 'Backflow Prevention Testing',
     searchQueries: [
-      'backflow certification testing', 'reduced pressure zone RPZ test',
+      'commercial plumbing backflow', 'backflow testing service',
+      'certified backflow tester', 'RPZ testing',
       'commercial backflow assembly inspector'
     ],
     targetNaicsCodes: ['238220', '541380'],
@@ -777,8 +796,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'generator_testing',
     industryName: 'Emergency Generator Load Bank Testing',
     searchQueries: [
-      'generator load bank testing', 'commercial emergency generator service',
-      'critical backup generator testing'
+      'generator load bank testing', 'emergency generator service',
+      'commercial generator maintenance', 'backup power systems',
+      'diesel generator service'
     ],
     targetNaicsCodes: ['811310', '238210'],
     equipmentKeywords: [
@@ -790,6 +810,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'generator', weight: 25 },
         { term: 'generator testing', weight: 25 },
         { term: 'load bank', weight: 25 },
         { term: 'emergency generator', weight: 25 },
