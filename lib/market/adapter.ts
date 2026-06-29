@@ -86,13 +86,13 @@ export class IndexIntelligenceEngine {
             ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, record.latitude, record.longitude) * 10) / 10
             : undefined;
 
-        const text = `${record.companyName || ''} ${record.notes || ''} ${record.capabilitySummary || ''} ${record.address || ''} ${record.city || ''} ${record.state || ''}`;
+        const text = `${record.companyName || ''} ${record.notes || ''} ${record.capabilitySummary || ''} ${record.address || ''}`;
         const result = calculateLeadScore(record, config, text, distance);
         base.enrichmentScore = result.score;
         base.priority = result.priority;
         base.distanceMiles = distance;
 
-        if (result.score < 40 || result.priority === 'D' || result.negativeHits.length >= 1) {
+        if (result.score < 40 || result.priority === 'D' || result.negativeHits.length >= 2) {
           continue;
         }
 
@@ -101,9 +101,9 @@ export class IndexIntelligenceEngine {
       }
 
       // Stage 1: Fast pre-filter before Apollo (saves API credits)
-      const precheckText = `${record.companyName || ''} ${record.notes || ''} ${record.address || ''} ${record.city || ''} ${record.state || ''}`;
+      const precheckText = `${record.companyName || ''} ${record.notes || ''} ${record.address || ''}`;
       const precheck = this.signalExtractor.extract(precheckText, config.signals, config.equipmentKeywords);
-      if (!precheck.hasSignals || precheck.negativeHits.length > 0) {
+      if (precheck.negativeHits.length >= 2) {
         continue;
       }
 
@@ -114,8 +114,6 @@ export class IndexIntelligenceEngine {
 ${base.companyName || ''}
 ${base.notes || ''}
 ${base.address || ''}
-${base.city || ''}
-${base.state || ''}
 ${apolloResult.companyFields?.industry || ''}
 ${apolloResult.companyFields?.description || ''}
 ${apolloResult.companyFields?.website || ''}
@@ -143,8 +141,6 @@ ${mergedCompany.companyName || ''}
 ${mergedCompany.notes || ''}
 ${mergedCompany.capabilitySummary || ''}
 ${mergedCompany.address || ''}
-${mergedCompany.city || ''}
-${mergedCompany.state || ''}
 ${apolloResult.companyFields?.industry || ''}
 ${apolloResult.companyFields?.description || ''}
 `;
@@ -153,7 +149,7 @@ ${apolloResult.companyFields?.description || ''}
       mergedCompany.priority = result.priority;
 
       // Stage 3: Hard filter garbage after scoring
-      if (result.score < 40 || result.priority === 'D' || result.negativeHits.length >= 1) {
+      if (result.score < 40 || result.priority === 'D' || result.negativeHits.length >= 2) {
         console.log(`[FILTERED] ${mergedCompany.companyName} — score=${result.score} priority=${result.priority} negatives=${result.negativeHits.join(',')}`);
         continue;
       }
