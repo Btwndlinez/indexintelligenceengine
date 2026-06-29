@@ -517,6 +517,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
         { term: 'tank monitoring', weight: 10 },
       ],
       negative: [
+        { term: 'recycling', weight: -60 },
+        { term: 'concrete', weight: -60 },
+        { term: 'landscape', weight: -60 },
+        { term: 'transfer', weight: -50 },
+        { term: 'environmental services', weight: -40 },
         { term: 'grill propane', weight: -30 },
       ],
     },

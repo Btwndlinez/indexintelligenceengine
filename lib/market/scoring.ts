@@ -44,21 +44,23 @@ export function calculateLeadScore(
     }
   }
 
-  // 4. Baseline profile weights from config
-  if (company.website) score += config.scoringWeights.hasWebsite;
-  if (company.phone) score += config.scoringWeights.hasPhone;
-  if (company.email) score += config.scoringWeights.hasContactEmail;
-  if (company.address) score += config.scoringWeights.hasPhysicalAddress;
+  // 4. Baseline profile weights — only awarded if relevant signals found or regulatory permit held
+  const hasMatch = matchedSignals.length > 0 || !!company.hasRegulatoryPermit;
 
-  // 5. Regulatory permit bonus
-  if (company.hasRegulatoryPermit) score += 15;
+  if (hasMatch) {
+    if (company.phone) score += config.scoringWeights.hasPhone;
+    if (company.website) score += config.scoringWeights.hasWebsite;
+    if (company.email) score += config.scoringWeights.hasContactEmail;
+    if (company.address) score += config.scoringWeights.hasPhysicalAddress;
 
-  // 6. Proximity bonus
-  if (distanceMiles !== undefined && distanceMiles <= 25) {
-    score += config.scoringWeights.distanceFactor;
+    if (company.hasRegulatoryPermit) score += 15;
+
+    if (distanceMiles !== undefined && distanceMiles <= 25) {
+      score += config.scoringWeights.distanceFactor;
+    }
   }
 
-  // 7. Determine priority tier
+  // 5. Determine priority tier
   let priority: 'A' | 'B' | 'C' | 'D';
   if (score >= 90) priority = 'A';
   else if (score >= 50) priority = 'B';
