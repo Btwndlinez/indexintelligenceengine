@@ -34,7 +34,7 @@ interface ComplianceRule {
 }
 
 export default function DailyIntelligenceHub({ vertical = 'slurry_concrete', locationState = 'CA' }: { vertical?: string; locationState?: string }) {
-  const [activeTab, setActiveTab] = useState<'bids' | 'news' | 'compliance'>('bids');
+  const [activeTab, setActiveTab] = useState<'news' | 'compliance' | 'bids'>('news');
   const [loading, setLoading] = useState(true);
   const [draftingBidId, setDraftingBidId] = useState<string | null>(null);
   const [aiDraft, setAiDraft] = useState<string | null>(null);
@@ -141,15 +141,6 @@ Index Intelligence Partner`;
 
         <div className="flex bg-surface2 p-1 rounded-lg border border-border self-stretch sm:self-auto justify-between">
           <button
-            onClick={() => { setActiveTab('bids'); setAiDraft(null); }}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-              activeTab === 'bids' ? 'bg-red text-white shadow-lg' : 'text-muted hover:text-text'
-            }`}
-          >
-            <Briefcase className="w-3.5 h-3.5" />
-            Bids ({data.bids.length})
-          </button>
-          <button
             onClick={() => { setActiveTab('news'); setAiDraft(null); }}
             className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
               activeTab === 'news' ? 'bg-red text-white shadow-lg' : 'text-muted hover:text-text'
@@ -166,6 +157,15 @@ Index Intelligence Partner`;
           >
             <ShieldCheck className="w-3.5 h-3.5" />
             Compliance
+          </button>
+          <button
+            onClick={() => { setActiveTab('bids'); setAiDraft(null); }}
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+              activeTab === 'bids' ? 'bg-red text-white shadow-lg' : 'text-muted hover:text-text'
+            }`}
+          >
+            <Briefcase className="w-3.5 h-3.5" />
+            Bids ({data.bids.length})
           </button>
         </div>
       </div>
@@ -196,61 +196,6 @@ Index Intelligence Partner`;
             <pre className="text-xs text-muted font-mono whitespace-pre-wrap bg-surface p-4 rounded border border-border max-h-[250px] overflow-y-auto">
               {aiDraft}
             </pre>
-          </div>
-        )}
-
-        {activeTab === 'bids' && (
-          <div className="space-y-4">
-            {data.bids.length === 0 ? (
-              <p className="text-center text-sm text-muted">No active municipal bids discovered in your county today.</p>
-            ) : (
-              data.bids.map((bid) => (
-                <div key={bid.id} className="p-5 bg-surface2 border border-border hover:border-border/80 rounded-lg transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] px-2 py-0.5 rounded font-bold bg-surface text-muted border border-border">
-                        {bid.agency}
-                      </span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${
-                        bid.difficulty === 'Easy' ? 'bg-green/10 text-green' :
-                        bid.difficulty === 'Medium' ? 'bg-yellow/10 text-yellow' : 'bg-blue/10 text-blue'
-                      }`}>
-                        {bid.difficulty} RFP
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-text text-base group-hover:text-red transition-colors">{bid.title}</h3>
-                    <p className="text-xs text-muted mt-1 line-clamp-2">{bid.description}</p>
-
-                    <div className="flex items-center gap-4 mt-3 text-xs text-muted">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-muted" /> Deadline: {bid.deadline}
-                      </span>
-                      <span className="font-bold text-text">
-                        Est: {bid.valueEstimate}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleDraftProposal(bid)}
-                    disabled={draftingBidId === bid.id}
-                    className="flex items-center gap-1.5 self-stretch md:self-auto justify-center px-4 py-2 bg-red hover:bg-red/80 text-white font-bold text-xs rounded-lg transition-colors whitespace-nowrap"
-                  >
-                    {draftingBidId === bid.id ? (
-                      <>
-                        <Loader className="w-3.5 h-3.5 animate-spin" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-3.5 h-3.5" />
-                        AI Pitch Bid
-                      </>
-                    )}
-                  </button>
-                </div>
-              ))
-            )}
           </div>
         )}
 
@@ -308,6 +253,61 @@ Index Intelligence Partner`;
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === 'bids' && (
+          <div className="space-y-4">
+            {data.bids.length === 0 ? (
+              <p className="text-center text-sm text-muted">No active municipal bids discovered in your county today.</p>
+            ) : (
+              data.bids.map((bid) => (
+                <div key={bid.id} className="p-5 bg-surface2 border border-border hover:border-border/80 rounded-lg transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-[10px] px-2 py-0.5 rounded font-bold bg-surface text-muted border border-border">
+                        {bid.agency}
+                      </span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${
+                        bid.difficulty === 'Easy' ? 'bg-green/10 text-green' :
+                        bid.difficulty === 'Medium' ? 'bg-yellow/10 text-yellow' : 'bg-blue/10 text-blue'
+                      }`}>
+                        {bid.difficulty} RFP
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-text text-base group-hover:text-red transition-colors">{bid.title}</h3>
+                    <p className="text-xs text-muted mt-1 line-clamp-2">{bid.description}</p>
+
+                    <div className="flex items-center gap-4 mt-3 text-xs text-muted">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-muted" /> Deadline: {bid.deadline}
+                      </span>
+                      <span className="font-bold text-text">
+                        Est: {bid.valueEstimate}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => handleDraftProposal(bid)}
+                    disabled={draftingBidId === bid.id}
+                    className="flex items-center gap-1.5 self-stretch md:self-auto justify-center px-4 py-2 bg-red hover:bg-red/80 text-white font-bold text-xs rounded-lg transition-colors whitespace-nowrap"
+                  >
+                    {draftingBidId === bid.id ? (
+                      <>
+                        <Loader className="w-3.5 h-3.5 animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        AI Pitch Bid
+                      </>
+                    )}
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         )}
       </div>
