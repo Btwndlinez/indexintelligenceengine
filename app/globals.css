@@ -17,13 +17,13 @@ html:not([data-theme]) {
   --color-border:    #26262C;
   --color-text:      #F5F5F7;
   --color-muted:     #8E8E99;
-  --color-red:       #E02020;
+  --color-red:       #F87431;
   --color-green:     #22C55E;
   --color-yellow:    #F59E0B;
   --color-blue:      #3B82F6;
-  --color-accent:    #E02020;
+  --color-accent:    #F87431;
   --shadow-card:     0 0 0 1px rgba(255,255,255,0.04);
-  --shadow-glow:     0 0 60px rgba(224,32,32,0.12);
+  --shadow-glow:     0 0 60px rgba(248,116,49,0.12);
 }
 
 /* ──────────────────────────────────────────────
@@ -37,13 +37,13 @@ html[data-theme="day"] {
   --color-border:    #D1D1D6;
   --color-text:      #0A0A0E;
   --color-muted:     #4A4A55;
-  --color-red:       #C01010;
+  --color-red:       #D46528;
   --color-green:     #15803D;
   --color-yellow:    #B45309;
   --color-blue:      #1D4ED8;
-  --color-accent:    #C01010;
+  --color-accent:    #D46528;
   --shadow-card:     0 0 0 1px rgba(0,0,0,0.08);
-  --shadow-glow:     0 0 60px rgba(192,16,16,0.08);
+  --shadow-glow:     0 0 60px rgba(212,101,40,0.08);
 }
 
 /* ──────────────────────────────────────────────
