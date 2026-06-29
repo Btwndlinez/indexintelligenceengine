@@ -142,29 +142,29 @@ Index Intelligence Partner`;
         <div className="flex bg-surface2 p-1 rounded-lg border border-border self-stretch sm:self-auto justify-between">
           <button
             onClick={() => { setActiveTab('news'); setAiDraft(null); }}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1 px-4 py-2 rounded-md text-lg font-bold transition-all ${
               activeTab === 'news' ? 'bg-red text-white shadow-lg' : 'text-muted hover:text-text'
             }`}
           >
-            <FileText className="w-3.5 h-3.5" />
+            <FileText className="w-5 h-5" />
             Industry News
           </button>
           <button
             onClick={() => { setActiveTab('compliance'); setAiDraft(null); }}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1 px-4 py-2 rounded-md text-lg font-bold transition-all ${
               activeTab === 'compliance' ? 'bg-red text-white shadow-lg' : 'text-muted hover:text-text'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-5 h-5" />
             Compliance
           </button>
           <button
             onClick={() => { setActiveTab('bids'); setAiDraft(null); }}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1 px-4 py-2 rounded-md text-lg font-bold transition-all ${
               activeTab === 'bids' ? 'bg-red text-white shadow-lg' : 'text-muted hover:text-text'
             }`}
           >
-            <Briefcase className="w-3.5 h-3.5" />
+            <Briefcase className="w-5 h-5" />
             Bids ({data.bids.length})
           </button>
         </div>
