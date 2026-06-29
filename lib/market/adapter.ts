@@ -115,8 +115,7 @@ export class IndexIntelligenceEngine {
 ${base.companyName || ''}
 ${base.notes || ''}
 ${base.address || ''}
-${apolloResult.companyFields?.industry || ''}
-${apolloResult.companyFields?.description || ''}
+${apolloResult.companyFields?.notes || ''}
 ${apolloResult.companyFields?.website || ''}
 `;
       const signalResult = this.signalExtractor.extract(
@@ -142,8 +141,7 @@ ${mergedCompany.companyName || ''}
 ${mergedCompany.notes || ''}
 ${mergedCompany.capabilitySummary || ''}
 ${mergedCompany.address || ''}
-${apolloResult.companyFields?.industry || ''}
-${apolloResult.companyFields?.description || ''}
+${apolloResult.companyFields?.notes || ''}
 `;
       const result = calculateLeadScore(mergedCompany, config, scoringText, distance);
       mergedCompany.enrichmentScore = result.score;

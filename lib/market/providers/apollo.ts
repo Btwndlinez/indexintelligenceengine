@@ -43,6 +43,10 @@ export class ApolloAdapter {
       const companyFields: Partial<Company> = {
         email: org.primary_contact_email || undefined,
         phone: company.phone || org.phone || undefined,
+        website: org.website_url || company.website || undefined,
+        notes: [company.notes, org.short_description, org.industry]
+          .filter(Boolean)
+          .join(' | '),
         source: `${company.source}+${this.name}`
       };
 

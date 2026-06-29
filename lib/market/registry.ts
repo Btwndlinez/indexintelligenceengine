@@ -30,7 +30,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'concrete washout',
       'slurry disposal',
       'ready mix reclaiming',
-      'concrete reclaiming'
+      'concrete reclaiming',
+      'concrete recycling',
+      'construction waste disposal'
     ],
     targetNaicsCodes: ['562211', '238110', '562112'],
     equipmentKeywords: [
@@ -46,12 +48,14 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     signals: {
       primary: [
         { term: 'slurry', weight: 25 },
+        { term: 'concrete', weight: 25 },
         { term: 'concrete washout', weight: 25 },
         { term: 'concrete slurry', weight: 25 },
         { term: 'wash water', weight: 25 },
         { term: 'slurry recycling', weight: 25 },
       ],
       secondary: [
+        { term: 'recycling', weight: 10 },
         { term: 'dewatering', weight: 10 },
         { term: 'filter press', weight: 10 },
         { term: 'roll off', weight: 10 },
@@ -78,7 +82,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     industryName: 'Commercial Grease Trap Pumping & Recycling',
     searchQueries: [
       'grease trap pumping service', 'commercial grease trap',
-      'waste oil recycling', 'restaurant grease disposal', 'yellow grease collection'
+      'waste oil recycling', 'restaurant grease disposal', 'yellow grease collection',
+      'commercial grease removal', 'industrial waste pumping'
     ],
     targetNaicsCodes: ['562219', '562111', '562998'],
     equipmentKeywords: [
@@ -92,6 +97,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'grease', weight: 25 },
         { term: 'grease trap', weight: 25 },
         { term: 'grease interceptor', weight: 25 },
         { term: 'FOG', weight: 25 },
@@ -432,7 +438,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     industryName: 'Stormwater Compliance / SWPPP',
     searchQueries: [
       'SWPPP inspection', 'stormwater compliance',
-      'construction runoff inspection'
+      'construction runoff inspection',
+      'environmental consulting', 'construction site inspection'
     ],
     targetNaicsCodes: ['541620', '562910'],
     equipmentKeywords: [
@@ -446,12 +453,14 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       primary: [
         { term: 'SWPPP', weight: 25 },
         { term: 'stormwater', weight: 25 },
+        { term: 'compliance', weight: 25 },
         { term: 'erosion control', weight: 25 },
       ],
       secondary: [
         { term: 'BMP', weight: 10 },
         { term: 'NPDES', weight: 10 },
         { term: 'runoff', weight: 10 },
+        { term: 'environmental', weight: 10 },
         { term: 'EPA', weight: 10 },
         { term: 'OSHA', weight: 10 },
       ],
@@ -596,7 +605,8 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     industryName: 'HVAC Test & Balance',
     searchQueries: [
       'HVAC test and balance', 'air balance contractor',
-      'commercial air balancing'
+      'commercial air balancing', 'commercial HVAC services',
+      'HVAC contractor commercial'
     ],
     targetNaicsCodes: ['238220'],
     equipmentKeywords: [
@@ -608,6 +618,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     ],
     signals: {
       primary: [
+        { term: 'HVAC', weight: 25 },
         { term: 'test and balance', weight: 25 },
         { term: 'air balancing', weight: 25 },
         { term: 'HVAC balancing', weight: 25 },
@@ -615,7 +626,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       secondary: [
         { term: 'CFM', weight: 10 },
         { term: 'airflow testing', weight: 10 },
-        { term: 'TAB contractor', weight: 10 },
+        { term: 'TAB', weight: 10 },
+        { term: 'air balance', weight: 10 },
+        { term: 'balancing', weight: 10 },
       ],
       negative: [
         { term: 'window AC', weight: -30 },
