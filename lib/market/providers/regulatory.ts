@@ -27,8 +27,8 @@ export class RegulatoryProvider implements DiscoveryProvider {
     }
 
     try {
-      const leads = await scraper.scrape(params);
-      return leads;
+      const result = await scraper.scrape(params);
+      return result.records;
     } catch (error) {
       console.error(`[RegulatoryProvider] Scraper failed for ${state}:`, error);
       return [];

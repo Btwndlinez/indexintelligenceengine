@@ -15,7 +15,6 @@ export class IndexIntelligenceEngine {
     config: VerticalConfig,
     organizationId?: string
   ): Promise<{ companies: Company[]; contacts: Contact[] }> {
-    try {
     const configWithProviders = config as VerticalConfigWithProviders;
     const providers = configWithProviders.providers || [];
 
@@ -195,12 +194,7 @@ ${apolloResult.companyFields?.notes || ''}
       return (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity);
     });
 
-    return { companies: finalizedCompanies, contacts: allContacts, _pipeline: { raw: candidatePool.length, filteredPool: filteredPool.length, scored: finalizedCompanies.length } } as any;
-    } catch (e) {
-      console.error('[CRITICAL] executeMarketDiscovery threw:', e);
-      const errObj = e as any;
-      return { companies: [], contacts: [], _error: errObj?.message || String(e), _stack: errObj?.stack } as any;
-    }
+    return { companies: finalizedCompanies, contacts: allContacts };
   }
 }
 
