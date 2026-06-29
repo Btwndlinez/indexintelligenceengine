@@ -605,7 +605,7 @@ function LandingInner() {
                 className="font-black text-lg"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '-0.01em' }}
               >
-                INDEX INTELLIGENCE ENGINE
+                HARD HATS REQUIRED
               </span>
             </Link>
 
