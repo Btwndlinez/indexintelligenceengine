@@ -139,7 +139,7 @@ Index Intelligence Partner`;
           <p className="text-xs text-muted">Localized bids, trends, and compliance alerts for {locationState}</p>
         </div>
 
-        <div className="flex bg-surface2 p-1 rounded-lg border border-border self-stretch sm:self-auto justify-between">
+        <div className="flex bg-surface2 p-1 rounded-lg border border-border self-stretch sm:self-auto justify-between gap-2">
           <button
             onClick={() => { setActiveTab('news'); setAiDraft(null); }}
             className={`flex items-center gap-1 px-4 py-2 rounded-md text-lg font-bold transition-all ${
