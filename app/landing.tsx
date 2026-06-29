@@ -75,10 +75,39 @@ const verticals = [
   { name: 'Equipment', status: 'Q4 2026', detail: 'Equipment rentals' },
 ];
 
+/* ─── lang toggle ──────────────────────────────────────────────── */
+function LanguageToggle({ lang, setLang, mobile }: { lang: 'en' | 'es'; setLang: (l: 'en' | 'es') => void; mobile?: boolean }) {
+  const base = mobile
+    ? 'block py-2 px-3 text-base font-semibold rounded-xl transition-colors'
+    : 'text-sm font-semibold uppercase tracking-wider rounded-lg transition-colors px-2 py-2.5';
+  const active = { color: 'var(--color-text)' };
+  const inactive = { color: 'var(--color-muted)' };
+  return (
+    <div className={`flex items-center ${mobile ? 'gap-1' : 'gap-0'}`}>
+      <button
+        onClick={() => setLang('en')}
+        className={base}
+        style={lang === 'en' ? active : inactive}
+      >
+        English
+      </button>
+      <span className="text-xs" style={{ color: 'var(--color-muted)' }}>/</span>
+      <button
+        onClick={() => setLang('es')}
+        className={base}
+        style={lang === 'es' ? active : inactive}
+      >
+        Español
+      </button>
+    </div>
+  );
+}
+
 /* ─── component ────────────────────────────────────────────────── */
 function LandingInner() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [lang, setLang] = useState<'en' | 'es'>('en');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -144,6 +173,7 @@ function LandingInner() {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-3">
+            <LanguageToggle lang={lang} setLang={setLang} />
             <ThemeToggle />
             <Link
               href="/dashboard"
@@ -161,8 +191,9 @@ function LandingInner() {
             </a>
           </div>
 
-          {/* Mobile: theme toggle + hamburger */}
+          {/* Mobile: lang toggle + theme toggle + hamburger */}
           <div className="md:hidden flex items-center gap-2">
+            <LanguageToggle lang={lang} setLang={setLang} />
             <ThemeToggle />
             <button
               onClick={() => setMobileOpen(v => !v)}
@@ -196,6 +227,7 @@ function LandingInner() {
               className="pt-4 mt-4 border-t flex flex-col gap-3"
               style={{ borderColor: 'var(--color-border)' }}
             >
+              <LanguageToggle lang={lang} setLang={setLang} mobile />
               <Link
                 href="/dashboard"
                 className="btn-secondary"
