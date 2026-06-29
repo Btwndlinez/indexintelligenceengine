@@ -38,6 +38,10 @@ export class IndexIntelligenceEngine {
       )
     );
 
+    for (let pi = 0; pi < providerResults.length; pi++) {
+      console.log(`[DEBUG] Provider ${providers[pi].name} returned ${providerResults[pi].length} raw results`);
+    }
+
     const candidatePool: Partial<Company>[] = [];
     const seenNames = new Set<string>();
 
@@ -51,17 +55,27 @@ export class IndexIntelligenceEngine {
       }
     }
 
+    console.log(`[DEBUG] ${candidatePool.length} unique candidates after dedup`);
+
     const negativeKeywords = config.negativeKeywords || [];
     const filteredPool = candidatePool.filter(c => {
-      if (isIrrelevant(c, negativeKeywords)) return false;
+      if (isIrrelevant(c, negativeKeywords)) {
+        console.log(`[DEBUG] filtered by isIrrelevant: ${c.companyName}`);
+        return false;
+      }
       const d = c.distanceMiles ?? (
         c.latitude != null && c.longitude != null && zipCoords
           ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, c.latitude, c.longitude) * 10) / 10
           : undefined
       );
-      if (d != null && d > radiusFilter) return false;
+      if (d != null && d > radiusFilter) {
+        console.log(`[DEBUG] filtered by distance ${d} > ${radiusFilter}: ${c.companyName}`);
+        return false;
+      }
       return true;
     });
+
+    console.log(`[DEBUG] ${filteredPool.length} candidates after isIrrelevant/distance filter`);
 
     const finalizedCompanies: Company[] = [];
     const allContacts: Contact[] = [];
@@ -105,10 +119,12 @@ export class IndexIntelligenceEngine {
       const precheckText = `${record.companyName || ''} ${record.notes || ''} ${record.address || ''}`;
       const precheck = this.signalExtractor.extract(precheckText, config.signals, config.equipmentKeywords);
       if (precheck.negativeHits.length >= 2) {
+        console.log(`[DEBUG] pre-filter negative skip: ${record.companyName} (${precheck.negativeHits.join(',')})`);
         continue;
       }
 
       const apolloResult = await this.apolloAdapter.enrich(base);
+      console.log(`[DEBUG] apollo enriched ${record.companyName}: hasNotes=${!!apolloResult.companyFields?.notes} hasWebsite=${!!apolloResult.companyFields?.website} contacts=${apolloResult.contacts.length}`);
 
       // Stage 2: Rich signal extraction across all available data
       const analysisText = `
@@ -118,11 +134,13 @@ ${base.address || ''}
 ${apolloResult.companyFields?.notes || ''}
 ${apolloResult.companyFields?.website || ''}
 `;
+      console.log(`[DEBUG] analysisText for ${record.companyName}: "${analysisText.replace(/\n/g, ' | ').trim()}"`);
       const signalResult = this.signalExtractor.extract(
         analysisText,
         config.signals,
         config.equipmentKeywords
       );
+      console.log(`[DEBUG] signalResult for ${record.companyName}: hasSignals=${signalResult.hasSignals} matched=${signalResult.matchedSignals.join(',')} neg=${signalResult.negativeHits.join(',')}`);
 
       const mergedCompany: Partial<Company> = {
         ...base,
@@ -161,6 +179,12 @@ ${apolloResult.companyFields?.notes || ''}
         ...c,
         id: `${contactId}-${i}`
       })) as Contact[]);
+    }
+
+    console.log(`[DEBUG] FINAL: ${finalizedCompanies.length} companies, ${allContacts.length} contacts`);
+    for (let fi = 0; fi < Math.min(finalizedCompanies.length, 5); fi++) {
+      const fc = finalizedCompanies[fi];
+      console.log(`[DEBUG] result #${fi}: ${fc.companyName} score=${fc.enrichmentScore} priority=${fc.priority} notes="${fc.notes?.substring(0, 80)}"`);
     }
 
     const gradeOrder: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
