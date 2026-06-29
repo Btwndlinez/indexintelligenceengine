@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     const companies = result.companies || [];
     const contacts = result.contacts || [];
     const pipeline = (result as any)._pipeline;
+    const engineError = (result as any)._error;
 
     writeAudit({
       provider: 'search',
@@ -62,6 +63,7 @@ export async function POST(req: NextRequest) {
       companies: normalized,
       contacts,
       _pipeline: pipeline,
+      _engineError: engineError,
     });
   } catch (err: any) {
     console.error("Core Engine Error:", err);
