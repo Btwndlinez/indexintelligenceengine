@@ -33,7 +33,7 @@ interface ComplianceRule {
   requiredAction: string;
 }
 
-export default function DailyIntelligenceHub({ vertical = 'slurry_concrete', locationState = 'CA' }: { vertical?: string; locationState?: string }) {
+export default function DailyIntelligenceHub({ vertical = 'slurry_concrete', locationState = 'CA', landing }: { vertical?: string; locationState?: string; landing?: boolean }) {
   const [activeTab, setActiveTab] = useState<'news' | 'compliance' | 'bids'>('news');
   const [loading, setLoading] = useState(true);
   const [draftingBidId, setDraftingBidId] = useState<string | null>(null);
@@ -134,7 +134,7 @@ Index Intelligence Partner`;
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-red animate-pulse" />
-            <h2 className="font-bold text-text text-lg tracking-tight">Daily Intelligence Hub</h2>
+            <h2 className={`font-bold tracking-tight ${landing ? 'text-section' : 'text-lg'}`} style={{ color: landing ? 'var(--color-red)' : 'var(--color-text)' }}>Daily Intelligence Hub</h2>
           </div>
           <p className="text-xs text-muted">Localized bids, trends, and compliance alerts for {locationState}</p>
         </div>

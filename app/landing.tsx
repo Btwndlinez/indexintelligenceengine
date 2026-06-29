@@ -339,7 +339,7 @@ function LandingInner() {
       {/* ───── DAILY INTELLIGENCE HUB ───── */}
       <section className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
-          <DailyIntelligenceHub />
+          <DailyIntelligenceHub landing />
         </div>
       </section>
 
