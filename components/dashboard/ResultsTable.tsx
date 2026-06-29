@@ -21,6 +21,8 @@ interface ResultsTableProps {
   companies?: SearchResult[];
   contacts?: Contact[];
   loading?: boolean;
+  vertical?: string;
+  onFeedback?: (company: SearchResult, accurate: boolean) => void;
 }
 
 const gradeColor = (g: string) => {
@@ -67,7 +69,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
         <table className="w-full min-w-[900px]">
           <thead>
             <tr className="border-b border-border">
-              {['Company', 'Grade', 'Distance', 'Lead Score', 'Signals', ''].map((h) => (
+              {['Company', 'Grade', 'Distance', 'Score', 'Signals', 'Accurate?', ''].map((h) => (
                 <th key={h} className="text-left text-[10px] font-semibold text-muted uppercase tracking-wider px-4 py-3">
                   {h}
                 </th>
@@ -106,6 +108,24 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                       {company.capabilitySummary || '—'}
                     </td>
                     <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); onFeedback?.(company, true); }}
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+                          style={{ background: 'color-mix(in srgb, var(--color-red) 12%, transparent)', color: 'var(--color-red)' }}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); onFeedback?.(company, false); }}
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+                          style={{ background: 'color-mix(in srgb, var(--color-muted) 15%, transparent)', color: 'var(--color-muted)' }}
+                        >
+                          No
+                        </button>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
                         <a
                           href={company.phone ? `tel:${company.phone}` : '#'}
@@ -128,7 +148,7 @@ export default function ResultsTable({ companies, contacts: allContacts, loading
                   </tr>
                   {isExpanded && (
                     <tr>
-                      <td colSpan={6} className="p-0">
+                      <td colSpan={7} className="p-0">
                         <div className="border-t border-border bg-surface2/50">
                           <div className="p-5 space-y-5">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

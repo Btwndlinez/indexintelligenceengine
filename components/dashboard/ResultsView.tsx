@@ -8,6 +8,8 @@ import type { SearchResult } from '@/types/search';
 interface ResultsViewProps {
   results: SearchResult[] | null;
   loading: boolean;
+  vertical?: string;
+  onFeedback?: (company: SearchResult, accurate: boolean) => void;
 }
 
 /* ── Mobile card view — optimised for glove use ── */
@@ -156,7 +158,7 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
 }
 
 /* ── Main export: table on desktop, cards on mobile ── */
-export default function ResultsView({ results, loading }: ResultsViewProps) {
+export default function ResultsView({ results, loading, vertical, onFeedback }: ResultsViewProps) {
   /* Empty / loading states */
   const EmptyState = ({ msg }: { msg: string }) => (
     <div
@@ -203,7 +205,7 @@ export default function ResultsView({ results, loading }: ResultsViewProps) {
     <>
       {/* Desktop: table */}
       <div className="hidden lg:block">
-        <ResultsTable companies={results ?? undefined} loading={loading} />
+        <ResultsTable companies={results ?? undefined} loading={loading} vertical={vertical} onFeedback={onFeedback} />
       </div>
 
       {/* Mobile / tablet: cards */}

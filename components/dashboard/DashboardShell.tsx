@@ -9,6 +9,7 @@ import type { SearchResult } from '@/types/search';
 export default function DashboardShell() {
   const [searchData, setSearchData] = useState<{ companies: SearchResult[]; count: number } | null>(null);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [activeVertical, setActiveVertical] = useState('');
 
   const handleResults = useCallback((data: { companies: SearchResult[]; count: number }) => {
     const filtered = data.companies.filter(c => c.grade !== 'D');
@@ -20,11 +21,32 @@ export default function DashboardShell() {
     setSearchLoading(true);
   }, []);
 
+  const handleFeedback = useCallback(async (company: SearchResult, accurate: boolean) => {
+    if (!activeVertical) return;
+    await fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        companyId: company.id,
+        companyName: company.companyName,
+        vertical: activeVertical,
+        accurate,
+        score: company.leadScore,
+        signals: company.capabilitySummary,
+      }),
+    }).catch(() => {});
+  }, [activeVertical]);
+
   return (
     <div className="space-y-6 md:space-y-8">
       <MetricsRow />
 
-      <SearchConsole onResults={handleResults} onSearchStart={handleSearchStart} />
+      <SearchConsole
+        onResults={handleResults}
+        onSearchStart={handleSearchStart}
+        vertical={activeVertical}
+        onVerticalChange={setActiveVertical}
+      />
 
       <div>
         <div className="flex items-baseline justify-between mb-5">
@@ -50,7 +72,12 @@ export default function DashboardShell() {
               : 'Run a search above'}
           </div>
         </div>
-        <ResultsView results={searchData?.companies ?? null} loading={searchLoading} />
+        <ResultsView
+          results={searchData?.companies ?? null}
+          loading={searchLoading}
+          vertical={activeVertical}
+          onFeedback={handleFeedback}
+        />
       </div>
     </div>
   );
