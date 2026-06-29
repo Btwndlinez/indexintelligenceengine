@@ -93,7 +93,7 @@ export class IndexIntelligenceEngine {
         base.priority = result.priority;
         base.distanceMiles = distance;
 
-        if (result.score < 30 || result.priority === 'D' || result.negativeHits.length >= 2) {
+        if (result.score < 50 || result.priority === 'D' || result.negativeHits.length >= 2) {
           continue;
         }
 
@@ -150,7 +150,7 @@ ${apolloResult.companyFields?.description || ''}
       mergedCompany.priority = result.priority;
 
       // Stage 3: Hard filter garbage after scoring
-      if (result.score < 30 || result.priority === 'D' || result.negativeHits.length >= 2) {
+      if (result.score < 50 || result.priority === 'D' || result.negativeHits.length >= 2) {
         console.log(`[FILTERED] ${mergedCompany.companyName} — score=${result.score} priority=${result.priority} negatives=${result.negativeHits.join(',')}`);
         continue;
       }

@@ -71,7 +71,7 @@ export function calculateLeadScore(
   let priority: 'A' | 'B' | 'C' | 'D';
   if (score >= 90) priority = 'A';
   else if (score >= 70) priority = 'B';
-  else if (score >= 30) priority = 'C';
+  else if (score >= 50) priority = 'C';
   else priority = 'D';
 
   if (score < 0) priority = 'D';
