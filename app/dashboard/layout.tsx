@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/shared/ThemeProvider';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Topbar from '@/components/dashboard/Topbar';
 import MobileBottomNav from '@/components/dashboard/MobileBottomNav';
+import Link from 'next/link';
 import { Zap } from 'lucide-react';
 
 function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
@@ -34,7 +35,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
           className="h-16 px-4 border-b flex items-center justify-between shrink-0"
           style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
         >
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: 'var(--color-red)' }}
@@ -47,7 +48,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
             >
               HHR
             </span>
-          </div>
+          </Link>
           <Topbar mobile />
         </header>
 
