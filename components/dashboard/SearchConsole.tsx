@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, MapPin, Crosshair, Radio, Loader2 } from 'lucide-react';
+import { Search, MapPin, Crosshair, Loader2 } from 'lucide-react';
 import type { SearchResult } from '@/types/search';
 
 interface SearchConsoleProps {
@@ -30,7 +30,6 @@ export default function SearchConsole({
   const setZip = onZipChange ?? setInternalZip;
 
   const [radius, setRadius] = useState('10');
-  const [signals, setSignals] = useState('slurry, concrete, pump');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,7 +51,6 @@ export default function SearchConsole({
           zip: zip.trim(),
           radius: parseInt(radius),
           vertical,
-          signals: signals.split(',').map(s => s.trim()),
         }),
       });
       const data = await res.json();
@@ -104,7 +102,7 @@ export default function SearchConsole({
 
       {/* Fields */}
       <div className="p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
           {/* Vertical */}
           <div>
             <label className="field-label">
@@ -174,19 +172,6 @@ export default function SearchConsole({
             </select>
           </div>
 
-          {/* Signals */}
-          <div>
-            <label className="field-label">
-              <Radio className="w-4 h-4" />
-              Signals
-            </label>
-            <input
-              type="text"
-              value={signals}
-              onChange={e => setSignals(e.target.value)}
-              className="field-input"
-            />
-          </div>
         </div>
 
         {/* Error */}

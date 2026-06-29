@@ -4,6 +4,17 @@ export interface ScoringWeights {
   assetSignalWeight: number;
 }
 
+export interface WeightedSignal {
+  term: string;
+  weight: number;
+}
+
+export interface SignalLayers {
+  primary: WeightedSignal[];
+  secondary: WeightedSignal[];
+  negative: WeightedSignal[];
+}
+
 export interface VerticalConfig {
   id: string;
   organizationId?: string;
@@ -13,7 +24,8 @@ export interface VerticalConfig {
   equipmentKeywords: string[];
   negativeKeywords: string[];
   searchQueries: string[];
-  verticalSignals: string[];
+  verticalSignals?: string[];
+  signals: SignalLayers;
   baseScoringWeights: ScoringWeights;
   createdAt: string;
 }

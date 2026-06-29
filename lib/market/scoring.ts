@@ -11,32 +11,35 @@ export function calculateCompositeScore(
   const nameText = (company.companyName || '').toLowerCase();
   const contentText = `${company.notes || ''} ${company.capabilitySummary || ''}`.toLowerCase();
 
-  // Name relevance (up to 35) — strongest signal: company name contains vertical keywords
-  const nameMatches = config.verticalSignals.filter(sig =>
-    nameText.includes(sig.toLowerCase())
-  ).length;
-  if (nameMatches >= 3) total += 35;
-  else if (nameMatches === 2) total += 30;
-  else if (nameMatches === 1) total += 28;
+  const { signals } = config;
 
-  // Content signal matching (up to 20)
-  const contentMatches = config.verticalSignals.filter(sig =>
-    contentText.includes(sig.toLowerCase())
-  ).length;
-  if (contentMatches >= 4) total += 20;
-  else if (contentMatches >= 2) total += 14;
-  else if (contentMatches === 1) total += 7;
+  // Primary signals — strongest buyer intent
+  for (const s of signals.primary) {
+    if (nameText.includes(s.term.toLowerCase()) || contentText.includes(s.term.toLowerCase())) {
+      total += s.weight;
+    }
+  }
 
-  // Regulatory permit (15)
+  // Secondary signals — related equipment/services
+  for (const s of signals.secondary) {
+    if (nameText.includes(s.term.toLowerCase()) || contentText.includes(s.term.toLowerCase())) {
+      total += s.weight;
+    }
+  }
+
+  // Negative signals — false positives (weights should be negative)
+  for (const s of signals.negative) {
+    if (nameText.includes(s.term.toLowerCase()) || contentText.includes(s.term.toLowerCase())) {
+      total += s.weight;
+    }
+  }
+
+  // Regulatory permit
   if (company.hasRegulatoryPermit) total += 15;
 
-  // Digital presence (10)
-  total += company.website ? 10 : 2;
-
-  // Contact completeness (up to 12)
-  if (company.phone) total += 5;
-  if (company.email) total += 5;
-  if (company.address) total += 2;
+  // Contact completeness
+  if (company.phone) total += 20;
+  if (company.website) total += 15;
 
   // Proximity (up to 10)
   if (distanceMiles !== undefined) {
@@ -47,11 +50,10 @@ export function calculateCompositeScore(
     else total += 1;
   }
 
-  // Established business bonus (up to 8)
-  if (company.phone && company.website) total += 5;
-  if (company.phone && company.website && company.address) total += 3;
+  // Established business bonus
+  if (company.phone && company.website && company.address) total += 5;
 
-  return Math.min(total, 100);
+  return Math.max(total, 0);
 }
 
 export function getTier(score: number): 'A' | 'B' | 'C' {

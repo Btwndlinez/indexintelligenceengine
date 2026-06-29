@@ -35,11 +35,27 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'household waste', 'DIY concrete mix', 'city recycle station',
       'garbage collection', 'junk removal', 'paving'
     ],
-    verticalSignals: [
-      'slurry', 'concrete washout', 'washout', 'concrete recycling',
-      'slurry recycling', 'concrete reclaiming', 'ready mix reclaiming',
-      'vacuum truck', 'batch plant'
-    ],
+    signals: {
+      primary: [
+        { term: 'slurry', weight: 25 },
+        { term: 'concrete washout', weight: 25 },
+        { term: 'concrete slurry', weight: 25 },
+        { term: 'wash water', weight: 25 },
+        { term: 'slurry recycling', weight: 25 },
+      ],
+      secondary: [
+        { term: 'dewatering', weight: 10 },
+        { term: 'filter press', weight: 10 },
+        { term: 'roll off', weight: 10 },
+        { term: 'vacuum truck', weight: 10 },
+        { term: 'pump', weight: 10 },
+      ],
+      negative: [
+        { term: 'driveway', weight: -30 },
+        { term: 'residential', weight: -30 },
+        { term: 'home repair', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [regulatory, google],
@@ -63,10 +79,23 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'sewer line repair', 'faucet installation', 'clogged toilet',
       'residential', 'cleaning service', 'handyman'
     ],
-    verticalSignals: [
-      'grease trap', 'grease pumping', 'waste oil', 'grease disposal',
-      'grease recycling', 'yellow grease', 'grease interceptor'
-    ],
+    signals: {
+      primary: [
+        { term: 'grease trap', weight: 25 },
+        { term: 'grease interceptor', weight: 25 },
+        { term: 'FOG', weight: 25 },
+      ],
+      secondary: [
+        { term: 'pumping', weight: 10 },
+        { term: 'wastewater', weight: 10 },
+        { term: 'hydro jetting', weight: 10 },
+        { term: 'restaurant service', weight: 10 },
+      ],
+      negative: [
+        { term: 'home kitchen', weight: -30 },
+        { term: 'cooking oil', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [regulatory, google],
@@ -91,11 +120,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'mold inspection DIY', 'interior design', 'cleaning service',
       'carpet cleaning', 'property management'
     ],
-    verticalSignals: [
-      'asbestos abatement', 'asbestos removal', 'asbestos remediation',
-      'lead abatement', 'lead paint removal', 'hazardous material removal',
-      'environmental remediation'
-    ],
+    signals: {
+      primary: [
+        { term: 'asbestos', weight: 25 },
+        { term: 'lead abatement', weight: 25 },
+        { term: 'hazmat remediation', weight: 25 },
+        { term: 'environmental remediation', weight: 25 },
+      ],
+      secondary: [
+        { term: 'containment', weight: 10 },
+        { term: 'demolition', weight: 10 },
+        { term: 'air monitoring', weight: 10 },
+        { term: 'encapsulation', weight: 10 },
+      ],
+      negative: [
+        { term: 'diy kit', weight: -30 },
+        { term: 'home mold cleaning', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -119,11 +161,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'hand digging', 'plumbing repair DIY', 'pool excavation',
       'residential', 'gardening'
     ],
-    verticalSignals: [
-      'hydro excavation', 'vacuum excavation', 'hydrovac',
-      'utility potholing', 'daylighting', 'non-destructive digging',
-      'slurry excavation'
-    ],
+    signals: {
+      primary: [
+        { term: 'hydro excavation', weight: 25 },
+        { term: 'vacuum excavation', weight: 25 },
+        { term: 'hydrovac', weight: 25 },
+        { term: 'non-destructive digging', weight: 25 },
+      ],
+      secondary: [
+        { term: 'utility potholing', weight: 10 },
+        { term: 'daylighting', weight: 10 },
+        { term: 'slurry excavation', weight: 10 },
+      ],
+      negative: [
+        { term: 'landscaping', weight: -30 },
+        { term: 'backyard trenching', weight: -30 },
+        { term: 'sprinkler installation', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -148,10 +203,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'chimney sweep', 'DIY shingle replacement', 'skylight installation home',
       'home inspector', 'real estate'
     ],
-    verticalSignals: [
-      'commercial roofing', 'flat roof', 'TPO roofing', 'EPDM roofing',
-      'industrial roofing', 'roof membrane', 'built-up roofing'
-    ],
+    signals: {
+      primary: [
+        { term: 'commercial roofing', weight: 25 },
+        { term: 'flat roof', weight: 25 },
+        { term: 'TPO roofing', weight: 25 },
+        { term: 'industrial roofing', weight: 25 },
+      ],
+      secondary: [
+        { term: 'roof membrane', weight: 10 },
+        { term: 'built-up roofing', weight: 10 },
+        { term: 'EPDM roofing', weight: 10 },
+      ],
+      negative: [
+        { term: 'residential shingle', weight: -30 },
+        { term: 'gutter cleaning', weight: -30 },
+        { term: 'handyman', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -177,11 +246,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'veterinarian hospital general', 'local doctor office',
       'medical supply store', 'hospital'
     ],
-    verticalSignals: [
-      'medical waste', 'biohazard disposal', 'sharps disposal',
-      'clinical waste', 'regulated medical waste', 'infectious waste',
-      'pathological waste'
-    ],
+    signals: {
+      primary: [
+        { term: 'medical waste', weight: 25 },
+        { term: 'biohazard disposal', weight: 25 },
+        { term: 'sharps disposal', weight: 25 },
+        { term: 'regulated medical waste', weight: 25 },
+      ],
+      secondary: [
+        { term: 'clinical waste', weight: 10 },
+        { term: 'infectious waste', weight: 10 },
+        { term: 'pathological waste', weight: 10 },
+      ],
+      negative: [
+        { term: 'pharmacy', weight: -30 },
+        { term: 'dental clinic', weight: -30 },
+        { term: 'home health aid', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -206,11 +288,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'pawn shop', 'residential junk collection', 'antique store',
       'appliance repair', 'electronics repair'
     ],
-    verticalSignals: [
-      'scrap metal', 'metal recycling', 'ferrous scrap',
-      'non-ferrous scrap', 'metal processing', 'scrap yard',
-      'metal shredding'
-    ],
+    signals: {
+      primary: [
+        { term: 'scrap metal', weight: 25 },
+        { term: 'metal recycling', weight: 25 },
+        { term: 'ferrous scrap', weight: 25 },
+        { term: 'non-ferrous scrap', weight: 25 },
+      ],
+      secondary: [
+        { term: 'metal processing', weight: 10 },
+        { term: 'scrap yard', weight: 10 },
+        { term: 'metal shredding', weight: 10 },
+      ],
+      negative: [
+        { term: 'used car', weight: -30 },
+        { term: 'auto salvage', weight: -30 },
+        { term: 'mechanic shop', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -235,10 +330,24 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'yacht club sales', 'scuba diving school', 'marina slips',
       'fishing charter', 'boat storage'
     ],
-    verticalSignals: [
-      'marine construction', 'seawall', 'bulkhead', 'dock building',
-      'commercial dredging', 'pile driving', 'marine infrastructure'
-    ],
+    signals: {
+      primary: [
+        { term: 'marine construction', weight: 25 },
+        { term: 'seawall', weight: 25 },
+        { term: 'bulkhead', weight: 25 },
+        { term: 'dock building', weight: 25 },
+      ],
+      secondary: [
+        { term: 'commercial dredging', weight: 10 },
+        { term: 'pile driving', weight: 10 },
+        { term: 'marine infrastructure', weight: 10 },
+      ],
+      negative: [
+        { term: 'boat rental', weight: -30 },
+        { term: 'jet ski rental', weight: -30 },
+        { term: 'residential dock', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -262,10 +371,25 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
       'residential driveway', 'home repair', 'handyman',
       'concrete bags retail', 'decorative concrete', 'stamped concrete patio'
     ],
-    verticalSignals: [
-      'concrete contractor', 'concrete pumping', 'ready mix',
-      'concrete foundation', 'commercial concrete', 'industrial concrete'
-    ],
+    signals: {
+      primary: [
+        { term: 'concrete contractor', weight: 25 },
+        { term: 'concrete pumping', weight: 25 },
+        { term: 'ready mix', weight: 25 },
+        { term: 'concrete foundation', weight: 25 },
+        { term: 'commercial concrete', weight: 25 },
+      ],
+      secondary: [
+        { term: 'concrete pump', weight: 10 },
+        { term: 'concrete mixer', weight: 10 },
+        { term: 'concrete batch plant', weight: 10 },
+      ],
+      negative: [
+        { term: 'residential driveway', weight: -30 },
+        { term: 'decorative concrete', weight: -30 },
+        { term: 'stamped concrete patio', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -287,10 +411,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'rain gutter cleaning', 'residential drainage', 'home waterproofing'
     ],
-    verticalSignals: [
-      'SWPPP', 'stormwater', 'storm water', 'NPDES',
-      'erosion control', 'runoff monitoring'
-    ],
+    signals: {
+      primary: [
+        { term: 'SWPPP', weight: 25 },
+        { term: 'stormwater', weight: 25 },
+        { term: 'erosion control', weight: 25 },
+      ],
+      secondary: [
+        { term: 'BMP', weight: 10 },
+        { term: 'NPDES', weight: 10 },
+        { term: 'runoff', weight: 10 },
+      ],
+      negative: [
+        { term: 'gutter cleaning', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
     providers: [google],
@@ -312,10 +447,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'residential septic repair', 'pool cleaning', 'home plumbing'
     ],
-    verticalSignals: [
-      'industrial wastewater', 'wastewater treatment', 'industrial discharge',
-      'process wastewater', 'trade effluent'
-    ],
+    signals: {
+      primary: [
+        { term: 'industrial wastewater', weight: 25 },
+        { term: 'wastewater treatment', weight: 25 },
+        { term: 'pretreatment', weight: 25 },
+      ],
+      secondary: [
+        { term: 'filtration', weight: 10 },
+        { term: 'clarifier', weight: 10 },
+        { term: 'discharge permit', weight: 10 },
+      ],
+      negative: [
+        { term: 'home septic', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 15, contactEnrichmentWeight: 10, assetSignalWeight: 20 },
     createdAt: NOW,
     providers: [google],
@@ -336,10 +482,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'propane grill tank refill', 'home fuel tank', 'tank toys'
     ],
-    verticalSignals: [
-      'UST', 'underground storage tank', 'tank testing',
-      'tank compliance', 'leak detection'
-    ],
+    signals: {
+      primary: [
+        { term: 'UST', weight: 25 },
+        { term: 'tank testing', weight: 25 },
+        { term: 'leak detection', weight: 25 },
+      ],
+      secondary: [
+        { term: 'compliance', weight: 10 },
+        { term: 'fuel tank', weight: 10 },
+        { term: 'tank monitoring', weight: 10 },
+      ],
+      negative: [
+        { term: 'grill propane', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
     providers: [google],
@@ -360,10 +517,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'home stair lift', 'wheelchair lift', 'DIY repair'
     ],
-    verticalSignals: [
-      'elevator inspection', 'elevator certification', 'lift inspection',
-      'elevator safety', 'vertical transportation'
-    ],
+    signals: {
+      primary: [
+        { term: 'elevator inspection', weight: 25 },
+        { term: 'lift certification', weight: 25 },
+        { term: 'elevator testing', weight: 25 },
+      ],
+      secondary: [
+        { term: 'ASME', weight: 10 },
+        { term: 'safety inspection', weight: 10 },
+        { term: 'building compliance', weight: 10 },
+      ],
+      negative: [
+        { term: 'home stair lift', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
     providers: [google],
@@ -385,10 +553,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'home AC repair', 'window unit', 'portable AC'
     ],
-    verticalSignals: [
-      'HVAC test and balance', 'air balance', 'air balancing',
-      'commercial HVAC', 'TAB contractor'
-    ],
+    signals: {
+      primary: [
+        { term: 'test and balance', weight: 25 },
+        { term: 'air balancing', weight: 25 },
+        { term: 'HVAC balancing', weight: 25 },
+      ],
+      secondary: [
+        { term: 'CFM', weight: 10 },
+        { term: 'airflow testing', weight: 10 },
+        { term: 'TAB contractor', weight: 10 },
+      ],
+      negative: [
+        { term: 'window AC', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
     providers: [google],
@@ -410,10 +589,22 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'garden irrigation repair', 'residential lawn sprinkler system', 'plumbing drain unclogging'
     ],
-    verticalSignals: [
-      'fire sprinkler', 'sprinkler testing', 'hydrostatic test',
-      'fire suppression', 'sprinkler inspection'
-    ],
+    signals: {
+      primary: [
+        { term: 'fire sprinkler', weight: 25 },
+        { term: 'hydrostatic test', weight: 25 },
+        { term: 'sprinkler inspection', weight: 25 },
+      ],
+      secondary: [
+        { term: 'NFPA 25', weight: 10 },
+        { term: 'fire protection', weight: 10 },
+        { term: 'alarm testing', weight: 10 },
+      ],
+      negative: [
+        { term: 'lawn sprinkler', weight: -30 },
+        { term: 'irrigation', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],
@@ -435,10 +626,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'buy smoke detector home', 'extinguisher mount bracket amazon', 'fire protection engineering degree'
     ],
-    verticalSignals: [
-      'fire extinguisher', 'extinguisher inspection', 'extinguisher recharge',
-      'extinguisher hydrotest', 'portable extinguisher'
-    ],
+    signals: {
+      primary: [
+        { term: 'fire extinguisher', weight: 25 },
+        { term: 'recharge', weight: 25 },
+        { term: 'hydrotesting', weight: 25 },
+      ],
+      secondary: [
+        { term: 'NFPA 10', weight: 10 },
+        { term: 'inspection tag', weight: 10 },
+        { term: 'safety inspection', weight: 10 },
+      ],
+      negative: [
+        { term: 'home extinguisher', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 15, contactEnrichmentWeight: 10, assetSignalWeight: 20 },
     createdAt: NOW,
     providers: [google],
@@ -460,10 +662,21 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'residential kitchen hood filter replacement', 'home cleaning service', 'maid service'
     ],
-    verticalSignals: [
-      'kitchen exhaust', 'hood cleaning', 'restaurant hood',
-      'grease hood', 'exhaust degreasing', 'NFPA 96'
-    ],
+    signals: {
+      primary: [
+        { term: 'hood cleaning', weight: 25 },
+        { term: 'kitchen exhaust', weight: 25 },
+        { term: 'grease removal', weight: 25 },
+      ],
+      secondary: [
+        { term: 'NFPA 96', weight: 10 },
+        { term: 'restaurant', weight: 10 },
+        { term: 'duct cleaning', weight: 10 },
+      ],
+      negative: [
+        { term: 'residential cleaning', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
     providers: [google],
@@ -485,10 +698,22 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'residential water filtration pitcher', 'swimming pool backwash valve', 'sewer line replacement'
     ],
-    verticalSignals: [
-      'backflow testing', 'backflow certification', 'RPZ testing',
-      'cross connection', 'backflow prevention'
-    ],
+    signals: {
+      primary: [
+        { term: 'backflow', weight: 25 },
+        { term: 'RPZ', weight: 25 },
+        { term: 'cross connection', weight: 25 },
+      ],
+      secondary: [
+        { term: 'water testing', weight: 10 },
+        { term: 'certified tester', weight: 10 },
+        { term: 'assembly testing', weight: 10 },
+      ],
+      negative: [
+        { term: 'pool', weight: -30 },
+        { term: 'home filter', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
     providers: [google],
@@ -510,10 +735,22 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     negativeKeywords: [
       'portable generator camping sales', 'rv generator repair', 'home solar backup installation'
     ],
-    verticalSignals: [
-      'generator testing', 'load bank testing', 'emergency generator',
-      'backup generator', 'generator maintenance'
-    ],
+    signals: {
+      primary: [
+        { term: 'generator testing', weight: 25 },
+        { term: 'load bank', weight: 25 },
+        { term: 'emergency generator', weight: 25 },
+      ],
+      secondary: [
+        { term: 'NFPA 110', weight: 10 },
+        { term: 'backup power', weight: 10 },
+        { term: 'diesel generator', weight: 10 },
+      ],
+      negative: [
+        { term: 'camping generator', weight: -30 },
+        { term: 'portable generator', weight: -30 },
+      ],
+    },
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
     providers: [google],

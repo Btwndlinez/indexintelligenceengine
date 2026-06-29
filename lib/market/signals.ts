@@ -1,17 +1,23 @@
+import { SignalLayers } from '@/types/config';
+
 export class KeywordSignalExtractor {
   extract(
     companyName: string | undefined,
     notes: string | undefined,
-    verticalSignals: string[],
+    signals: SignalLayers,
     equipmentKeywords: string[]
   ): { hasSignals: boolean; capabilitySummary: string } {
     const text = `${companyName || ''} ${notes || ''}`.toLowerCase();
     const matched = new Set<string>();
 
-    for (const signal of [...verticalSignals, ...equipmentKeywords]) {
-      if (text.includes(signal.toLowerCase())) {
-        matched.add(signal);
-      }
+    for (const s of signals.primary) {
+      if (text.includes(s.term.toLowerCase())) matched.add(s.term);
+    }
+    for (const s of signals.secondary) {
+      if (text.includes(s.term.toLowerCase())) matched.add(s.term);
+    }
+    for (const keyword of equipmentKeywords) {
+      if (text.includes(keyword.toLowerCase())) matched.add(keyword);
     }
 
     if (matched.size === 0) {

@@ -98,7 +98,7 @@ export class IndexIntelligenceEngine {
       const signalResult = this.signalExtractor.extract(
         base.companyName,
         base.notes,
-        config.verticalSignals,
+        config.signals,
         config.equipmentKeywords
       );
 
