@@ -345,6 +345,8 @@ function LandingInner() {
 
       <div className="palantir-rule" />
 
+      <div className="h-16" />
+
       {/* ───── HOW IT WORKS ───── */}
       <section id="how-it-works" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
