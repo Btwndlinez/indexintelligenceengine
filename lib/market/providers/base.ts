@@ -1,4 +1,5 @@
 import { Company } from '@/types/company';
+import { VerticalConfig } from '@/types/config';
 
 export interface DiscoveryParams {
   zip: string;
@@ -7,6 +8,7 @@ export interface DiscoveryParams {
   lng?: number;
   radius?: number;
   searchQueries?: string[];
+  verticalConfig?: VerticalConfig;
 }
 
 export interface DiscoveryProvider {

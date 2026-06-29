@@ -6,6 +6,17 @@ export interface ScoreResult {
   priority: 'A' | 'B' | 'C' | 'D';
   matchedSignals: string[];
   negativeHits: string[];
+  scoreBreakdown: ScoreBreakdown;
+}
+
+export interface ScoreBreakdown {
+  signalScore: number;
+  profileScore: number;
+  distanceScore: number;
+  categoryBonus: number;
+  apolloBonus: number;
+  regulatoryBonus: number;
+  total: number;
 }
 
 export function calculateLeadScore(
@@ -18,63 +29,140 @@ export function calculateLeadScore(
   const matchedSignals: string[] = [];
   const negativeHits: string[] = [];
 
-  const checkSignal = (term: string) => {
-    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${escapedTerm}\\b`, 'i');
+  const breakdown: ScoreBreakdown = {
+    signalScore: 0,
+    profileScore: 0,
+    distanceScore: 0,
+    categoryBonus: 0,
+    apolloBonus: 0,
+    regulatoryBonus: 0,
+    total: 0,
+  };
+
+  const categoryText = (company.googleCategorySignals || []).join(' ');
+  const apolloText = company.apolloDescription || '';
+
+  const fullText = [textToAnalyze, categoryText, apolloText]
+    .filter(Boolean)
+    .join(' ');
+
+  const checkSignal = (term: string): boolean => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+    return regex.test(fullText);
+  };
+
+  const checkSignalInBase = (term: string): boolean => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
     return regex.test(textToAnalyze);
   };
 
-  // 1. Primary signals — strongest buyer intent
+  const checkSignalInCategory = (term: string): boolean => {
+    if (!categoryText) return false;
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+    return regex.test(categoryText);
+  };
+
+  const checkSignalInApollo = (term: string): boolean => {
+    if (!apolloText) return false;
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+    return regex.test(apolloText);
+  };
+
   for (const sig of config.signals.primary) {
     if (checkSignal(sig.term)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
+
+      if (checkSignalInCategory(sig.term) && !checkSignalInBase(sig.term)) {
+        breakdown.categoryBonus += sig.weight;
+      } else if (checkSignalInApollo(sig.term) && !checkSignalInBase(sig.term)) {
+        breakdown.apolloBonus += sig.weight;
+      } else {
+        breakdown.signalScore += sig.weight;
+      }
     }
   }
 
-  // 2. Secondary signals — related equipment/services
   for (const sig of config.signals.secondary) {
     if (checkSignal(sig.term)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
+
+      if (checkSignalInCategory(sig.term) && !checkSignalInBase(sig.term)) {
+        breakdown.categoryBonus += sig.weight;
+      } else if (checkSignalInApollo(sig.term) && !checkSignalInBase(sig.term)) {
+        breakdown.apolloBonus += sig.weight;
+      } else {
+        breakdown.signalScore += sig.weight;
+      }
     }
   }
 
-  // 3. Negative / false positive signals
+  const checkNegativeSignal = (term: string): boolean => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+    return regex.test(textToAnalyze);
+  };
+
   for (const sig of config.signals.negative) {
-    if (checkSignal(sig.term)) {
+    if (checkNegativeSignal(sig.term)) {
       score += sig.weight;
       negativeHits.push(sig.term);
     }
   }
 
-  // 4. Baseline profile weights — only awarded if relevant signals found
   const hasMatch = matchedSignals.length > 0;
 
   if (hasMatch) {
-    if (company.phone) score += config.scoringWeights.hasPhone;
-    if (company.website) score += config.scoringWeights.hasWebsite;
-    if (company.email) score += config.scoringWeights.hasContactEmail;
-    if (company.address) score += config.scoringWeights.hasPhysicalAddress;
+    let profileScore = 0;
+    if (company.phone)   profileScore += config.scoringWeights.hasPhone;
+    if (company.website) profileScore += config.scoringWeights.hasWebsite;
+    if (company.email)   profileScore += config.scoringWeights.hasContactEmail;
+    if (company.address) profileScore += config.scoringWeights.hasPhysicalAddress;
+    score += profileScore;
+    breakdown.profileScore = profileScore;
 
-    if (company.hasRegulatoryPermit) score += 15;
+    if (company.hasRegulatoryPermit) {
+      score += 15;
+      breakdown.regulatoryBonus = 15;
+    }
 
-    // Graduated distance scoring
-    if (distanceMiles !== undefined) {
-      if (distanceMiles <= 10) score += config.scoringWeights.distanceFactor * 1.5;
-      else if (distanceMiles <= 25) score += config.scoringWeights.distanceFactor;
-      else if (distanceMiles <= 50) score += config.scoringWeights.distanceFactor * 0.5;
+    const dist = distanceMiles ?? company.distanceMiles;
+    if (dist !== undefined) {
+      let distanceScore = 0;
+      if (dist <= 10)      distanceScore = config.scoringWeights.distanceFactor * 1.5;
+      else if (dist <= 25) distanceScore = config.scoringWeights.distanceFactor;
+      else if (dist <= 50) distanceScore = config.scoringWeights.distanceFactor * 0.5;
+      score += distanceScore;
+      breakdown.distanceScore = distanceScore;
     }
   }
 
-  // 5. Determine priority tier
+  score = Math.round(score);
+  breakdown.total = score;
+
   let priority: 'A' | 'B' | 'C' | 'D';
-  if (score >= 90) priority = 'A';
+  if (score >= 90)     priority = 'A';
   else if (score >= 70) priority = 'B';
   else if (score >= 50) priority = 'C';
-  else priority = 'D';
+  else                  priority = 'D';
 
   if (score < 0) priority = 'D';
 
-  return { score, priority, matchedSignals, negativeHits };
+  return { score, priority, matchedSignals, negativeHits, scoreBreakdown: breakdown };
+}
+
+export function buildAnalysisText(company: Partial<Company>): string {
+  return [
+    company.companyName,
+    company.address,
+    company.notes,
+    company.capabilitySummary,
+  ]
+    .filter(Boolean)
+    .join(' ');
 }

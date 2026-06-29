@@ -26,9 +26,9 @@ export class ApolloAdapter {
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache',
-          'X-Api-Key': apiKey
+          'X-Api-Key': apiKey,
         },
-        body: JSON.stringify({ domain: cleanDomain })
+        body: JSON.stringify({ domain: cleanDomain }),
       });
 
       if (!response.ok) {
@@ -40,15 +40,45 @@ export class ApolloAdapter {
 
       const now = new Date().toISOString();
 
+      const apolloDescriptionParts: string[] = [];
+
+      if (org.short_description) {
+        apolloDescriptionParts.push(org.short_description);
+      }
+
+      if (Array.isArray(org.keywords) && org.keywords.length > 0) {
+        apolloDescriptionParts.push(org.keywords.join(' '));
+      } else if (typeof org.keywords === 'string' && org.keywords) {
+        apolloDescriptionParts.push(org.keywords);
+      }
+
+      if (org.industry) {
+        apolloDescriptionParts.push(org.industry);
+      }
+
+      if (Array.isArray(org.sic_codes) && org.sic_codes.length > 0) {
+        apolloDescriptionParts.push(org.sic_codes.join(' '));
+      }
+
+      if (org.raw_description && org.raw_description !== org.short_description) {
+        apolloDescriptionParts.push((org.raw_description as string).slice(0, 400));
+      }
+
+      const apolloDescription = apolloDescriptionParts
+        .filter(Boolean)
+        .join(' | ')
+        .trim() || undefined;
+
       const companyFields: Partial<Company> = {
         email: org.primary_contact_email || undefined,
         phone: company.phone || org.phone || undefined,
-        source: `${company.source}+${this.name}`
+        apolloDescription,
+        source: `${company.source}+${this.name}`,
       };
 
       const contacts: Partial<Contact>[] = [];
       if (org.primary_contact_name) {
-        const nameParts = org.primary_contact_name.split(' ');
+        const nameParts = (org.primary_contact_name as string).split(' ');
         contacts.push({
           firstName: nameParts[0] || undefined,
           lastName: nameParts.slice(1).join(' ') || undefined,
@@ -57,13 +87,13 @@ export class ApolloAdapter {
           phone: org.phone || undefined,
           linkedinUrl: org.linkedin_url || undefined,
           isPrimary: true,
-          createdAt: now
+          createdAt: now,
         });
       }
 
       return { companyFields, contacts };
     } catch (err) {
-      console.error(`Apollo Enrichment execution failure:`, err);
+      console.error('Apollo Enrichment execution failure:', err);
       return empty;
     }
   }

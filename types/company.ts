@@ -37,6 +37,8 @@ export interface Company {
   longitude?: number;
   distanceMiles?: number;
   hasRegulatoryPermit?: boolean;
+  googleCategorySignals?: string[];
+  apolloDescription?: string;
   enrichmentScore: number;
   priority: PriorityGroup;
   status: CRMStatus;

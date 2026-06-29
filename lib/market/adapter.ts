@@ -3,7 +3,7 @@ import { VerticalConfig } from '@/types/config';
 import { VerticalConfigWithProviders, isIrrelevant } from './registry';
 import { ApolloAdapter } from './providers/apollo';
 import { KeywordSignalExtractor } from './signals';
-import { calculateLeadScore } from './scoring';
+import { calculateLeadScore, buildAnalysisText } from './scoring';
 import { geocodeZip, haversineDistance } from '@/lib/geo';
 
 export class IndexIntelligenceEngine {
@@ -31,6 +31,7 @@ export class IndexIntelligenceEngine {
           lng: zipCoords?.lng,
           radius: filters.radius,
           searchQueries: config.searchQueries,
+          verticalConfig: config,
         }).catch(err => {
           console.error(`[${provider.name}] search failed:`, err);
           return [] as Partial<Company>[];
@@ -87,7 +88,7 @@ export class IndexIntelligenceEngine {
             ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, record.latitude, record.longitude) * 10) / 10
             : undefined;
 
-        const text = `${record.companyName || ''} ${record.notes || ''} ${record.capabilitySummary || ''} ${record.address || ''}`;
+        const text = buildAnalysisText(record);
         const result = calculateLeadScore(record, config, text, distance);
         base.enrichmentScore = result.score;
         base.priority = result.priority;
@@ -102,7 +103,7 @@ export class IndexIntelligenceEngine {
       }
 
       // Stage 1: Fast pre-filter before Apollo (saves API credits)
-      const precheckText = `${record.companyName || ''} ${record.notes || ''} ${record.address || ''}`;
+      const precheckText = buildAnalysisText(record);
       const precheck = this.signalExtractor.extract(precheckText, config.signals, config.equipmentKeywords);
       if (precheck.negativeHits.length >= 2) {
         continue;
@@ -110,24 +111,23 @@ export class IndexIntelligenceEngine {
 
       const apolloResult = await this.apolloAdapter.enrich(base);
 
+      // Merge Apollo fields into base so buildAnalysisText + signalExtractor see apolloDescription
+      const mergedBase: Partial<Company> = {
+        ...base,
+        ...apolloResult.companyFields,
+      };
+
       // Stage 2: Rich signal extraction across all available data
-      const analysisText = `
-${base.companyName || ''}
-${base.notes || ''}
-${base.address || ''}
-${apolloResult.companyFields?.industry || ''}
-${apolloResult.companyFields?.description || ''}
-${apolloResult.companyFields?.website || ''}
-`;
+      const analysisText = buildAnalysisText(mergedBase);
       const signalResult = this.signalExtractor.extract(
         analysisText,
         config.signals,
-        config.equipmentKeywords
+        config.equipmentKeywords,
+        mergedBase
       );
 
       const mergedCompany: Partial<Company> = {
-        ...base,
-        ...apolloResult.companyFields,
+        ...mergedBase,
         capabilitySummary: signalResult.capabilitySummary,
       };
 
@@ -137,14 +137,7 @@ ${apolloResult.companyFields?.website || ''}
       }));
 
       const distance = mergedCompany.distanceMiles;
-      const scoringText = `
-${mergedCompany.companyName || ''}
-${mergedCompany.notes || ''}
-${mergedCompany.capabilitySummary || ''}
-${mergedCompany.address || ''}
-${apolloResult.companyFields?.industry || ''}
-${apolloResult.companyFields?.description || ''}
-`;
+      const scoringText = buildAnalysisText(mergedCompany);
       const result = calculateLeadScore(mergedCompany, config, scoringText, distance);
       mergedCompany.enrichmentScore = result.score;
       mergedCompany.priority = result.priority;
