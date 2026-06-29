@@ -4,6 +4,14 @@ export interface ScoringWeights {
   assetSignalWeight: number;
 }
 
+export interface ContactScoringWeights {
+  hasWebsite: number;
+  hasPhone: number;
+  hasContactEmail: number;
+  hasPhysicalAddress: number;
+  distanceFactor: number;
+}
+
 export interface WeightedSignal {
   term: string;
   weight: number;
@@ -26,6 +34,7 @@ export interface VerticalConfig {
   searchQueries: string[];
   verticalSignals?: string[];
   signals: SignalLayers;
+  scoringWeights: ContactScoringWeights;
   baseScoringWeights: ScoringWeights;
   createdAt: string;
 }

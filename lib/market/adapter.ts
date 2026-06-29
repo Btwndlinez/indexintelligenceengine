@@ -3,7 +3,7 @@ import { VerticalConfig } from '@/types/config';
 import { VerticalConfigWithProviders, isIrrelevant } from './registry';
 import { ApolloAdapter } from './providers/apollo';
 import { KeywordSignalExtractor } from './signals';
-import { calculateCompositeScore, getTier } from './scoring';
+import { calculateLeadScore } from './scoring';
 import { geocodeZip, haversineDistance } from '@/lib/geo';
 
 export class IndexIntelligenceEngine {
@@ -86,9 +86,10 @@ export class IndexIntelligenceEngine {
             ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, record.latitude, record.longitude) * 10) / 10
             : undefined;
 
-        const score = calculateCompositeScore(record, config, distance);
-        base.enrichmentScore = score;
-        base.priority = getTier(score);
+        const text = `${record.companyName || ''} ${record.notes || ''} ${record.capabilitySummary || ''} ${record.address || ''}`;
+        const result = calculateLeadScore(record, config, text, distance);
+        base.enrichmentScore = result.score;
+        base.priority = result.priority;
         base.distanceMiles = distance;
         finalizedCompanies.push(base as Company);
         continue;
@@ -114,9 +115,10 @@ export class IndexIntelligenceEngine {
       }));
 
       const distance = mergedCompany.distanceMiles;
-      const score = calculateCompositeScore(mergedCompany, config, distance);
-      mergedCompany.enrichmentScore = score;
-      mergedCompany.priority = getTier(score);
+      const text = `${mergedCompany.companyName || ''} ${mergedCompany.notes || ''} ${mergedCompany.capabilitySummary || ''} ${mergedCompany.address || ''}`;
+      const result = calculateLeadScore(mergedCompany, config, text, distance);
+      mergedCompany.enrichmentScore = result.score;
+      mergedCompany.priority = result.priority;
 
       const contactId = `contact-${mergedCompany.id}`;
       finalizedCompanies.push(mergedCompany as Company);
@@ -126,9 +128,9 @@ export class IndexIntelligenceEngine {
       })) as Contact[]);
     }
 
-    const gradeOrder: Record<string, number> = { A: 0, B: 1, C: 2 };
+    const gradeOrder: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
     finalizedCompanies.sort((a, b) => {
-      const g = (gradeOrder[a.priority || 'C'] ?? 2) - (gradeOrder[b.priority || 'C'] ?? 2);
+      const g = (gradeOrder[a.priority || 'D'] ?? 3) - (gradeOrder[b.priority || 'D'] ?? 3);
       if (g !== 0) return g;
       return (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity);
     });
