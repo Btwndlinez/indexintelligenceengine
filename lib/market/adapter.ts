@@ -195,7 +195,7 @@ ${apolloResult.companyFields?.notes || ''}
       return (a.distanceMiles ?? Infinity) - (b.distanceMiles ?? Infinity);
     });
 
-    return { companies: finalizedCompanies, contacts: allContacts };
+    return { companies: finalizedCompanies, contacts: allContacts, _pipeline: { raw: candidatePool.length, filteredPool: filteredPool.length, scored: finalizedCompanies.length } } as any;
     } catch (e) {
       console.error('[CRITICAL] executeMarketDiscovery threw:', e);
       return { companies: [], contacts: [] };
