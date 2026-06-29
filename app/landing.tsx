@@ -287,14 +287,14 @@ function LandingInner() {
               ].map(({ icon: Icon, label }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold"
+                  className="flex items-center gap-3 px-5 py-3 rounded-full text-xl font-bold"
                   style={{
                     background: 'var(--color-surface)',
                     border: '1px solid var(--color-border)',
                     color: 'var(--color-text)',
                   }}
                 >
-                  <Icon className="w-4 h-4" style={{ color: 'var(--color-red)' }} />
+                  <Icon className="w-6 h-6" style={{ color: 'var(--color-red)' }} />
                   {label}
                 </div>
               ))}
