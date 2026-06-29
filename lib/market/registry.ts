@@ -26,13 +26,11 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'slurry_concrete',
     industryName: 'Concrete Slurry Recycling & Disposal',
     searchQueries: [
-      'concrete slurry recycling',
-      'concrete washout',
-      'slurry disposal',
-      'ready mix reclaiming',
-      'concrete reclaiming',
       'concrete recycling',
-      'construction waste disposal'
+      'concrete disposal',
+      'construction waste removal',
+      'demolition contractor',
+      'waste management service'
     ],
     targetNaicsCodes: ['562211', '238110', '562112'],
     equipmentKeywords: [
@@ -81,9 +79,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'grease_trap',
     industryName: 'Commercial Grease Trap Pumping & Recycling',
     searchQueries: [
-      'grease trap pumping service', 'commercial grease trap',
-      'waste oil recycling', 'restaurant grease disposal', 'yellow grease collection',
-      'commercial grease removal', 'industrial waste pumping'
+      'septic tank pumping', 'drain cleaning service',
+      'commercial plumbing', 'waste removal service',
+      'grease trap cleaning', 'restaurant grease disposal'
     ],
     targetNaicsCodes: ['562219', '562111', '562998'],
     equipmentKeywords: [
@@ -176,8 +174,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'hydro_excavation',
     industryName: 'Hydro-Excavation & Non-Destructive Digging',
     searchQueries: [
-      'hydro excavation service', 'vacuum excavation contractor',
-      'utility potholing', 'daylighting utilities', 'non-destructive digging'
+      'excavation contractor', 'utility contractor',
+      'underground construction', 'trenching services',
+      'vacuum truck service', 'hydro excavation service'
     ],
     targetNaicsCodes: ['562998', '238910', '562119'],
     equipmentKeywords: [
@@ -351,9 +350,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'marine_construction',
     industryName: 'Heavy Marine & Dock Infrastructure',
     searchQueries: [
-      'marine construction contractor', 'seawall repair construction',
-      'industrial dock building', 'commercial dredging service',
-      'bulkhead construction'
+      'dock builder', 'marine contractor',
+      'waterfront construction', 'pile driving contractor',
+      'marine construction contractor', 'seawall repair construction'
     ],
     targetNaicsCodes: ['237990', '238910'],
     equipmentKeywords: [
@@ -519,7 +518,9 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     slug: 'tank_testing',
     industryName: 'Underground Tank Testing',
     searchQueries: [
-      'UST testing', 'underground tank compliance', 'tank leak detection'
+      'environmental testing', 'fuel tank service',
+      'oil tank testing', 'storage tank services',
+      'compliance testing', 'tank leak detection'
     ],
     targetNaicsCodes: ['541380', '562910'],
     equipmentKeywords: [
