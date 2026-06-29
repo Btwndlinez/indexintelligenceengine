@@ -26,11 +26,14 @@ export async function POST(req: NextRequest) {
     }
 
     const engine = new IndexIntelligenceEngine();
-    const { companies, contacts } = await withTimeout(
+    const result = await withTimeout(
       engine.executeMarketDiscovery(body, verticalConfig),
       60000,
       () => ({ companies: [], contacts: [] } as any)
     );
+    const companies = result.companies || [];
+    const contacts = result.contacts || [];
+    const pipeline = (result as any)._pipeline;
 
     writeAudit({
       provider: 'search',
@@ -58,6 +61,7 @@ export async function POST(req: NextRequest) {
       count: normalized.length,
       companies: normalized,
       contacts,
+      _pipeline: pipeline,
     });
   } catch (err: any) {
     console.error("Core Engine Error:", err);
