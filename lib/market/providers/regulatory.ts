@@ -1,139 +1,78 @@
 import { DiscoveryProvider, DiscoveryParams, getStateFromZip } from './base';
 import { Company } from '@/types/company';
-import { haversineDistance } from '@/lib/geo';
+import { StateScraper, ScraperResult } from './scrapers/types';
+import { CalRecycleScraper } from './scrapers/calrecycle';
+import { TCEQScraper } from './scrapers/tceq';
+
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export class RegulatoryProvider implements DiscoveryProvider {
   name = 'regulatory_permit';
+  private scrapers: Map<string, StateScraper> = new Map();
+
+  constructor() {
+    this.scrapers.set('CA', new CalRecycleScraper());
+    this.scrapers.set('TX', new TCEQScraper());
+  }
 
   async search(params: DiscoveryParams): Promise<Partial<Company>[]> {
     const state = getStateFromZip(params.zip);
-    const now = new Date().toISOString();
-    const vertical = params.vertical;
-    const { lat: zipLat, lng: zipLng } = params;
 
-    function calcDist(lat?: number, lng?: number): number | undefined {
-      if (zipLat != null && zipLng != null && lat != null && lng != null) {
-        return Math.round(haversineDistance(zipLat, zipLng, lat, lng) * 10) / 10;
-      }
-      return undefined;
+    // 1. Try Supabase cache first
+    const cached = await this.getCached(state, params.vertical);
+    if (cached && !this.isStale(cached)) {
+      return cached.records;
     }
 
-    if (state === 'CA' && vertical === 'slurry_concrete') {
-      return [
-        {
-          id: 'reg-ca-crete-crush',
-          companyName: 'Crete Crush',
-          address: '1230 Commerce Way',
-          city: 'Sacramento',
-          state: 'CA',
-          zipCode: '95815',
-          latitude: 38.595,
-          longitude: -121.430,
-          website: 'cretecrush.net',
-          phone: '916-555-0199',
-          notes: 'CalRecycle SWIS Permit. Approved for concrete slurry recycling, concrete reclaiming, concrete washout, and slurry disposal.',
-          source: this.name,
-          hasRegulatoryPermit: true,
-          distanceMiles: calcDist(38.595, -121.430),
-          createdAt: now,
-          updatedAt: now,
-        },
-        {
-          id: 'reg-ca-bay-slurry',
-          companyName: 'Bay Area Slurry Solutions',
-          address: '451 Industrial Pkwy',
-          city: 'Hayward',
-          state: 'CA',
-          zipCode: '94544',
-          latitude: 37.625,
-          longitude: -122.086,
-          website: 'baslurry.com',
-          phone: '510-555-0142',
-          notes: 'Licensed Transporter (HWCL) + EPA Waste Carrier. Slurry recycling, concrete washout services.',
-          source: this.name,
-          hasRegulatoryPermit: true,
-          distanceMiles: calcDist(37.625, -122.086),
-          createdAt: now,
-          updatedAt: now,
-        },
-        {
-          id: 'reg-ca-pac-bay',
-          companyName: 'Pacific Bay Ready Mix & Slurry Processing',
-          address: '1400 Industrial Parkway',
-          city: 'Hayward',
-          state: 'CA',
-          zipCode: '94544',
-          latitude: 37.630,
-          longitude: -122.090,
-          phone: '510-555-0188',
-          notes: 'NPDES-CAG200001-SF. Concrete washout, slurry recycling, ready mix batch plant.',
-          source: this.name,
-          hasRegulatoryPermit: true,
-          distanceMiles: calcDist(37.630, -122.090),
-          createdAt: now,
-          updatedAt: now,
-        },
-        {
-          id: 'reg-ca-slurry-station',
-          companyName: 'Slurry Station',
-          address: '2480 Athens Ave',
-          city: 'Lincoln',
-          state: 'CA',
-          zipCode: '95648',
-          latitude: 38.891,
-          longitude: -121.293,
-          website: 'slurrystation.com',
-          phone: '+1 916-434-0395',
-          notes: 'Concrete slurry recycling, washout services, slurry disposal, and ready mix reclaiming. Full-service slurry management for construction sites.',
-          source: this.name,
-          hasRegulatoryPermit: true,
-          distanceMiles: calcDist(38.891, -121.293),
-          createdAt: now,
-          updatedAt: now,
-        },
-      ];
+    // 2. Run live scraper
+    const scraper = this.scrapers.get(state);
+    if (!scraper) {
+      return [];
     }
 
-    if (state === 'TX' && vertical === 'slurry_concrete') {
-      return [
-        {
-          id: 'reg-tx-lone-star',
-          companyName: 'Lone Star Slurry Dewatering Inc',
-          address: '1105 Industrial Blvd',
-          city: 'Houston',
-          state: 'TX',
-          zipCode: '77002',
-          latitude: 29.760,
-          longitude: -95.369,
-          website: 'lonestarslurry.com',
-          phone: '713-555-0177',
-          notes: 'TXG114920. TCEQ NPDES Concrete Permit. Slurry dewatering, concrete washout, reclaiming services.',
-          source: this.name,
-          hasRegulatoryPermit: true,
-          distanceMiles: calcDist(29.760, -95.369),
-          createdAt: now,
-          updatedAt: now,
-        },
-        {
-          id: 'reg-tx-gaza',
-          companyName: 'Gaza Slurry Hauling & Environmental',
-          address: '4300 East Loop 820 S',
-          city: 'Fort Worth',
-          state: 'TX',
-          zipCode: '76119',
-          latitude: 32.715,
-          longitude: -97.286,
-          phone: '817-555-0155',
-          notes: 'TX-LIQ-99381. TCEQ Liquid Waste Hauler Permit. Slurry hauling, concrete washout pumping.',
-          source: this.name,
-          hasRegulatoryPermit: true,
-          distanceMiles: calcDist(32.715, -97.286),
-          createdAt: now,
-          updatedAt: now,
-        },
-      ];
+    const result = await scraper.scrape(params);
+
+    // 3. Cache result in Supabase if available
+    if (result.success && result.records.length > 0) {
+      await this.setCached(state, params.vertical, result).catch(() => {});
     }
 
-    return [];
+    return result.records;
+  }
+
+  private async getCached(state: string, vertical: string): Promise<{ records: Partial<Company>[]; cachedAt: number } | null> {
+    try {
+      const { supabaseFetch } = await import('@/lib/db');
+      const res = await supabaseFetch(
+        `/rest/v1/rpc/get_regulatory_cache?p_state=${state}&p_vertical=${vertical}`
+      );
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!data?.records?.length) return null;
+      return { records: data.records, cachedAt: data.cached_at };
+    } catch {
+      return null;
+    }
+  }
+
+  private async setCached(state: string, vertical: string, result: ScraperResult): Promise<void> {
+    try {
+      const { supabaseFetch } = await import('@/lib/db');
+      await supabaseFetch('/rest/v1/regulatory_cache', {
+        method: 'POST',
+        body: JSON.stringify({
+          state,
+          vertical,
+          records: result.records,
+          cached_at: Date.now(),
+        }),
+      });
+    } catch {
+      // Non-blocking — cache is optional
+    }
+  }
+
+  private isStale(cached: { cachedAt: number }): boolean {
+    return Date.now() - cached.cachedAt > CACHE_TTL_MS;
   }
 }
