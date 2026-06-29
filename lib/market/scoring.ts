@@ -1,5 +1,6 @@
 import { Company } from '@/types/company';
 import { VerticalConfig } from '@/types/config';
+import { positiveMatch, negativeMatch } from './signalMatch';
 
 export interface ScoreResult {
   score: number;
@@ -18,15 +19,9 @@ export function calculateLeadScore(
   const matchedSignals: string[] = [];
   const negativeHits: string[] = [];
 
-  const checkSignal = (term: string) => {
-    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${escapedTerm}\\b`, 'i');
-    return regex.test(textToAnalyze);
-  };
-
   // 1. Primary signals — strongest buyer intent
   for (const sig of config.signals.primary) {
-    if (checkSignal(sig.term)) {
+    if (positiveMatch(sig.term, textToAnalyze)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
     }
@@ -34,15 +29,15 @@ export function calculateLeadScore(
 
   // 2. Secondary signals — related equipment/services
   for (const sig of config.signals.secondary) {
-    if (checkSignal(sig.term)) {
+    if (positiveMatch(sig.term, textToAnalyze)) {
       score += sig.weight;
       matchedSignals.push(sig.term);
     }
   }
 
-  // 3. Negative / false positive signals
+  // 3. Negative / false positive signals — strict phrase match only
   for (const sig of config.signals.negative) {
-    if (checkSignal(sig.term)) {
+    if (negativeMatch(sig.term, textToAnalyze)) {
       score += sig.weight;
       negativeHits.push(sig.term);
     }
