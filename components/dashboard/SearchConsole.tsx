@@ -29,7 +29,7 @@ export default function SearchConsole({
   const zip = controlledZip ?? internalZip;
   const setZip = onZipChange ?? setInternalZip;
 
-  const [radius, setRadius] = useState('10');
+  const [radius, setRadius] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -141,6 +141,25 @@ export default function SearchConsole({
             </select>
           </div>
 
+          {/* Radius */}
+          <div>
+            <label className="field-label">
+              <MapPin className="w-4 h-4" />
+              Radius
+            </label>
+            <select
+              value={radius}
+              onChange={e => setRadius(e.target.value)}
+              className="field-input"
+            >
+              <option value="" disabled>(Select)</option>
+              <option value="10">10 miles</option>
+              <option value="20">20 miles</option>
+              <option value="50">50 miles</option>
+              <option value="100">100 miles</option>
+            </select>
+          </div>
+
           {/* ZIP */}
           <div>
             <label className="field-label">
@@ -157,24 +176,6 @@ export default function SearchConsole({
               placeholder="Enter ZIP code"
               className="field-input"
             />
-          </div>
-
-          {/* Radius */}
-          <div>
-            <label className="field-label">
-              <MapPin className="w-4 h-4" />
-              Radius
-            </label>
-            <select
-              value={radius}
-              onChange={e => setRadius(e.target.value)}
-              className="field-input"
-            >
-              <option value="10">10 miles</option>
-              <option value="20">20 miles</option>
-              <option value="50">50 miles</option>
-              <option value="100">100 miles</option>
-            </select>
           </div>
 
         </div>
