@@ -5,7 +5,7 @@ import Sidebar from '@/components/dashboard/Sidebar';
 import Topbar from '@/components/dashboard/Topbar';
 import MobileBottomNav from '@/components/dashboard/MobileBottomNav';
 import Link from 'next/link';
-import { Zap } from 'lucide-react';
+import { HardHat } from 'lucide-react';
 
 function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   return (
@@ -40,7 +40,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
               className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: 'var(--color-red)' }}
             >
-              <Zap className="w-4 h-4 text-white" fill="white" />
+              <HardHat className="w-4 h-4 text-white" />
             </div>
             <span
               className="font-black text-base"

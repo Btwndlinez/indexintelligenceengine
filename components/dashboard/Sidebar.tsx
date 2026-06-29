@@ -1,6 +1,6 @@
 'use client';
 
-import { Zap, LayoutDashboard, Search, TrendingUp, Layers, Phone, BarChart3, CreditCard, Settings, Shield } from 'lucide-react';
+import { HardHat, LayoutDashboard, Search, TrendingUp, Layers, Phone, BarChart3, CreditCard, Settings, Shield } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import ThemeToggle from '@/components/shared/ThemeToggle';
@@ -58,7 +58,7 @@ export default function Sidebar({ slim = false }: SidebarProps) {
             className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
             style={{ background: 'var(--color-red)' }}
           >
-            <Zap className="w-5 h-5 text-white" fill="white" />
+            <HardHat className="w-5 h-5 text-white" />
           </div>
           {!slim && (
             <span

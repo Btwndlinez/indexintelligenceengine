@@ -114,7 +114,7 @@ function LandingInner() {
               className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg"
               style={{ background: 'var(--color-red)' }}
             >
-              <Zap className="w-5 h-5 text-white" fill="white" />
+              <HardHat className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col leading-none">
               <span
@@ -610,7 +610,7 @@ function LandingInner() {
                 className="w-9 h-9 rounded-lg flex items-center justify-center"
                 style={{ background: 'var(--color-red)' }}
               >
-                <Zap className="w-4 h-4 text-white" fill="white" />
+                <HardHat className="w-4 h-4 text-white" />
               </div>
               <span
                 className="font-black text-lg"
