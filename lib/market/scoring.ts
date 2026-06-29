@@ -69,9 +69,9 @@ export function calculateLeadScore(
 
   // 5. Determine priority tier
   let priority: 'A' | 'B' | 'C' | 'D';
-  if (score >= 90) priority = 'A';
-  else if (score >= 50) priority = 'B';
-  else if (score >= 20) priority = 'C';
+  if (score >= 100) priority = 'A';
+  else if (score >= 70) priority = 'B';
+  else if (score >= 30) priority = 'C';
   else priority = 'D';
 
   if (score < 0) priority = 'D';
