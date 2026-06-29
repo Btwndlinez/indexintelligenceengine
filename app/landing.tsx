@@ -406,6 +406,8 @@ function LandingInner() {
 
       <div className="palantir-rule" />
 
+      <div className="h-16" />
+
       {/* ───── ENGINES ───── */}
       <section id="engines" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
@@ -539,6 +541,8 @@ function LandingInner() {
       </section>
 
       <div className="palantir-rule" />
+
+      <div className="h-16" />
 
       {/* ───── CTA ───── */}
       <section id="cta" className="py-24 md:py-40 relative overflow-hidden">
