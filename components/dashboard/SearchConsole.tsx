@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Search, MapPin, Crosshair, Loader2 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 import type { SearchResult } from '@/types/search';
 
 interface SearchConsoleProps {
@@ -32,6 +33,7 @@ export default function SearchConsole({
   const [radius, setRadius] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { language } = useLanguage();
 
   const handleSearch = async () => {
     if (!zip.trim()) {
@@ -59,7 +61,24 @@ export default function SearchConsole({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Search failed');
-      onResults(data);
+
+      let companies = data.companies as SearchResult[];
+      if (language === 'es' && companies.length > 0) {
+        const summariesToTranslate = companies.map(c => c.capabilitySummary || '');
+        const translateRes = await fetch('/api/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: summariesToTranslate, target: 'es' }),
+        });
+        if (translateRes.ok) {
+          const translateData = await translateRes.json();
+          companies = companies.map((c, i) => ({
+            ...c,
+            translatedCapabilitySummary: translateData.translatedText[i] || c.capabilitySummary,
+          }));
+        }
+      }
+      onResults({ ...data, companies });
     } catch (err: any) {
       setError(err.message);
     } finally {

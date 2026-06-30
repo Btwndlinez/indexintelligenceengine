@@ -8,4 +8,5 @@ export type SearchResult = {
   leadScore: number
   grade: 'A' | 'B' | 'C' | 'D'
   capabilitySummary: string | null
+  translatedCapabilitySummary?: string
 }

@@ -3,18 +3,27 @@
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, Phone, Globe, MapPin } from 'lucide-react';
 import ResultsTable from './ResultsTable';
+import { useLanguage } from '@/context/LanguageContext';
 import type { SearchResult } from '@/types/search';
+import type { VoteType } from '@/types/feedback';
 
 interface ResultsViewProps {
   results: SearchResult[] | null;
   loading: boolean;
   vertical?: string;
-  onFeedback?: (company: SearchResult, accurate: boolean) => void;
+  onFeedback?: (company: SearchResult, voteType: VoteType) => void;
 }
 
 /* ── Mobile card view — optimised for glove use ── */
-function ResultsCards({ results }: { results: SearchResult[] }) {
+function ResultsCards({ results, onFeedback }: { results: SearchResult[]; onFeedback?: (company: SearchResult, voteType: VoteType) => void }) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [voted, setVoted] = useState<Record<string, VoteType>>({});
+  const { t } = useLanguage();
+
+  const handleVote = (r: SearchResult, voteType: VoteType) => {
+    setVoted((prev) => ({ ...prev, [r.id]: voteType }));
+    onFeedback?.(r, voteType);
+  };
 
   return (
     <div className="space-y-3">
@@ -83,7 +92,7 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
                   }}
                 >
                   <Phone className="w-5 h-5" />
-                  Call
+                  {t('Call')}
                 </a>
                 <button
                   onClick={() => setExpanded(isExpanded ? null : r.id)}
@@ -96,8 +105,52 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
                   }}
                 >
                   {isExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                  Details
+                  {t('Details')}
                 </button>
+              </div>
+
+              {/* Mobile feedback buttons */}
+              <div className="flex gap-3 mt-3">
+                {(['accurate', 'partial', 'bad'] as const).map((v) => {
+                  const isVoted = voted[r.id] === v;
+                  return (
+                    <button
+                      key={v}
+                      onClick={() => handleVote(r, v)}
+                      style={{
+                        flex: 1,
+                        height: '48px',
+                        borderRadius: '10px',
+                        border: '1px solid var(--color-border)',
+                        background: isVoted
+                          ? v === 'accurate'
+                            ? 'color-mix(in srgb, var(--color-green) 12%, transparent)'
+                            : v === 'partial'
+                            ? 'color-mix(in srgb, var(--color-yellow) 12%, transparent)'
+                            : 'color-mix(in srgb, var(--color-red) 12%, transparent)'
+                          : 'var(--color-surface2)',
+                        color: isVoted
+                          ? v === 'accurate'
+                            ? 'var(--color-green)'
+                            : v === 'partial'
+                            ? 'var(--color-yellow)'
+                            : 'var(--color-red)'
+                          : 'var(--color-muted)',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {v === 'accurate' ? t('Accurate') : v === 'partial' ? t('Partial') : t('Bad')}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -135,16 +188,16 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
                     <span className="truncate">{r.website}</span>
                   </a>
                 )}
-                {r.capabilitySummary && (
+                {(r.capabilitySummary || r.translatedCapabilitySummary) && (
                   <div>
                     <div
                       className="text-xs font-black uppercase tracking-widest mb-2"
                       style={{ color: 'var(--color-muted)' }}
                     >
-                      Signals
+                      {t('Signals')}
                     </div>
                     <p className="text-base leading-relaxed" style={{ color: 'var(--color-muted)' }}>
-                      {r.capabilitySummary}
+                      {r.translatedCapabilitySummary || r.capabilitySummary}
                     </p>
                   </div>
                 )}
@@ -159,20 +212,21 @@ function ResultsCards({ results }: { results: SearchResult[] }) {
 
 /* ── Main export: table on desktop, cards on mobile ── */
 export default function ResultsView({ results, loading, vertical, onFeedback }: ResultsViewProps) {
+  const { t } = useLanguage();
   /* Empty / loading states */
   const EmptyState = ({ msg }: { msg: string }) => (
     <div
       className="rounded-xl p-12 flex flex-col items-center justify-center text-center"
       style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
     >
-      <Search className="w-10 h-10 mb-4" style={{ color: 'var(--color-muted)' }} />
-      <div
-        className="font-bold mb-2"
-        style={{ fontSize: '1.125rem', color: 'var(--color-text)' }}
-      >
-        No results yet
-      </div>
-      <div className="text-base" style={{ color: 'var(--color-muted)' }}>{msg}</div>
+                  <Search className="w-10 h-10 mb-4" style={{ color: 'var(--color-muted)' }} />
+                  <div
+                    className="font-bold mb-2"
+                    style={{ fontSize: '1.125rem', color: 'var(--color-text)' }}
+                  >
+                    {t('No results yet')}
+                  </div>
+                  <div className="text-base" style={{ color: 'var(--color-muted)' }}>{t(msg)}</div>
     </div>
   );
 
@@ -215,7 +269,7 @@ export default function ResultsView({ results, loading, vertical, onFeedback }: 
         ) : !results || results.length === 0 ? (
           <EmptyState msg="Set your parameters above and run a discovery search" />
         ) : (
-          <ResultsCards results={results} />
+          <ResultsCards results={results} onFeedback={onFeedback} />
         )}
       </div>
     </>
