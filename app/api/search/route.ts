@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { IndexIntelligenceEngine } from '@/lib/market/adapter';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
-import { withTimeout } from '@/lib/timeouts';
-import { writeAudit } from '@/lib/telemetry/index';
+import { IndexIntelligenceEngine } from '@/core/search/adapter';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
+import { withTimeout } from '@/core/api/timeouts';
+import { writeAudit } from '@/core/telemetry/index';
 import type { SearchResult } from '@/types/search';
 
 export async function POST(req: NextRequest) {

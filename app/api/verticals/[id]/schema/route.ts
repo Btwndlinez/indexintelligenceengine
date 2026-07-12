@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseFetch } from '@/lib/db';
+import { supabaseFetch } from '@/core/db';
 
 export async function PUT(
   request: NextRequest,

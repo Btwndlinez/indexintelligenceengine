@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FileText, TrendingUp, Users, Zap, CheckCircle2, Globe, Phone, Mail } from 'lucide-react';
-import { MarketReport } from '@/lib/market/reports';
+import { MarketReport } from '@/core/search/reports';
 
 interface MarketIntelligenceReportProps {
   report: MarketReport;

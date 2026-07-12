@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { logger } from '@/lib/logger';
-import { supabaseFetch } from '@/lib/db';
+import { resolveTenant } from '@/core/auth/tenant';
+import { logger } from '@/core/logger';
+import { supabaseFetch } from '@/core/db';
 
 declare global {
   var __iie_subscription:

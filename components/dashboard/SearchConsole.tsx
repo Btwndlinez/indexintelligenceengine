@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Search, MapPin, Crosshair, Loader2 } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/core/localization/LanguageContext';
 import type { SearchResult } from '@/types/search';
 
 interface SearchConsoleProps {

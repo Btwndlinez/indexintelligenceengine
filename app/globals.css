@@ -1,13 +1,8 @@
 @import "tailwindcss";
 
-/* ──────────────────────────────────────────────
-   FONT IMPORTS
-   ────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
-
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    NIGHT MODE TOKENS (default — dark, field-use)
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 :root,
 html[data-theme="night"],
 html:not([data-theme]) {
@@ -26,10 +21,10 @@ html:not([data-theme]) {
   --shadow-glow:     0 0 60px rgba(248,116,49,0.12);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    DAY MODE TOKENS (bright sun / outdoor use)
    High contrast: near-black on white
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 html[data-theme="day"] {
   --color-bg:        #F7F7F8;
   --color-surface:   #FFFFFF;
@@ -46,9 +41,9 @@ html[data-theme="day"] {
   --shadow-glow:     0 0 60px rgba(212,101,40,0.08);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    TAILWIND THEME BRIDGE
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 @theme {
   --color-bg:      var(--color-bg);
   --color-surface: var(--color-surface);
@@ -62,9 +57,9 @@ html[data-theme="day"] {
   --color-blue:    var(--color-blue);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    RESET
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -86,10 +81,10 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    TYPOGRAPHY SCALE — PALANTIR STYLE
    Large, bold, legible at distance
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .font-display {
   font-family: 'Barlow Condensed', 'Space Grotesk', sans-serif;
   font-weight: 900;
@@ -118,9 +113,9 @@ body {
   line-height: 1.0;
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    THEME TOGGLE — pill style
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .theme-toggle {
   position: relative;
   width: 56px;
@@ -156,10 +151,10 @@ html[data-theme="day"] .theme-toggle-knob {
   transform: translateX(26px);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    GLOVE-FRIENDLY INPUTS
    Min 56px height, 18px text
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .field-input {
   height: 56px;
   padding: 0 16px;
@@ -198,9 +193,9 @@ html[data-theme="day"] .theme-toggle-knob {
   gap: 6px;
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    BUTTON SYSTEM
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -260,9 +255,9 @@ html[data-theme="day"] .theme-toggle-knob {
   background: var(--color-surface2);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    CARD SYSTEM
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -274,9 +269,9 @@ html[data-theme="day"] .theme-toggle-knob {
   border-color: color-mix(in srgb, var(--color-red) 40%, var(--color-border));
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    NAV ITEMS — glove-friendly 52px min
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .nav-item {
   display: flex;
   align-items: center;
@@ -303,9 +298,9 @@ html[data-theme="day"] .theme-toggle-knob {
   border-left-color: var(--color-red);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    ANIMATIONS
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -358,9 +353,9 @@ html[data-theme="day"] .theme-toggle-knob {
 .animate-pulse-dot   { animation: pulseDot 2s ease-in-out infinite; }
 .animate-spin        { animation: spin 1s linear infinite; }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    BOTTOM MOBILE NAV
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .mobile-nav {
   position: fixed;
   bottom: 0;
@@ -398,9 +393,9 @@ html[data-theme="day"] .theme-toggle-knob {
   background: color-mix(in srgb, var(--color-red) 8%, transparent);
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    LANDING PAGE SPECIFICS
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 .hero-grid-line {
   position: absolute;
   background: var(--color-border);
@@ -439,9 +434,9 @@ html[data-theme="day"] .theme-toggle-knob {
   flex-shrink: 0;
 }
 
-/* ──────────────────────────────────────────────
+/* ----------------------------------------------
    SCROLLBAR STYLING
-   ────────────────────────────────────────────── */
+   ---------------------------------------------- */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
@@ -449,3 +444,61 @@ html[data-theme="day"] .theme-toggle-knob {
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+
+/* ----------------------------------------------
+   HHR LANDING PAGE SPECIFICS
+   ---------------------------------------------- */
+
+/* Vertical tape measure along left edge */
+.tape-measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 48px;
+  background: color-mix(in srgb, var(--color-accent) 42%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--color-accent) 68%, var(--color-border));
+  opacity: 0.9;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tape-measure-ticks {
+  position: absolute;
+  top: 5%;
+  bottom: 5%;
+  left: 0;
+  width: 100%;
+}
+
+.tape-measure-ticks::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 42px;
+  background:
+    repeating-linear-gradient(180deg, var(--color-accent) 0 1px, transparent 1px calc(100% / 8)),
+    repeating-linear-gradient(180deg, var(--color-accent) 0 0.75px, transparent 0.75px calc(100% / 16)),
+    repeating-linear-gradient(180deg, var(--color-accent) 0 0.5px, transparent 0.5px calc(100% / 96));
+  background-position: 0 0, 0 0, 0 0;
+  background-size: 42px 100%, 27px 100%, 15px 100%;
+  background-repeat: no-repeat;
+  opacity: 0.53;
+  mask-image: linear-gradient(180deg, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.tape-measure-num {
+  position: absolute;
+  left: 6px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.844rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  opacity: 0.75;
+  transform: translateY(-50%);
+  line-height: 1;
+  white-space: nowrap;
+}

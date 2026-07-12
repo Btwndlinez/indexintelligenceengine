@@ -2,12 +2,24 @@ import { VerticalConfig } from '@/types/config';
 import { DiscoveryProvider } from './providers/base';
 import { RegulatoryProvider } from './providers/regulatory';
 import { GooglePlacesProvider } from './providers/google';
+import { TomTomProvider } from './providers/tomtom';
+import { OverpassProvider } from './providers/overpass';
 
 const regulatory = new RegulatoryProvider();
 const google = new GooglePlacesProvider();
+const tomtom = new TomTomProvider();
+const overpass = new OverpassProvider();
 
 export interface VerticalConfigWithProviders extends VerticalConfig {
   providers: DiscoveryProvider[];
+}
+
+export function createProviders(extra: DiscoveryProvider[] = []): DiscoveryProvider[] {
+  return [regulatory, google, ...extra];
+}
+
+export function createSearchOnlyProviders(extra: DiscoveryProvider[] = []): DiscoveryProvider[] {
+  return [google, ...extra];
 }
 
 const NOW = new Date().toISOString();
@@ -70,7 +82,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [regulatory, google],
+    providers: createProviders([tomtom, overpass]),
   },
 
   grease_trap: {
@@ -119,7 +131,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [regulatory, google],
+    providers: createProviders([tomtom, overpass]),
   },
 
   asbestos_abatement: {
@@ -165,7 +177,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   hydro_excavation: {
@@ -212,7 +224,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   commercial_roofing: {
@@ -255,7 +267,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   medical_waste: {
@@ -299,7 +311,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   scrap_metal: {
@@ -342,7 +354,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   marine_construction: {
@@ -385,7 +397,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   concrete: {
@@ -428,7 +440,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   stormwater_compliance: {
@@ -470,7 +482,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   industrial_wastewater: {
@@ -512,7 +524,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 15, contactEnrichmentWeight: 10, assetSignalWeight: 20 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   tank_testing: {
@@ -559,7 +571,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   elevator_inspection: {
@@ -595,7 +607,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   hvac_balance: {
@@ -632,7 +644,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   fire_sprinkler: {
@@ -670,7 +682,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   fire_extinguisher: {
@@ -709,7 +721,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 15, contactEnrichmentWeight: 10, assetSignalWeight: 20 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   kitchen_exhaust: {
@@ -749,7 +761,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   backflow_testing: {
@@ -788,7 +800,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 20, contactEnrichmentWeight: 10, assetSignalWeight: 15 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   },
 
   generator_testing: {
@@ -829,7 +841,7 @@ export const VERTICAL_REGISTRY: Record<string, VerticalConfigWithProviders> = {
     scoringWeights: SHARED_SCORING_WEIGHTS,
     baseScoringWeights: { distanceWeight: 10, contactEnrichmentWeight: 10, assetSignalWeight: 25 },
     createdAt: NOW,
-    providers: [google],
+    providers: createSearchOnlyProviders([tomtom, overpass]),
   }
 };
 

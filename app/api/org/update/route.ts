@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate, orgUpdateSchema } from '@/lib/validation';
-import { logger } from '@/lib/logger';
-import { supabaseFetch } from '@/lib/db';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate, orgUpdateSchema } from '@/core/api/validation';
+import { logger } from '@/core/logger';
+import { supabaseFetch } from '@/core/db';
 
 declare global {
   var __organizations: Array<{

@@ -1,0 +1,67 @@
+{
+  "product": {
+    "name": "Sparky Wiz",
+    "codename": "Electrical Intelligence Platform",
+    "version": "3.0",
+    "owner": "Intelligent Index Engine (IIE)",
+    "status": "Alpha",
+    "repository": "Index-Intelligence-Engine",
+    "location": "verticals/sparky-wiz",
+    "deployment_model": "IIE Vertical Application",
+    "architecture": "Shared IIE Core + Product Runtime"
+  },
+
+  "platform": {
+    "core_engine": "IIE Core",
+    "runtime": "IIE Runtime",
+    "graph": "IIE Entity Graph",
+    "search": "IIE Search Engine",
+    "providers": "IIE Provider Framework",
+    "telemetry": "IIE Telemetry",
+    "authentication": "IIE Auth",
+    "storage": {
+      "local": "SQLite",
+      "cloud": "Supabase"
+    }
+  },
+
+  "ownership": {
+    "iie_core": [
+      "Authentication",
+      "Authorization",
+      "Runtime",
+      "Entity Graph",
+      "Evidence Store",
+      "Search",
+      "Provider Framework",
+      "Scoring Engine",
+      "Telemetry",
+      "Localization",
+      "Theme",
+      "Caching",
+      "API Layer",
+      "Redis",
+      "Database",
+      "Graph Resolution"
+    ],
+
+    "sparky_wiz": [
+      "Branding",
+      "Navigation",
+      "Electrical Calculators",
+      "Electrical Search UX",
+      "Electrical AI",
+      "Electrical Code Experience",
+      "Project Management",
+      "Material Lists",
+      "Electrical OCR",
+      "Barcode Workflows",
+      "Electrical Vertical Configuration"
+    ]
+  },
+
+  "vision": {
+    "mission": "Become the operating system for electricians by combining electrical calculations, code intelligence, compliance intelligence, manufacturer indexing, supplier intelligence, permits, inspections, and project workflows into a single platform powered by IIE.",
+    "positioning": "Sparky Wiz is not an electrical calculator. It is the Electrical Intelligence product built on the Intelligent Index Engine."
+  }
+}

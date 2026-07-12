@@ -1,4 +1,4 @@
-import { Listing } from '../../schemas/listing';
+import { Listing } from '../entities/listing';
 
 export class RankingEngine {
     rank(listings: Listing[]): Listing[] {

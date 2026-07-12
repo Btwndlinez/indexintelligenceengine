@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { logger } from '@/lib/logger';
-import { supabaseRpc } from '@/lib/db';
+import { resolveTenant } from '@/core/auth/tenant';
+import { logger } from '@/core/logger';
+import { supabaseRpc } from '@/core/db';
 
 export async function POST(req: NextRequest) {
   const tenant = await resolveTenant(req);

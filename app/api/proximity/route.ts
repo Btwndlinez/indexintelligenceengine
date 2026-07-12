@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
 import { GeospatialProspectResult } from '@/types/rpc_gis';
-import { supabaseRpc } from '@/lib/db';
+import { supabaseRpc } from '@/core/db';
 
 export async function POST(req: NextRequest) {
   try {

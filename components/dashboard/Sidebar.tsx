@@ -3,7 +3,7 @@
 import { HardHat, LayoutDashboard, Search, TrendingUp, Layers, Phone, BarChart3, CreditCard, Settings, Shield } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import ThemeToggle from '@/components/shared/ThemeToggle';
+import ThemeToggle from '@/core/theme/ThemeToggle';
 
 const navItems = [
   {

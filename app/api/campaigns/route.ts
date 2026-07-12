@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { logger } from '@/lib/logger';
-import { listCampaigns } from '@/lib/campaign/helpers';
+import { resolveTenant } from '@/core/auth/tenant';
+import { logger } from '@/core/logger';
+import { listCampaigns } from '@/core/campaign/helpers';
 
 export async function POST(req: NextRequest) {
   try {

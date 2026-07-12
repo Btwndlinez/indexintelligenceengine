@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+*/**/node_modules/
+
+# Package manager
+.pnpm-store/
+*.pnpm-debug.log
+
+# Build outputs
+dist/
+build/
+.next/
+web-build/
+*.tgz
+
+# TypeScript
+*.tsbuildinfo
+
+# Expo
+.expo/
+android/
+ios/
+
+# Xcode
+.DS_Store
+*.pbxuser
+*.mode1v3
+xcuserdata/
+.idea/
+
+# Testing
+coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Turbo
+turbo/
+.turbo/
+
+# Verbose
+graphify-out/

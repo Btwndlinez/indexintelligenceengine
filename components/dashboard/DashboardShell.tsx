@@ -5,6 +5,7 @@ import MetricsRow from './MetricsRow';
 import SearchConsole from './SearchConsole';
 import ResultsView from './ResultsView';
 import type { SearchResult } from '@/types/search';
+import type { VoteType } from '@/types/feedback';
 
 export default function DashboardShell() {
   const [searchData, setSearchData] = useState<{ companies: SearchResult[]; count: number } | null>(null);
@@ -21,7 +22,7 @@ export default function DashboardShell() {
     setSearchLoading(true);
   }, []);
 
-  const handleFeedback = useCallback(async (company: SearchResult, accurate: boolean) => {
+  const handleFeedback = useCallback(async (company: SearchResult, voteType: VoteType) => {
     if (!activeVertical) return;
     await fetch('/api/feedback', {
       method: 'POST',
@@ -30,8 +31,8 @@ export default function DashboardShell() {
         companyId: company.id,
         companyName: company.companyName,
         vertical: activeVertical,
-        accurate,
-        score: company.leadScore,
+        voteType,
+        leadScore: company.leadScore,
         signals: company.capabilitySummary,
       }),
     }).catch(() => {});

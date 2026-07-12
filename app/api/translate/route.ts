@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCachedTranslation, setCachedTranslation } from '@/lib/translation/cache';
+import { getCachedTranslation, setCachedTranslation } from '@/core/translation/cache';
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { IndexIntelligenceEngine } from '@/lib/market/adapter';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
+import { IndexIntelligenceEngine } from '@/core/search/adapter';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
 import { Company } from '@/types/company';
 
 export async function POST(req: NextRequest) {

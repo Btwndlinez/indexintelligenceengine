@@ -1,11 +1,14 @@
-import { EnrichmentProvider } from '../../connectors/types';
-import { ApolloConnector } from '../../connectors/apollo';
-import { Listing } from '../../schemas/listing';
+import { ApolloAdapter } from '../providers/apollo';
+import { Company } from '@/types/company';
 
 export class EnrichmentEngine {
-    private primaryProvider: EnrichmentProvider = new ApolloConnector();
+  private apollo = new ApolloAdapter();
 
-    async enrich(listing: Listing): Promise<Partial<Listing>> {
-        return this.primaryProvider.enrich(listing);
-    }
+  async enrich(company: Partial<Company>): Promise<Partial<Company>> {
+    const result = await this.apollo.enrich(company);
+    return {
+      ...company,
+      ...result.companyFields,
+    };
+  }
 }

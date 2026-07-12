@@ -7,8 +7,8 @@ import {
   Zap, Phone, FileText, BarChart2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { ThemeProvider } from '@/components/shared/ThemeProvider';
-import ThemeToggle from '@/components/shared/ThemeToggle';
+import { ThemeProvider } from '@/core/theme/ThemeProvider';
+import ThemeToggle from '@/core/theme/ThemeToggle';
 import DailyIntelligenceHub from '@/components/dashboard/DailyIntelligenceHub';
 
 /* ─── nav ─────────────────────────────────────────────────────── */
@@ -76,8 +76,8 @@ const verticals = [
 ];
 
 /* ─── lang toggle ──────────────────────────────────────────────── */
-import { useLanguage } from '../context/LanguageContext';
-import LanguageToggle from '@/components/shared/LanguageToggle';
+import { useLanguage } from '../core/localization/LanguageContext';
+import LanguageToggle from '@/core/ui/LanguageToggle';
 
 /* ─── component ────────────────────────────────────────────────── */
 function LandingInner() {
@@ -124,7 +124,7 @@ function LandingInner() {
                 HHR
               </span>
               <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted)' }}>
-                Hard Hats Required
+                Hard Hat Required
               </span>
             </div>
           </Link>
@@ -623,7 +623,7 @@ function LandingInner() {
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
               <ThemeToggle />
               <span className="text-sm" style={{ color: 'var(--color-muted)' }}>
-                © 2026 Hard Hats Required. All rights reserved.
+                © 2026 Hard Hat Required. All rights reserved.
               </span>
             </div>
           </div>

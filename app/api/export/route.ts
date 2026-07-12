@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
 import { Company, Contact } from '@/types/company';
 
 export async function POST(req: NextRequest) {

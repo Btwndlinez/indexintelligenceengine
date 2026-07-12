@@ -1,0 +1,13 @@
+{
+  "name": "@iie/sparky-wiz",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sparky Wiz — Electrical Intelligence Platform (IIE Vertical Application)",
+  "scripts": {
+    "mobile": "pnpm --filter @sparkywiz/mobile start"
+  },
+  "workspaces": [
+    "packages/calculators",
+    "packages/mobile"
+  ]
+}

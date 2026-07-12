@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate } from '@/lib/validation';
-import { logger } from '@/lib/logger';
-import { getSearchHistory } from '@/lib/search/persistence';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate } from '@/core/api/validation';
+import { logger } from '@/core/logger';
+import { getSearchHistory } from '@/core/search/persistence';
 
 export async function POST(req: NextRequest) {
   try {

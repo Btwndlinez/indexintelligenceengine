@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { parseSession } from '@/lib/auth/session';
-import { logger } from '@/lib/logger';
+import { parseSession } from '@/core/auth/session';
+import { logger } from '@/core/logger';
 
 export async function POST(req: NextRequest) {
   try {

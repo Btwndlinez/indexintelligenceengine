@@ -1,8 +1,8 @@
 'use client';
 
 import { Bell } from 'lucide-react';
-import LanguageToggle from '@/components/shared/LanguageToggle';
-import ThemeToggle from '@/components/shared/ThemeToggle';
+import LanguageToggle from '@/core/ui/LanguageToggle';
+import ThemeToggle from '@/core/theme/ThemeToggle';
 
 interface TopbarProps {
   mobile?: boolean;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/core/db/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -34,7 +34,7 @@ export default function LoginPage() {
           <div className="h-8 w-8 rounded-lg bg-[#dc2626] flex items-center justify-center">
             <span className="text-white font-bold text-sm">HHR</span>
           </div>
-          <span className="text-white font-semibold">Hard Hats Required</span>
+          <span className="text-white font-semibold">Hard Hat Required</span>
         </Link>
 
         <form onSubmit={handleLogin} className="space-y-4">

@@ -1,4 +1,4 @@
-import { writeAudit } from '@/lib/telemetry/audit'
+import { writeAudit } from '@/core/telemetry/audit'
 
 interface CircuitState {
   failures: number

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate } from '@/lib/validation';
-import { logger } from '@/lib/logger';
-import { supabaseRpc } from '@/lib/db';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate } from '@/core/api/validation';
+import { logger } from '@/core/logger';
+import { supabaseRpc } from '@/core/db';
 
 const usageQuerySchema = z.object({
   period: z.string().optional(),

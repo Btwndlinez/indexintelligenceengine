@@ -1,0 +1,1 @@
+export { default } from '../../../verticals/hard-hat-required/app/commercial-lead-generation/page';

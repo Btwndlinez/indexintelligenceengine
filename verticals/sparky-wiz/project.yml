@@ -1,0 +1,33 @@
+name: SparkyWiz
+options:
+  bundleIdPrefix: com.sparkywiz
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.0"
+
+settings:
+  SWIFT_VERSION: "5.9"
+  DEVELOPMENT_TEAM: ""
+
+packages:
+  GRDB:
+    url: https://github.com/groue/GRDB.swift
+    from: 6.29.3
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: 2.0.0
+
+targets:
+  SparkyWiz:
+    type: application
+    platform: iOS
+    sources:
+      - path: SparkyWiz
+        group: SparkyWiz
+    settings:
+      INFOPLIST_FILE: SparkyWiz/Info.plist
+      PRODUCT_BUNDLE_IDENTIFIER: com.sparkywiz.app
+    dependencies:
+      - package: GRDB
+      - package: Supabase
+        product: Supabase

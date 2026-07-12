@@ -2,8 +2,8 @@
 
 import { Fragment, useState } from 'react';
 import { ChevronDown, ChevronRight, Phone, ExternalLink, Loader2, Search, MapPin, Globe, ThumbsUp, ThumbsDown, Minus } from 'lucide-react';
-import Badge from '@/components/ui/Badge';
-import { useLanguage } from '@/context/LanguageContext';
+import Badge from '@/core/ui/Badge';
+import { useLanguage } from '@/core/localization/LanguageContext';
 import type { SearchResult } from '@/types/search';
 import type { VoteType } from '@/types/feedback';
 

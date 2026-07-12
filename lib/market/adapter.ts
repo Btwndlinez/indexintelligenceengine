@@ -5,10 +5,14 @@ import { ApolloAdapter } from './providers/apollo';
 import { KeywordSignalExtractor } from './signals';
 import { calculateLeadScore, buildAnalysisText } from './scoring';
 import { geocodeZip, haversineDistance } from '@/lib/geo';
+import { getCompanyProfile, getBlacklistedVerticalCompanies } from '@/lib/feedback/storage';
+import { getFeedbackAdjustment } from '@/lib/feedback/trust';
+import { FastJsonLdScraper } from '@/lib/market/scrapers/fastScraper';
 
 export class IndexIntelligenceEngine {
   private apolloAdapter = new ApolloAdapter();
   private signalExtractor = new KeywordSignalExtractor();
+  private fastScraper = new FastJsonLdScraper();
 
   async executeMarketDiscovery(
     filters: SearchFilters,
@@ -53,8 +57,14 @@ export class IndexIntelligenceEngine {
     }
 
     const negativeKeywords = config.negativeKeywords || [];
+    const blacklistedIds = await getBlacklistedVerticalCompanies(config.id);
+
     const filteredPool = candidatePool.filter(c => {
       if (isIrrelevant(c, negativeKeywords)) return false;
+      if (c.id && blacklistedIds.includes(c.id)) {
+        console.log(`[BLACKLIST] ${c.companyName} — excluded by feedback profile`);
+        return false;
+      }
       const d = c.distanceMiles ?? (
         c.latitude != null && c.longitude != null && zipCoords
           ? Math.round(haversineDistance(zipCoords.lat, zipCoords.lng, c.latitude, c.longitude) * 10) / 10
@@ -90,11 +100,22 @@ export class IndexIntelligenceEngine {
 
         const text = buildAnalysisText(record);
         const result = calculateLeadScore(record, config, text, distance);
-        base.enrichmentScore = result.score;
+
+        const fbProfile = await getCompanyProfile(record.id || '', config.id);
+        let fbAdj = 0;
+        if (fbProfile && fbProfile.totalVotes >= 3) {
+          fbAdj = getFeedbackAdjustment(fbProfile).adjustment;
+          if (getFeedbackAdjustment(fbProfile).action === 'blacklist') {
+            console.log(`[BLACKLIST] ${record.companyName} — regulatory permit blacklisted by feedback`);
+            continue;
+          }
+        }
+
+        base.enrichmentScore = Math.max(0, result.score + fbAdj);
         base.priority = result.priority;
         base.distanceMiles = distance;
 
-        if (result.score < 50 || result.priority === 'D' || result.negativeHits.length >= 2) {
+        if (base.enrichmentScore < 50 || result.priority === 'D' || result.negativeHits.length >= 2) {
           continue;
         }
 
@@ -116,6 +137,20 @@ export class IndexIntelligenceEngine {
         ...base,
         ...apolloResult.companyFields,
       };
+
+      // Stage 2a: Fast JSON-LD scrape before signal extraction (skips LLM if structured data found)
+      if (mergedBase.website) {
+        const scraped = await this.fastScraper.extractBusinessData(mergedBase.website);
+        if (scraped) {
+          if (!mergedBase.phone && scraped.extractedPhone) mergedBase.phone = scraped.extractedPhone;
+          if (!mergedBase.email && scraped.extractedEmail) mergedBase.email = scraped.extractedEmail;
+          if (scraped.rawDescription) {
+            mergedBase.apolloDescription = [mergedBase.apolloDescription, scraped.rawDescription]
+              .filter(Boolean)
+              .join(' | ');
+          }
+        }
+      }
 
       // Stage 2: Rich signal extraction across all available data
       const analysisText = buildAnalysisText(mergedBase);
@@ -142,13 +177,28 @@ export class IndexIntelligenceEngine {
       mergedCompany.enrichmentScore = result.score;
       mergedCompany.priority = result.priority;
 
-      // Stage 3: Hard filter garbage after scoring
-      if (result.score < 50 || result.priority === 'D' || result.negativeHits.length >= 2) {
-        console.log(`[FILTERED] ${mergedCompany.companyName} — score=${result.score} priority=${result.priority} negatives=${result.negativeHits.join(',')}`);
+      // Stage 3: User Feedback Layer — adjust score based on historical feedback
+      const feedbackProfile = await getCompanyProfile(mergedCompany.id || '', config.id);
+      let feedbackAdjustment = 0;
+      let feedbackAction = 'none';
+      if (feedbackProfile && feedbackProfile.totalVotes >= 3) {
+        const adj = getFeedbackAdjustment(feedbackProfile);
+        feedbackAdjustment = adj.adjustment;
+        feedbackAction = adj.action;
+        mergedCompany.enrichmentScore = Math.max(0, result.score + feedbackAdjustment);
+        if (feedbackAction === 'blacklist') {
+          console.log(`[BLACKLIST] ${mergedCompany.companyName} — score=${mergedCompany.enrichmentScore} (${feedbackAction})`);
+          continue;
+        }
+      }
+
+      // Stage 4: Hard filter garbage after scoring + feedback
+      if (mergedCompany.enrichmentScore < 50 || mergedCompany.priority === 'D' || result.negativeHits.length >= 2) {
+        console.log(`[FILTERED] ${mergedCompany.companyName} — score=${mergedCompany.enrichmentScore} priority=${mergedCompany.priority} negatives=${result.negativeHits.join(',')} feedback=${feedbackAction}`);
         continue;
       }
 
-      console.log(`[SCORE] ${mergedCompany.companyName} — score=${result.score} priority=${result.priority} matched=${result.matchedSignals.join(',')}`);
+      console.log(`[SCORE] ${mergedCompany.companyName} — score=${mergedCompany.enrichmentScore} priority=${mergedCompany.priority} matched=${result.matchedSignals.join(',')} feedback=${feedbackAction}`);
 
       const contactId = `contact-${mergedCompany.id}`;
       finalizedCompanies.push(mergedCompany as Company);

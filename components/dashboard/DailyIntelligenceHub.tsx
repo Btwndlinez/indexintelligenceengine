@@ -73,7 +73,7 @@ export default function DailyIntelligenceHub({ vertical = 'slurry_concrete', loc
     }
 
     fetchDailyFeeds();
-  }, []);
+  }, [vertical, locationState]);
 
   const handleDraftProposal = async (bid: Bid) => {
     setDraftingBidId(bid.id);

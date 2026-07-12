@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate, outreachLogSchema } from '@/lib/validation';
-import { logOutreach } from '@/lib/outreach/helpers';
-import { logger } from '@/lib/logger';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate, outreachLogSchema } from '@/core/api/validation';
+import { logOutreach } from '@/core/outreach/helpers';
+import { logger } from '@/core/logger';
 
 export async function POST(req: NextRequest) {
   try {

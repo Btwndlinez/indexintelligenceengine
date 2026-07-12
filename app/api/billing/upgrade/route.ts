@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate } from '@/lib/validation';
-import { logger } from '@/lib/logger';
-import { requireRole } from '@/lib/auth/permissions';
-import { supabaseFetch } from '@/lib/db';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate } from '@/core/api/validation';
+import { logger } from '@/core/logger';
+import { requireRole } from '@/core/auth/permissions';
+import { supabaseFetch } from '@/core/db';
 
 const upgradeSchema = z.object({
   planTier: z.enum(['starter', 'pro', 'enterprise']),

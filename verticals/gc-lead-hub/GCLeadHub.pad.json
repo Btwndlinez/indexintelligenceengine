@@ -1,0 +1,1558 @@
+{
+  "document": {
+    "name": "GCLeadHub",
+    "type": "Product Architecture Document",
+    "version": "1.0.0",
+    "status": "Planning",
+    "author": "OpenAI + Founder",
+    "lastUpdated": "2026-07",
+    "description": "GCLeadHub is an AI-powered Contractor Opportunity Intelligence Platform that helps contractors identify, prioritize, and win profitable construction opportunities before competitors."
+  },
+
+  "vision": {
+    "mission": "Enable every contractor to know where the next profitable project will originate before the market does.",
+    "visionStatement": "Become the intelligence platform contractors open every morning before deciding where to bid.",
+    "tagline": "Know what to bid before everyone else.",
+    "elevatorPitch": "GCLeadHub continuously analyzes property, ownership, permit, demographic, regulatory, and market intelligence to surface construction opportunities ranked by probability, value, urgency, and strategic fit."
+  },
+
+  "productPositioning": {
+    "category": "Construction Opportunity Intelligence",
+    "primaryMarket": [
+      "General Contractors",
+      "Commercial Contractors",
+      "Residential Contractors",
+      "Remodelers",
+      "Property Investors",
+      "Developers"
+    ],
+    "secondaryMarket": [
+      "Roofing",
+      "Electrical",
+      "Plumbing",
+      "HVAC",
+      "Concrete",
+      "Painting",
+      "Fire Protection",
+      "Restoration",
+      "Civil Contractors"
+    ],
+    "notPositionedAs": [
+      "CRM",
+      "Permit Search Website",
+      "Property Listing Website",
+      "Lead Database",
+      "Marketing Automation Platform"
+    ]
+  },
+
+  "coreValueProposition": {
+    "problem": [
+      "Contractors waste significant time searching for projects that are not ready to buy.",
+      "Existing platforms provide data but not intelligence.",
+      "Construction opportunities are fragmented across many disconnected systems.",
+      "Most bidding is reactive rather than proactive."
+    ],
+    "solution": [
+      "Aggregate opportunity signals from multiple trusted sources.",
+      "Rank projects using AI-driven opportunity scoring.",
+      "Explain every recommendation transparently.",
+      "Reduce prospecting time while increasing win probability."
+    ],
+    "customerOutcome": [
+      "Find more profitable projects.",
+      "Spend less time prospecting.",
+      "Increase bid success rate.",
+      "Grow revenue with fewer sales resources."
+    ]
+  },
+
+  "guidingPrinciples": [
+    {
+      "name": "Intelligence First",
+      "description": "Every screen should help users make better decisions, not simply display data."
+    },
+    {
+      "name": "Explain Every Recommendation",
+      "description": "Every score must include evidence explaining why it was generated."
+    },
+    {
+      "name": "Property Centric",
+      "description": "Properties are first-class intelligence objects connected to companies, owners, permits, and projects."
+    },
+    {
+      "name": "Continuous Discovery",
+      "description": "The platform continuously discovers new opportunities instead of relying solely on user searches."
+    },
+    {
+      "name": "Evidence Based",
+      "description": "Every insight is backed by verifiable evidence."
+    },
+    {
+      "name": "Human In Control",
+      "description": "AI recommends; users decide."
+    }
+  ],
+
+  "northStarMetric": {
+    "metric": "Qualified Opportunities Delivered",
+    "definition": "Number of AI-ranked opportunities resulting in contractor engagement.",
+    "target": 1000000
+  },
+
+  "businessGoals": {
+    "year1": [
+      "Launch MVP",
+      "Acquire first 100 paying contractors",
+      "Validate Opportunity Score",
+      "Reach $250K ARR"
+    ],
+    "year2": [
+      "Expand nationally",
+      "Launch enterprise edition",
+      "Integrate public and premium datasets",
+      "Reach $2M ARR"
+    ],
+    "year3": [
+      "Become primary opportunity intelligence platform for contractors",
+      "Launch API ecosystem",
+      "Predictive project forecasting",
+      "Expand into adjacent construction verticals"
+    ]
+  },
+
+  "successMetrics": {
+    "customer": [
+      "Projects won",
+      "Bid conversion rate",
+      "Time saved prospecting",
+      "Average opportunity score accuracy",
+      "User retention"
+    ],
+    "business": [
+      "MRR",
+      "ARR",
+      "CAC",
+      "LTV",
+      "Net Revenue Retention",
+      "Expansion Revenue"
+    ],
+    "technical": [
+      "Search latency",
+      "Data freshness",
+      "API uptime",
+      "AI explanation generation time",
+      "Pipeline processing success rate"
+    ]
+  },
+
+  "productPrinciples": {
+    "always": [
+      "Explain scores",
+      "Preserve evidence",
+      "Show confidence levels",
+      "Prioritize speed",
+      "Maintain auditability"
+    ],
+    "never": [
+      "Hide AI reasoning",
+      "Overwrite evidence",
+      "Fabricate opportunities",
+      "Use black-box scoring"
+    ]
+  },
+
+  "competitiveLandscape": {
+    "currentSolutions": [
+      "PropertyRadar",
+      "PropStream",
+      "Reonomy",
+      "CoStar",
+      "BuildZoom",
+      "Dodge Construction Network",
+      "ConstructConnect",
+      "LeadFuze",
+      "Apollo",
+      "HubSpot"
+    ],
+    "competitiveAdvantages": [
+      "Opportunity-first architecture",
+      "Evidence-backed AI scoring",
+      "Unified opportunity timeline",
+      "Cross-source intelligence graph",
+      "Continuous monitoring",
+      "Explainable recommendations",
+      "Territory intelligence",
+      "AI-generated prospecting insights"
+    ]
+  },
+
+  "nonGoals": [
+    "Replace estimating software",
+    "Replace accounting software",
+    "Replace ERP systems",
+    "Replace project management software",
+    "Become CAD software",
+    "Compete directly with Procore's project execution platform"
+  ],
+
+  "deploymentModel": {
+    "type": "Multi-Tenant SaaS",
+    "cloud": "Cloud Native",
+    "apiFirst": true,
+    "mobileReady": true,
+    "aiEnabled": true
+  },
+
+  "technicalArchitecture": {
+    "frontend": {
+      "framework": "Next.js",
+      "language": "TypeScript",
+      "styling": "Tailwind CSS",
+      "components": "shadcn/ui"
+    },
+    "backend": {
+      "runtime": "Node.js",
+      "framework": "Next.js API Routes",
+      "language": "TypeScript"
+    },
+    "database": {
+      "primary": "PostgreSQL",
+      "provider": "Supabase",
+      "extensions": ["PostGIS", "pgvector"]
+    },
+    "search": {
+      "engine": "PostgreSQL Full Text",
+      "future": ["OpenSearch", "Elasticsearch"]
+    },
+    "cache": {
+      "provider": "Redis"
+    },
+    "storage": {
+      "provider": "Supabase Storage"
+    },
+    "mapping": {
+      "provider": "Mapbox"
+    },
+    "authentication": {
+      "provider": "Supabase Auth"
+    },
+    "deployment": {
+      "frontend": "Vercel",
+      "backend": "Railway or Fly.io",
+      "workers": "Cloud Run / Railway Workers"
+    }
+  },
+
+  "coreDomainObjects": [
+    "Property",
+    "Opportunity",
+    "Project",
+    "Company",
+    "Contact",
+    "Owner",
+    "Permit",
+    "Inspection",
+    "Parcel",
+    "Building",
+    "Organization",
+    "User",
+    "Task",
+    "Activity",
+    "Campaign",
+    "Territory",
+    "Evidence",
+    "Signal",
+    "Score",
+    "Recommendation"
+  ],
+
+  "architectureRules": [
+    "Every recommendation must be traceable to evidence.",
+    "Every opportunity belongs to a property.",
+    "Every property can have multiple owners over time.",
+    "Every company may participate in multiple projects.",
+    "Scores are versioned.",
+    "Evidence is immutable.",
+    "AI explanations are generated from evidence, never fabricated.",
+    "No module may directly modify historical evidence."
+  ],
+
+  "opportunityLifecycleEngine": {
+    "description": "Every opportunity moves through a structured lifecycle, enabling GCLeadHub to learn from outcomes and improve recommendations over time.",
+    "stages": [
+      { "stage": "Detected",     "description": "Signal identified from source data (permits, property changes, etc.)" },
+      { "stage": "Validated",   "description": "Signal cross-referenced and confirmed as a genuine opportunity" },
+      { "stage": "Scored",      "description": "AI-driven scoring applied for value, urgency, fit, and win probability" },
+      { "stage": "Assigned",    "description": "Opportunity routed to appropriate contractor or team" },
+      { "stage": "Contacted",   "description": "Outreach initiated by the contractor" },
+      { "stage": "Bid Submitted", "description": "Formal proposal or bid delivered to the client" },
+      { "stage": "Won",         "description": "Contract awarded" },
+      { "stage": "Lost",        "description": "Opportunity closed without award" }
+    ],
+    "feedbackLoop": "Outcomes (Won/Lost) feed back into the scoring model, improving future opportunity ranking."
+  },
+
+  "evidenceConfidenceModel": {
+    "description": "Every fact carries provenance and confidence, making AI reasoning auditable rather than opaque.",
+    "components": {
+      "confidenceScore": "0–100% confidence based on corroborating evidence sources",
+      "evidenceSources": [
+        "County permit records",
+        "Assessor records",
+        "Satellite imagery",
+        "Contractor observation",
+        "Public business filings",
+        "Building department records",
+        "Tax records",
+        "Utility records",
+        "News and public notices"
+      ],
+      "display": "Each fact shown with confidence bar and checkmarked evidence sources"
+    },
+    "example": {
+      "fact": "Roof Age",
+      "confidence": 96,
+      "evidence": [
+        "County permit",
+        "Assessor record",
+        "Satellite imagery",
+        "Contractor observation"
+      ]
+    },
+    "rules": [
+      "Confidence is derived from number and reliability of corroborating sources.",
+      "Conflicting sources reduce confidence rather than being discarded.",
+      "All evidence is timestamped and source-tagged.",
+      "Evidence is immutable once recorded."
+    ]
+  },
+
+  "opportunityGraph": {
+    "description": "The Opportunity Graph models relationships between entities, enabling relationship-driven insights that go beyond isolated records.",
+    "entities": [
+      "Property",
+      "Owner",
+      "LLC",
+      "Property Manager",
+      "Architect",
+      "Previous Contractor",
+      "Active Permit",
+      "Opportunity"
+    ],
+    "relationships": {
+      "Property → Owner": "Ownership history with time ranges",
+      "Property → LLC": "Corporate entity ownership",
+      "Property → Property Manager": "Management company relationship",
+      "Property → Architect": "Design professional relationship",
+      "Property → Previous Contractor": "Historical contractor relationships",
+      "Property → Active Permit": "Current permit applications and approvals",
+      "Property → Opportunity": "Detected opportunities linked to the property"
+    },
+    "strategicQueries": [
+      "Which owners renovate every 10–15 years?",
+      "Which architects consistently specify premium roofing systems?",
+      "Which management companies prefer negotiated work over competitive bidding?",
+      "Which GCs frequently win projects from a given developer?"
+    ],
+    "moatRationale": "Over time, relationship-driven insights move the platform beyond a lead database into a true intelligence system. The graph compounds as more data flows in, creating increasing returns to scale."
+  },
+
+  "informationArchitecture": {
+    "designGoals": [
+      "Maximum two-click navigation.",
+      "Search-first workflow.",
+      "Map and list synchronized.",
+      "Dashboard surfaces everything important.",
+      "Mobile and tablet friendly.",
+      "Large touch targets for field use.",
+      "Fast keyboard navigation for office users."
+    ],
+
+    "navigationModel": {
+      "type": "Persistent Left Sidebar",
+      "layout": {
+        "sidebar": true,
+        "topSearchBar": true,
+        "notificationCenter": true,
+        "userMenu": true,
+        "quickActions": true
+      }
+    },
+
+    "primaryNavigation": [
+      { "id": "dashboard", "title": "Dashboard", "icon": "layout-dashboard", "default": true },
+      { "id": "opportunities", "title": "Opportunities", "icon": "target" },
+      { "id": "properties", "title": "Properties", "icon": "building" },
+      { "id": "companies", "title": "Companies", "icon": "briefcase" },
+      { "id": "contacts", "title": "Contacts", "icon": "users" },
+      { "id": "map", "title": "Map", "icon": "map" },
+      { "id": "territories", "title": "Territories", "icon": "map-pinned" },
+      { "id": "pipeline", "title": "Pipeline", "icon": "kanban" },
+      { "id": "calendar", "title": "Calendar", "icon": "calendar" },
+      { "id": "reports", "title": "Reports", "icon": "bar-chart" },
+      { "id": "settings", "title": "Settings", "icon": "settings" }
+    ],
+
+    "globalSearch": {
+      "placeholder": "Search properties, companies, owners, permits, addresses...",
+      "supports": [
+        "Property Address",
+        "Parcel Number",
+        "Owner Name",
+        "Company",
+        "Contact",
+        "Permit Number",
+        "ZIP Code",
+        "City",
+        "Subdivision",
+        "Project Name",
+        "Opportunity ID"
+      ],
+      "features": [
+        "Autocomplete",
+        "Recent Searches",
+        "Saved Searches",
+        "AI Suggested Searches",
+        "Natural Language Queries"
+      ]
+    },
+
+    "quickActions": [
+      "New Opportunity",
+      "Search Area",
+      "Import Contacts",
+      "Create Campaign",
+      "Add Note",
+      "Create Task",
+      "Generate Proposal",
+      "Export Results"
+    ],
+
+    "breadcrumbs": {
+      "enabled": true,
+      "example": ["Dashboard", "Properties", "Property Detail", "Opportunity Timeline"]
+    }
+  },
+
+  "routes": {
+    "/": "Dashboard",
+    "/dashboard": "Executive Dashboard",
+    "/search": "Unified Search",
+    "/opportunities": "Opportunity Feed",
+    "/opportunities/:id": "Opportunity Detail",
+    "/properties": "Property Explorer",
+    "/properties/:id": "Property Intelligence",
+    "/companies": "Company Explorer",
+    "/companies/:id": "Company Profile",
+    "/contacts": "Contact Explorer",
+    "/contacts/:id": "Contact Detail",
+    "/owners": "Owner Profiles",
+    "/territories": "Territory Management",
+    "/pipeline": "Sales Pipeline",
+    "/campaigns": "Campaign Management",
+    "/calendar": "Calendar",
+    "/tasks": "Task Center",
+    "/map": "Interactive GIS",
+    "/reports": "Reporting",
+    "/settings": "Administration"
+  },
+
+  "dashboard": {
+    "purpose": "One-screen executive overview of contractor opportunities.",
+    "widgets": [
+      "Opportunity Feed",
+      "Today's New Opportunities",
+      "High Value Opportunities",
+      "Properties Near Me",
+      "Recent Permit Activity",
+      "Upcoming Follow-ups",
+      "Recently Viewed",
+      "Territory Heat Map",
+      "Pipeline Summary",
+      "Projects Closing Soon",
+      "Opportunity Trends",
+      "Win Rate",
+      "AI Recommendations",
+      "Saved Searches",
+      "Watchlists",
+      "Recent Notifications"
+    ]
+  },
+
+  "opportunityFeed": {
+    "defaultSorting": [
+      "Opportunity Score",
+      "Estimated Revenue",
+      "Distance",
+      "Project Urgency",
+      "Recently Updated"
+    ],
+    "displayModes": [
+      "Cards",
+      "Compact Cards",
+      "Table",
+      "Split View",
+      "Map + List"
+    ],
+    "columns": [
+      "Opportunity Score",
+      "Property",
+      "Owner",
+      "Estimated Value",
+      "Project Type",
+      "Stage",
+      "Distance",
+      "Confidence",
+      "Updated"
+    ]
+  },
+
+  "propertyExplorer": {
+    "defaultTabs": [
+      "Overview",
+      "Timeline",
+      "Ownership",
+      "Permits",
+      "Inspections",
+      "Projects",
+      "Nearby Activity",
+      "AI Analysis",
+      "Documents"
+    ]
+  },
+
+  "companyProfile": {
+    "tabs": [
+      "Overview",
+      "Properties",
+      "Projects",
+      "Contacts",
+      "Timeline",
+      "Relationship Graph",
+      "Activity",
+      "Notes"
+    ]
+  },
+
+  "mapExplorer": {
+    "layers": [
+      "Opportunities",
+      "Properties",
+      "Permits",
+      "Inspections",
+      "Tax Delinquencies",
+      "Code Violations",
+      "Fire Incidents",
+      "Flood Zones",
+      "Crime",
+      "Utility Infrastructure",
+      "Competitor Activity",
+      "Customer Locations"
+    ],
+    "drawingTools": [
+      "Radius",
+      "Polygon",
+      "Drive Time",
+      "County",
+      "ZIP",
+      "City",
+      "Custom Territory"
+    ]
+  },
+
+  "savedSearches": {
+    "features": ["Create", "Duplicate", "Schedule", "Share", "Export", "Alert"]
+  },
+
+  "watchlists": {
+    "types": [
+      "Properties",
+      "Owners",
+      "Companies",
+      "Cities",
+      "ZIP Codes",
+      "Neighborhoods",
+      "Developers",
+      "Architects"
+    ]
+  },
+
+  "notifications": {
+    "delivery": ["In App", "Email", "SMS", "Push"],
+    "events": [
+      "New Opportunity",
+      "Permit Filed",
+      "Property Sold",
+      "Tax Delinquency",
+      "Code Violation",
+      "Opportunity Score Increased",
+      "Competitor Won Project",
+      "New Contact Found"
+    ]
+  },
+
+  "flagshipFeatures": {
+    "unifiedSearchConsole": {
+      "description": "One command center for all search — natural language queries alongside structured filters.",
+      "placeholder": "Search properties, companies, owners, permits, addresses...",
+      "exampleQueries": [
+        "Hotels built before 1995 within 20 miles",
+        "Strip malls with no permits in 15 years",
+        "Apartment complexes sold last 12 months",
+        "Schools needing ADA upgrades",
+        "Churches over 25 years old",
+        "Warehouses larger than 50,000 SF",
+        "Office buildings with expiring permits"
+      ],
+      "resultViews": ["Map", "Cards", "Table", "Timeline"]
+    },
+
+    "opportunityWorkspace": {
+      "description": "Unified single-screen workspace for evaluating and pursuing an opportunity — no more clicking through multiple pages.",
+      "layout": {
+        "leftPanel": ["Property Summary", "Owner", "Contacts", "Timeline", "Notes", "Documents"],
+        "centerPanel": ["AI Summary", "Project Estimate", "Opportunity Score", "Risk Score", "Revenue Estimate", "Evidence"],
+        "rightPanel": ["Tasks", "Calendar", "Email", "Proposal", "Activity", "Nearby Projects"]
+      }
+    },
+
+    "dailyBriefing": {
+      "description": "Executive summary every morning — users never hunt for changes.",
+      "sections": {
+        "yesterday": ["New Opportunities", "High Probability Remodels", "Buildings Sold", "New Permits"],
+        "estimatedPipeline": "Total dollar value of active pipeline",
+        "recommendedActions": ["Call ABC Holdings", "Visit Industrial Park", "Bid School Renovation"]
+      },
+      "exampleGreeting": "Good Morning, Rodger"
+    }
+  },
+
+  "foundationalExperiences": [
+    "Dashboard — one-screen executive overview",
+    "Search — unified command center for all data",
+    "Opportunity Workspace — single-screen evaluation and action"
+  ],
+
+  "opportunityIntelligenceEngine": {
+    "version": "1.0",
+    "name": "Opportunity Intelligence Engine (OIE)",
+    "relationshipToIIE": "Distinct from IIE (Index Intelligence Engine). OIE consumes normalized data from IIE and adds construction-specific intelligence. IIE powers all verticals; OIE is GCLeadHub's unique competitive moat.",
+    "purpose": "Transform raw property, ownership, permit, market, and behavioral signals into ranked construction opportunities with transparent AI reasoning.",
+    "designPrinciples": [
+      "Evidence first",
+      "Explain every score",
+      "Continuously update",
+      "Predict before competitors",
+      "Confidence over certainty",
+      "Learn from outcomes"
+    ],
+    "pipeline": [
+      "Data Collection",
+      "Entity Resolution",
+      "Signal Extraction",
+      "Opportunity Detection",
+      "Multi-Dimensional Scoring",
+      "AI Reasoning",
+      "Recommendation Generation",
+      "Timeline Update",
+      "Continuous Monitoring"
+    ],
+    "scores": {
+      "opportunityScore": {
+        "range": "0-100",
+        "purpose": "Overall likelihood that pursuing this opportunity will generate profitable work.",
+        "inputs": ["Property Condition", "Ownership Signals", "Permit Activity", "Building Age", "Estimated Budget", "Market Demand", "Competitive Density", "Recent Transactions", "AI Confidence"]
+      },
+      "distressScore": {
+        "range": "0-100",
+        "purpose": "Likelihood that the property requires repair, renovation, or deferred maintenance.",
+        "signals": ["Code Violations", "Tax Delinquency", "Vacancy", "Foreclosure", "Insurance Claims", "Fire Damage", "Flood History", "Roof Age", "Deferred Maintenance", "Negative Reviews"]
+      },
+      "capitalImprovementScore": {
+        "range": "0-100",
+        "purpose": "Probability of major renovation or capital expenditure within 24 months.",
+        "signals": ["Building Age", "Ownership Duration", "Permit History", "Neighborhood Investment", "Property Value Trend", "Commercial Tenant Changes", "Facility Condition", "Infrastructure Age"]
+      },
+      "urgencyScore": {
+        "range": "0-100",
+        "purpose": "Measures how quickly contractor engagement is likely needed.",
+        "signals": ["Open Permits", "Inspection Deadlines", "Violation Deadlines", "Storm Damage", "Insurance Deadlines", "Lease Expiration", "Safety Issues", "Regulatory Compliance"]
+      },
+      "competitionScore": {
+        "range": "0-100",
+        "purpose": "Measures expected competition from other contractors.",
+        "signals": ["Permit Visibility", "Project Size", "Public Bid Status", "Developer Relationships", "Market Saturation", "Contractor Density", "Bid History"]
+      },
+      "revenuePotential": {
+        "range": "0-100",
+        "purpose": "Estimated revenue opportunity normalized across project types.",
+        "signals": ["Building Size", "Estimated Project Scope", "Historical Project Costs", "Market Rates", "Asset Class", "Construction Type"]
+      },
+      "relationshipScore": {
+        "range": "0-100",
+        "purpose": "Likelihood existing relationships improve win probability.",
+        "signals": ["Existing Contacts", "Past Projects", "Referral Paths", "Shared Vendors", "Architect Relationships", "Developer History"]
+      },
+      "confidenceScore": {
+        "range": "0-100",
+        "purpose": "Confidence in the AI's recommendation based on available evidence."
+      },
+      "seasonalityScore": {
+        "range": "0-100",
+        "purpose": "Predicts optimal time of year to approach a property based on project type and regional construction patterns."
+      },
+      "fundingProbabilityScore": {
+        "range": "0-100",
+        "purpose": "Estimates whether financing or capital is likely available by combining ownership history, assessed value trends, and public investment indicators."
+      },
+      "repeatCustomerProbability": {
+        "range": "0-100",
+        "purpose": "Identifies owners, property managers, or developers with recurring renovation cycles."
+      },
+      "opportunityDecayScore": {
+        "range": "0-100",
+        "purpose": "Estimates how quickly an opportunity loses value if no action is taken, helping prioritize outreach."
+      },
+      "projectTimingForecast": {
+        "range": "Date range",
+        "purpose": "Predicts when a project is most likely to move from planning to bidding based on historical timelines and similar projects."
+      },
+      "overallOpportunityScore": {
+        "formula": {
+          "opportunityScore": 0.30,
+          "capitalImprovementScore": 0.20,
+          "urgencyScore": 0.15,
+          "revenuePotential": 0.15,
+          "relationshipScore": 0.10,
+          "competitionScore": -0.05,
+          "distressScore": 0.05,
+          "confidenceScore": 0.10
+        }
+      }
+    },
+    "priorityLevels": {
+      "A+": "Immediate Action",
+      "A": "High Priority",
+      "B": "Strong Opportunity",
+      "C": "Monitor",
+      "D": "Low Priority",
+      "E": "Archive"
+    },
+    "aiReasoning": {
+      "requirements": [
+        "Never output unexplained scores.",
+        "Reference supporting evidence.",
+        "Highlight uncertainty.",
+        "Recommend next actions.",
+        "Generate concise executive summaries."
+      ],
+      "output": {
+        "summary": "Likely $750K exterior renovation opportunity.",
+        "why": ["Roof exceeds expected service life.", "Ownership changed 8 months ago.", "Multiple roofing permits filed nearby.", "Property value increased 24%.", "Nearby capital improvement projects."],
+        "confidence": 91,
+        "recommendedActions": ["Contact property manager.", "Research architect.", "Visit site.", "Monitor permit filings."]
+      }
+    },
+    "timelineEngine": {
+      "trackedEvents": [
+        "Property Sold", "Owner Changed", "Permit Filed", "Permit Closed",
+        "Inspection Failed", "Inspection Passed", "Tax Delinquency", "Code Violation",
+        "Lien Recorded", "Foreclosure", "Utility Upgrade", "Tenant Change",
+        "Storm Event", "Insurance Claim", "Capital Improvement", "Contract Award"
+      ],
+      "timelineViews": ["Chronological", "Opportunity", "Ownership", "Construction", "Financial", "Regulatory"]
+    },
+    "opportunityTypes": [
+      "Roof Replacement", "Solar Installation", "HVAC Upgrade", "Electrical Modernization",
+      "ADA Compliance", "Tenant Improvement", "Commercial Remodel", "Industrial Retrofit",
+      "Restaurant Remodel", "Hospital Renovation", "School Modernization", "Office Conversion",
+      "Warehouse Expansion", "Concrete Repair", "Parking Lot Reconstruction", "Fire Protection Upgrade",
+      "Waterproofing", "Exterior Painting", "Window Replacement", "Seismic Retrofit",
+      "EV Charging Infrastructure", "Battery Storage", "Generator Installation"
+    ],
+    "continuousMonitoring": {
+      "frequency": { "critical": "Daily", "standard": "Weekly", "lowPriority": "Monthly" },
+      "triggerEvents": [
+        "Ownership Change", "Permit Filed", "Permit Updated", "Inspection",
+        "Code Violation", "Tax Delinquency", "Property Sale", "Storm Damage",
+        "AI Score Increase", "Nearby Project"
+      ]
+    },
+    "relationshipPathEngine": {
+      "purpose": "Maps indirect connections (owner → architect → developer → previous contractor → supplier) to uncover warm introductions.",
+      "maxDepth": 4,
+      "relationshipTypes": ["Owned", "Managed", "Designed", "Built", "Supplied", "Invested", "Advised"]
+    },
+    "additionalPredictiveSignals": [
+      "Seasonality Score — predicts optimal time of year to approach based on project type and regional patterns",
+      "Funding Probability Score — estimates capital availability from ownership history, value trends, and public investment",
+      "Repeat Customer Probability — identifies entities with recurring renovation cycles",
+      "Opportunity Decay Score — estimates how quickly value drops if no action is taken",
+      "Project Timing Forecast — predicts when planning transitions to bidding based on historical timelines"
+    ]
+  },
+
+  "crm": {
+    "version": "1.0",
+    "purpose": "Manage companies, contacts, opportunities, communications, relationships, and sales workflows around construction opportunities — opportunity-centric, not contact-centric.",
+    "designPrinciples": [
+      "Opportunity-first",
+      "Relationship-aware",
+      "Timeline-driven",
+      "Minimal data entry",
+      "AI assisted",
+      "Mobile friendly"
+    ],
+    "strategicPosition": "Lightweight and optimized for construction opportunity management. Not a Salesforce/HubSpot competitor. If customers use another CRM, synchronize. The CRM's primary job is to capture and act on property intelligence and opportunity intelligence.",
+    "companies": {
+      "fields": [
+        "Company Name", "Business Type", "Industry", "Contractor License", "Website", "Phone", "Email",
+        "Address", "Service Area", "Employees", "Annual Revenue", "Years in Business", "NAICS",
+        "Capabilities", "Trades", "Preferred Project Size", "Bonding Capacity", "Insurance",
+        "Vendor Status", "Tags", "Notes"
+      ],
+      "views": ["Overview", "Contacts", "Properties", "Projects", "Activities", "Timeline", "Documents", "AI Summary"]
+    },
+    "contacts": {
+      "fields": [
+        "First Name", "Last Name", "Job Title", "Company", "Phone", "Mobile", "Email", "LinkedIn",
+        "Assistant", "Birthday", "Decision Maker", "Influence Level", "Preferred Contact Method",
+        "Last Contact", "Relationship Strength", "Tags", "Notes"
+      ]
+    },
+    "activities": {
+      "types": [
+        "Phone Call", "Email", "SMS", "Meeting", "Site Visit", "Proposal Sent", "Bid Submitted",
+        "Demo", "Inspection", "Lunch", "Networking", "Video Conference", "Task Completed", "Follow-up"
+      ]
+    },
+    "tasks": {
+      "priorities": ["Critical", "High", "Normal", "Low"],
+      "status": ["Pending", "Scheduled", "In Progress", "Completed", "Cancelled"],
+      "automation": ["Follow-up Reminder", "Proposal Reminder", "Inspection Reminder", "Permit Reminder", "Renewal Reminder"]
+    },
+    "calendar": {
+      "views": ["Day", "Week", "Month", "Agenda", "Timeline"],
+      "events": ["Calls", "Meetings", "Site Visits", "Inspections", "Bid Due Dates", "Permit Deadlines", "Tasks", "Personal"]
+    },
+    "deals": {
+      "fields": [
+        "Opportunity Name", "Property", "Estimated Revenue", "Estimated Profit", "Probability",
+        "Stage", "Expected Close", "Assigned Salesperson", "Primary Contact", "Competitors",
+        "Proposal Status", "AI Opportunity Score"
+      ]
+    },
+    "pipeline": {
+      "stages": [
+        "Discovered", "Qualified", "Researching", "Contacted", "Meeting Scheduled", "Site Visit",
+        "Proposal", "Negotiation", "Verbal Award", "Contract", "Won", "Lost", "Dormant"
+      ]
+    },
+    "notes": {
+      "types": ["General", "Phone", "Meeting", "Site Visit", "Internal", "AI Generated"],
+      "features": ["Rich Text", "Mentions", "Attachments", "Voice Notes", "AI Summaries"]
+    },
+    "attachments": {
+      "supportedFiles": ["PDF", "DOCX", "XLSX", "Images", "CAD", "DWG", "Plans", "Contracts", "Permits", "Inspection Reports"]
+    },
+    "relationshipEngine": {
+      "tracks": [
+        "Company ↔ Contact",
+        "Company ↔ Property",
+        "Property ↔ Opportunity",
+        "Owner ↔ Property",
+        "Developer ↔ Project",
+        "Architect ↔ Project",
+        "Engineer ↔ Project",
+        "Contractor ↔ Owner",
+        "Vendor ↔ Contractor"
+      ],
+      "relationshipStrength": {
+        "0-20": "Unknown",
+        "21-40": "Weak",
+        "41-60": "Established",
+        "61-80": "Strong",
+        "81-100": "Trusted Partner"
+      }
+    },
+    "aiAssistant": {
+      "dailyRecommendations": [
+        "Call overdue contacts",
+        "Follow up proposals",
+        "Reconnect after six months",
+        "Schedule site visit",
+        "Send project photos",
+        "Congratulate on permit approval"
+      ],
+      "automaticInsights": [
+        "Relationship cooling",
+        "Opportunity getting stale",
+        "High-value contact inactive",
+        "Competitor likely involved",
+        "Property becoming active",
+        "Decision maker changed"
+      ]
+    },
+    "advancedModules": [
+      "Decision Maker Mapping",
+      "Buying Committee",
+      "Stakeholder Influence Matrix",
+      "Warm Introduction Finder",
+      "Referral Tracking",
+      "Competitor Tracking",
+      "Proposal Version History",
+      "Bid History",
+      "Win/Loss Analysis",
+      "Customer Lifetime Value",
+      "Repeat Business Prediction",
+      "Project History",
+      "Preferred Vendors",
+      "Subcontractor Network",
+      "Architect & Engineer Directory",
+      "Developer Portfolio",
+      "Property Owner Portfolio",
+      "Multi-Property Relationship Graph"
+    ]
+  },
+
+  "outreachEngine": {
+    "version": "1.0",
+    "purpose": "Generate, personalize, automate, and optimize outreach campaigns based on construction opportunity intelligence.",
+    "strategicPosition": "Construction-specific sales intelligence — not a Mailchimp/HubSpot competitor. Every message tied to a real opportunity (permit, ownership change, aging building, renovation signal) so outreach is timely and relevant. The AI should orchestrate outreach (who/when/what/reference/follow-up), not just generate content.",
+    "designPrinciples": [
+      "Opportunity-driven",
+      "Highly personalized",
+      "Evidence-based messaging",
+      "Multi-channel communication",
+      "AI assisted",
+      "Relationship first",
+      "Respect communication preferences"
+    ],
+    "channels": {
+      "email": { "features": ["Rich HTML", "Plain Text", "Templates", "Personalization", "Open Tracking", "Click Tracking", "Reply Tracking", "Attachments", "Scheduling"] },
+      "sms": { "features": ["One-to-One", "Bulk Messaging", "Appointment Reminders", "Proposal Notifications", "Follow-up Messages", "Two-Way Messaging"] },
+      "directMail": { "types": ["Letter", "Postcard", "Brochure", "Project Portfolio", "Holiday Card"] },
+      "phone": { "features": ["Click to Call", "Call Logging", "Call Recording", "Call Notes", "Voicemail Tracking"] },
+      "linkedin": { "features": ["Profile Discovery", "Connection Tracking", "Message Templates"] }
+    },
+    "campaigns": {
+      "supportedTypes": [
+        "Cold Outreach", "Warm Introduction", "Permit Follow-up", "Property Owner",
+        "Developer", "Architect", "Engineer", "Property Manager", "Referral",
+        "Past Customer", "Proposal Follow-up", "Reactivation", "Seasonal", "Trade Specific"
+      ]
+    },
+    "aiWriting": {
+      "contentTypes": [
+        "Email", "SMS", "Proposal", "Meeting Request", "Introduction",
+        "Thank You", "Follow-up", "Direct Mail", "LinkedIn Message", "Voicemail Script"
+      ],
+      "personalization": [
+        "Property", "Owner", "Recent Permit", "Building Age", "Capital Improvement",
+        "Industry", "Relationship History", "Previous Conversations", "Nearby Projects", "Company Background"
+      ],
+      "tone": ["Professional", "Friendly", "Consultative", "Executive", "Technical"]
+    },
+    "proposalGenerator": {
+      "strategicNote": "The AI Proposal Builder is a key productivity feature and adoption driver. Contractors spend hours assembling proposals — generating a polished first draft from the opportunity record, company profile, and historical templates saves significant time.",
+      "sections": [
+        "Cover Letter", "Executive Summary", "Company Overview", "Project Understanding",
+        "Scope of Work", "Deliverables", "Schedule", "Pricing", "Assumptions",
+        "Exclusions", "Warranty", "References", "Portfolio", "Terms", "Signature"
+      ],
+      "outputFormats": ["PDF", "DOCX", "Interactive Proposal", "Web Link"]
+    },
+    "automation": {
+      "triggers": [
+        "New Opportunity", "Permit Filed", "Property Sold", "Owner Changed",
+        "Opportunity Score Increased", "Proposal Viewed", "Proposal Not Opened",
+        "No Response", "Meeting Completed", "Bid Lost", "Bid Won"
+      ],
+      "actions": [
+        "Send Email", "Send SMS", "Generate Proposal", "Assign Task",
+        "Schedule Follow-up", "Notify Salesperson", "Move Pipeline Stage", "Create Reminder"
+      ]
+    },
+    "sequences": {
+      "example": [
+        { "day": 0, "action": "Personalized Introduction Email" },
+        { "day": 3, "action": "SMS Reminder" },
+        { "day": 7, "action": "Phone Call Task" },
+        { "day": 14, "action": "Project Portfolio Email" },
+        { "day": 30, "action": "Property Update Email" }
+      ]
+    },
+    "personalizationEngine": {
+      "variables": [
+        "Owner Name", "Company", "Property Address", "Building Type", "Building Age",
+        "Recent Permit", "Estimated Project Value", "Nearby Completed Projects",
+        "Opportunity Score", "Property Timeline", "AI Recommendation"
+      ]
+    },
+    "aiCoach": {
+      "recommendations": [
+        "Best day to contact",
+        "Best time to contact",
+        "Preferred communication channel",
+        "Suggested follow-up interval",
+        "Likelihood of response",
+        "Expected close probability",
+        "Similar successful outreach",
+        "Competitor messaging analysis",
+        "Subject line optimization",
+        "Proposal improvement suggestions"
+      ]
+    },
+    "futureModules": [
+      "AI Voice Agent",
+      "Video Proposal Generator",
+      "Personalized Landing Pages",
+      "Customer Portal",
+      "Electronic Signatures",
+      "Proposal Analytics",
+      "Referral Campaign Engine",
+      "Trade Show Lead Capture",
+      "QR Code Marketing",
+      "Neighborhood Campaign Builder",
+      "Door Hanger Route Planner",
+      "Project Showcase Generator"
+    ]
+  },
+
+  "mapsAndSpatialIntelligence": {
+    "version": "1.0.0",
+    "purpose": "Interactive GIS-powered mapping system for discovering, prioritizing, and managing construction opportunities geographically.",
+    "strategicPosition": "The map is not a pin-drop visualization — it is a query interface into the Opportunity Intelligence Engine. This makes GCLeadHub a spatial intelligence platform, not just a CRM with a map tab.",
+    "pages": [
+      {
+        "id": "map_dashboard",
+        "title": "Opportunity Map",
+        "description": "Primary spatial workspace.",
+        "features": ["Interactive map", "Property pins", "Opportunity clusters", "Permit overlays", "Sales overlays", "Construction overlays", "School projects", "Infrastructure projects", "Traffic layer", "Satellite", "Terrain", "Street view"]
+      },
+      {
+        "id": "layers",
+        "title": "Map Layers",
+        "description": "Toggle available intelligence layers.",
+        "layers": [
+          "Active Building Permits", "Expired Permits", "Sold Properties", "Distressed Properties",
+          "Code Violations", "Foreclosures", "Bank Owned", "Commercial Buildings", "Industrial Buildings",
+          "Apartment Complexes", "Schools", "Hospitals", "Government Buildings", "Hotels", "Retail Centers",
+          "Office Buildings", "Warehouses", "New Developments", "Utility Projects", "Road Projects",
+          "Bridges", "Airports", "Ports", "EV Infrastructure", "Solar Projects", "Battery Projects", "Data Centers"
+        ]
+      },
+      {
+        "id": "heat_maps",
+        "title": "Heat Maps",
+        "description": "Visualize opportunity concentration.",
+        "heatmaps": [
+          "Permit Density", "Construction Activity", "Distressed Property Density", "High Opportunity Areas",
+          "Contractor Competition", "Average Project Size", "Property Value Growth", "Recent Sales",
+          "Population Growth", "Business Growth", "Building Age", "Roof Age Estimate", "Infrastructure Spending"
+        ]
+      },
+      {
+        "id": "crew_radius",
+        "title": "Crew Radius",
+        "description": "Visualize service coverage.",
+        "features": ["Current office", "Multiple office locations", "Travel radius", "Maximum drive time", "Crew availability", "Travel cost estimation", "Fuel estimation", "Vehicle allocation", "Suggested dispatch region"]
+      },
+      {
+        "id": "travel_time",
+        "title": "Travel Intelligence",
+        "description": "Optimize travel efficiency.",
+        "features": ["Drive time polygons", "Traffic aware routing", "Rush hour estimates", "Road closures", "Bridge restrictions", "Truck routes", "Travel cost", "Fuel estimation", "Route optimization"]
+      },
+      {
+        "id": "territory_manager",
+        "title": "Territory Manager",
+        "description": "Assign geographic ownership.",
+        "features": ["Sales territories", "Estimator territories", "Crew territories", "Zip assignments", "County assignments", "State assignments", "Automatic lead routing", "Territory balancing", "Coverage gaps"]
+      },
+      {
+        "id": "clustering",
+        "title": "Opportunity Clustering",
+        "description": "Group nearby projects.",
+        "features": ["Radius clustering", "Neighborhood clustering", "Same owner clustering", "Corporate portfolio clustering", "Street clustering", "Campus clustering", "Industrial park clustering"]
+      },
+      {
+        "id": "gis",
+        "title": "GIS Intelligence",
+        "description": "Advanced GIS capabilities.",
+        "features": ["Parcel boundaries", "County boundaries", "City boundaries", "Flood zones", "Fire hazard zones", "Earthquake zones", "Utility districts", "School districts", "Planning districts", "Zoning overlays", "Historic districts", "Environmental overlays"]
+      }
+    ],
+    "spatialModules": {
+      "opportunityRadiusEngine": {
+        "purpose": "Automatically identify adjacent work instead of searching one building at a time.",
+        "example": "Roofing permit → Neighbor replacing HVAC → Next-door property sold → Same owner owns 12 buildings nearby → 'Visit all 12 while you're there.'"
+      },
+      "routeOpportunityOptimization": {
+        "purpose": "Contractor version of a salesperson's route planner — optimizes visit order by estimated revenue, travel cost, and nearby opportunities."
+      },
+      "constructionCorridorDetection": {
+        "purpose": "Detect corridors where construction activity is accelerating before competitors.",
+        "example": "New school → Road widening → Apartment complex → Retail center → Utility upgrades → Probability of additional projects: High"
+      },
+      "propertyPortfolioView": {
+        "purpose": "Click an owner and display every property they own across cities. Salespeople sell to owners, not just buildings.",
+        "example": "ABC Holdings → 42 Buildings → 7 Cities → 3 Currently Renovating → 5 Permits Pending → 2 Buildings Sold"
+      },
+      "projectRadiusIntelligence": {
+        "purpose": "When viewing a permit, show nearby similar projects, competitors, average contract size, nearby subs, material suppliers, equipment rental, waste facilities."
+      },
+      "marketExpansionTool": {
+        "purpose": "Answer 'Where should I open my next office?' using revenue density, permit density, competition, drive times, labor availability, population growth, building age, project mix."
+      },
+      "whiteSpaceAnalysis": {
+        "purpose": "Highlight underserved areas where opportunity exceeds contractor capacity.",
+        "example": "County A: 42 active contractors, 5,100 projects, 18-day avg response → High opportunity"
+      },
+      "aiTerritoryBuilder": {
+        "purpose": "Automatically divide territories to balance workload by equal opportunity, travel, revenue potential, and minimized driving."
+      },
+      "timeMachine": {
+        "purpose": "View changes over time with a slider (2022→2026). See construction growth, permit trends, property sales, neighborhood transformation to identify emerging markets."
+      },
+      "opportunityForecastMap": {
+        "purpose": "Predict where projects are likely to emerge in the next 6-18 months based on permit velocity, property sales, population growth, infrastructure spending, commercial vacancies, business openings, municipal planning."
+      }
+    }
+  },
+
+  "propertyIntelligence": {
+    "version": "1.0.0",
+    "purpose": "Unified property intelligence engine providing ownership, history, regulatory, financial, environmental, and construction insights for every parcel.",
+    "strategicPosition": "Every property becomes a living asset record that continuously accumulates evidence. Most contractor CRMs stop at owner name and tax records — GCLH builds a 360° profile. This is one of the highest-value modules in the platform.",
+    "pages": [
+      {
+        "id": "property_profile",
+        "title": "Property Profile",
+        "description": "Complete property intelligence dashboard.",
+        "sections": ["Overview", "Ownership", "Permits", "Projects", "Valuation", "Building Facts", "Sales History", "Tax History", "Utilities", "Code Enforcement", "Environmental", "Documents", "AI Insights", "Timeline"]
+      },
+      {
+        "id": "ownership",
+        "title": "Ownership Intelligence",
+        "features": ["Current owner", "Ownership history", "Entity ownership", "Corporate ownership", "LLC lookup", "Mailing address", "Portfolio holdings", "Related entities", "Related decision makers", "Owner occupancy", "Investment ownership", "Owner contact confidence"]
+      },
+      {
+        "id": "permit_history",
+        "title": "Permit Intelligence",
+        "features": ["Building permits", "Electrical permits", "Mechanical permits", "Plumbing permits", "Roof permits", "Solar permits", "Fire permits", "Permit values", "Contractors used", "Permit timeline", "Permit status", "Permit expiration", "Inspection history"]
+      },
+      {
+        "id": "tax_history",
+        "title": "Tax Intelligence",
+        "features": ["Assessed value", "Tax history", "Annual increases", "Delinquent taxes", "Tax exemptions", "Property class", "Tax appeal history", "Estimated market value"]
+      },
+      {
+        "id": "code_violations",
+        "title": "Code Enforcement",
+        "features": ["Open violations", "Closed violations", "Fire violations", "Health violations", "Building violations", "Unsafe structures", "Stop work orders", "Correction notices", "Violation timeline"]
+      },
+      {
+        "id": "sales",
+        "title": "Sales Intelligence",
+        "features": ["Sale history", "Listing history", "Current valuation", "Price changes", "Market time", "Comparable sales", "Investor activity", "Ownership turnover", "Market appreciation"]
+      },
+      {
+        "id": "environmental",
+        "title": "Environmental Intelligence",
+        "features": ["Flood zones", "Wetlands", "Earthquake zone", "Fire hazard", "Hazardous waste sites", "Underground storage tanks", "Brownfield status", "Environmental permits", "Air quality district", "Water district"]
+      },
+      {
+        "id": "utilities",
+        "title": "Utility Intelligence",
+        "features": ["Electric utility", "Gas utility", "Water utility", "Waste provider", "Power availability", "Three-phase power", "Substation proximity", "Fiber availability", "Broadband providers"]
+      },
+      {
+        "id": "zoning",
+        "title": "Planning & Zoning",
+        "features": ["Current zoning", "Allowed uses", "Overlay districts", "Development restrictions", "Historic designation", "Setbacks", "Height limits", "FAR", "Parking requirements", "Future land use"]
+      },
+      {
+        "id": "building_facts",
+        "title": "Building Facts",
+        "features": ["Building type", "Construction year", "Last renovation", "Gross square footage", "Lot size", "Stories", "Occupancy type", "Roof type", "Roof age estimate", "HVAC age estimate", "Electrical service", "Fire suppression", "Parking", "Loading docks", "Estimated replacement cost"]
+      }
+    ],
+    "intelligenceModules": {
+      "aiPropertySummary": {
+        "purpose": "Every property automatically gets an executive summary highlighting age, recent permits, renovation likelihood, and estimated opportunity value."
+      },
+      "capitalImprovementPredictor": {
+        "purpose": "Predicts what owners are likely to spend money on — roof nearing end of life, HVAC replacement, ADA upgrades, fire sprinkler upgrades, parking lot resurfacing, solar retrofit, EV chargers, building modernization."
+      },
+      "buildingLifecycleScore": {
+        "purpose": "Every building receives a lifecycle rating across Structure, Roof, Mechanical, Electrical, Exterior with an overall score (0-100)."
+      },
+      "propertyTimeline": {
+        "purpose": "Everything becomes one chronological story — built → roof replaced → tenant improvement → sold → electrical upgrade → solar installed → violation → new permit."
+      },
+      "ownerPortfolioIntelligence": {
+        "purpose": "Click an owner to see portfolio size, property types, total value, recent activity (sales, permits, remodels, developments)."
+      },
+      "renovationProbabilityScore": {
+        "purpose": "AI predicts likelihood of work within 12-24 months based on building age, permit frequency, recent sale, code violations, tenant turnover, property value, neighborhood growth, comparable renovations."
+      },
+      "contractorHistory": {
+        "purpose": "Identify which contractors have previously worked on the property — valuable competitive intelligence."
+      },
+      "aiOpportunityTimeline": {
+        "purpose": "Predicts upcoming opportunities in next 6 months (HVAC Medium, Roof High, Interior Remodel High, Exterior Paint Low, Parking Lot Medium)."
+      },
+      "documentIntelligence": {
+        "purpose": "Auto-index building plans, permit PDFs, inspection reports, environmental reports, engineering drawings, site plans, deeds, easements, CC&Rs with AI search.",
+        "exampleQueries": ["Show all roof permits.", "Summarize this environmental report."]
+      },
+      "propertyDigitalTwin": {
+        "purpose": "Future enterprise feature — living operational profile with current condition, construction history, permit history, contractors, utility profile, maintenance timeline, capital improvements, risk and opportunity indicators. Every property evolves into a continuously updated digital record."
+      }
+    }
+  },
+
+  "searchEngine": {
+    "version": "1.0.0",
+    "purpose": "Enterprise intelligence search platform supporting structured, semantic, geospatial, and AI-powered discovery across all indexed construction opportunities.",
+    "strategicPosition": "The Search Engine is the Intelligence Query Layer — the front door to every intelligence module. Users ask questions, not just search properties. Combined with IIE's provider system and graph, this becomes one of the platform's biggest differentiators.",
+    "pages": [
+      {
+        "id": "global_search",
+        "title": "Universal Search",
+        "features": ["Global search bar", "Natural language search", "Instant suggestions", "Autocomplete", "Recent searches", "Trending searches", "Voice search", "Search history", "Search templates", "AI query builder"]
+      },
+      {
+        "id": "query_dsl",
+        "title": "Query DSL Builder",
+        "description": "Visual and advanced query language for power users.",
+        "features": ["Boolean logic", "AND", "OR", "NOT", "Nested conditions", "Range queries", "Date operators", "Distance operators", "Geo polygons", "Regex search", "Field boosting", "Scoring modifiers", "Similarity search", "Export DSL"]
+      },
+      {
+        "id": "saved_searches",
+        "title": "Saved Searches",
+        "features": ["Unlimited saved searches", "Folders", "Sharing", "Scheduling", "Notifications", "Auto refresh", "Duplicate detection", "Search version history", "Clone search"]
+      },
+      {
+        "id": "filters",
+        "title": "Advanced Filters",
+        "categories": ["Location", "Property Type", "Owner", "Building Age", "Permit Status", "Opportunity Score", "Distress Score", "Revenue Potential", "Building Size", "Lot Size", "Construction Type", "Utilities", "Environmental", "Zoning", "Tax Status", "Code Violations", "Sales History", "Contractor History", "Timeline Events"]
+      },
+      {
+        "id": "ranking",
+        "title": "Ranking Engine",
+        "features": ["Relevance", "Distance", "Newest", "Oldest", "Highest Opportunity", "Highest Revenue", "Highest Distress", "Most Permits", "Recently Sold", "Most Active Owners", "Custom ranking formulas"]
+      },
+      {
+        "id": "recommendations",
+        "title": "AI Recommendations",
+        "features": ["Similar properties", "Nearby opportunities", "Owner portfolio recommendations", "Recently emerging markets", "Similar contractors", "Similar permits", "Opportunity clustering", "Expansion recommendations", "Bid recommendations", "Next best action"]
+      },
+      {
+        "id": "watchlists",
+        "title": "Watchlists",
+        "features": ["Properties", "Owners", "Companies", "Cities", "ZIP Codes", "Contractors", "Permit Types", "Projects", "Custom alerts", "Real-time monitoring"]
+      }
+    ],
+    "intelligenceSearch": {
+      "purpose": "Instead of requiring users to build complex filters, let them search naturally. The AI translates natural language into the internal Query DSL.",
+      "exampleQueries": [
+        "Show apartment complexes over 30 years old",
+        "Find shopping centers that haven't remodeled recently",
+        "Show buildings likely needing HVAC replacement",
+        "Find schools with upcoming capital improvement opportunities",
+        "Industrial buildings sold within the last year",
+        "Hotels with fire violations",
+        "Churches with roof permits older than 20 years"
+      ]
+    },
+    "visualQueryBuilder": {
+      "purpose": "Drag-and-drop interface for non-technical contractors. Each condition row has Property Type → AND → Built Before → AND → Roof Permit → AND → Within → ORDER BY Opportunity Score."
+    },
+    "searchTemplates": [
+      "Apartment Value Add", "Aging Office Buildings", "Shopping Centers", "Schools",
+      "Churches", "Warehouses", "Medical Offices", "Hotels", "Industrial Parks",
+      "Restaurants", "Multifamily Investors"
+    ],
+    "aiSearchSuggestions": {
+      "purpose": "While typing 'roof': suggest Roof nearing end of life, Roof permits, Roof replacements, Roof violations, Roof opportunities"
+    },
+    "watchlistTypes": {
+      "ownerWatch": "Notify when property sells, new permits, violations, tax delinquency, remodel begins",
+      "cityWatch": "Notify when industrial permits exceed $5M, schools issue remodel permits, retail projects begin",
+      "propertyWatch": "Notify when owner changes, permit filed, violation issued, building sold, tax delinquent"
+    },
+    "smartRecommendations": {
+      "purpose": "After searching Apartment Remodels, suggest Hotels, Senior Living, Student Housing, Mixed Use Developments"
+    },
+    "searchAnalytics": {
+      "purpose": "Show top searches, search frequency trends, and user behavior patterns."
+    },
+    "aiQueryOptimizer": {
+      "purpose": "After a search returns only 8 results, suggest expanding radius, including 25-35 year old buildings, removing permit restriction — estimated results: 147"
+    },
+    "similarResults": {
+      "purpose": "Every property has a Find Similar button showing similarity percentage across Age, Location, Ownership, Permit History, Opportunity Score"
+    },
+    "advancedFeatures": [
+      "Semantic Search — vector embeddings for find buildings similar to this one",
+      "Graph Search — show owners connected to XYZ contractor",
+      "Search Collections — share curated searches with team",
+      "Cross-Search Comparison — compare two saved searches for newly qualified opportunities",
+      "Search Replay — re-run historical search against today's data",
+      "Opportunity Delta View — highlight only new/changed results since last run",
+      "Federated Search — unified search across permits, properties, companies, contacts, documents, maps, CRM"
+    ]
+  },
+
+  "organizationAndAdministration": {
+    "version": "1.0.0",
+    "purpose": "Multi-tenant organization management, user administration, permissions, billing, API access, audit logging, and enterprise governance.",
+    "strategicPosition": "Designed for enterprise from day one — targets everyone from single GCs to large regional contractors and franchises. Most functionality won't be used by small customers initially, but avoids a major rewrite later.",
+    "pages": [
+      {
+        "id": "organizations",
+        "title": "Organizations",
+        "features": ["Organization profile", "Logo", "Business information", "Multiple office locations", "Business licenses", "Primary service area", "Industry specialization", "Company settings", "Branding", "Timezone", "Language", "Regional preferences"]
+      },
+      {
+        "id": "users",
+        "title": "Users",
+        "features": ["Invite users", "Deactivate users", "Suspend users", "Reset passwords", "User profiles", "User activity", "Last login", "Assigned territories", "Assigned opportunities", "Team membership", "Avatar", "MFA support"]
+      },
+      {
+        "id": "roles",
+        "title": "Roles & Permissions",
+        "roles": ["Owner", "Administrator", "Operations Manager", "Sales Manager", "Estimator", "Project Manager", "Business Development", "Outside Sales", "Field Representative", "Read Only", "API Client", "Custom Roles"],
+        "permissions": ["View Opportunities", "Create Opportunities", "Delete Opportunities", "Export Data", "View CRM", "Manage CRM", "Manage Organization", "Manage Billing", "Manage API Keys", "Manage Integrations", "Manage Automations", "View Financial Reports", "Manage Users"]
+      },
+      {
+        "id": "teams",
+        "title": "Teams",
+        "features": ["Sales Teams", "Estimating Teams", "Regional Teams", "Branch Offices", "Territories", "Team Performance", "Team Goals", "Shared Opportunities", "Shared Watchlists"]
+      },
+      {
+        "id": "billing",
+        "title": "Billing",
+        "features": ["Subscription", "Invoices", "Payment Methods", "Usage", "Seat Management", "Additional Credits", "Enterprise Contracts", "Tax Information", "Billing Contacts", "Billing History"]
+      },
+      {
+        "id": "api_keys",
+        "title": "API Keys",
+        "features": ["Generate API Keys", "Rotate Keys", "Disable Keys", "Usage Dashboard", "Rate Limits", "Webhook Tokens", "OAuth Clients", "Service Accounts", "Scopes", "Expiration Dates"]
+      },
+      {
+        "id": "audit_logs",
+        "title": "Audit Logs",
+        "features": ["User Activity", "Login History", "Data Exports", "API Calls", "Permission Changes", "Record Changes", "Deleted Records", "Organization Events", "Security Events", "Compliance History"]
+      },
+      {
+        "id": "security",
+        "title": "Security",
+        "features": ["Two Factor Authentication", "Single Sign-On", "Password Policies", "IP Restrictions", "Device Sessions", "Trusted Devices", "Session Timeout", "Login Alerts", "Security Reports"]
+      },
+      {
+        "id": "integrations",
+        "title": "Connected Services",
+        "features": ["Google Workspace", "Microsoft 365", "QuickBooks", "Salesforce", "HubSpot", "Slack", "Zapier", "Webhook Manager", "REST API", "Future Marketplace"]
+      }
+    ],
+    "enterpriseFeatures": {
+      "whiteLabel": "Custom logo, colors, domain, client portal branding",
+      "franchises": "Parent organization, multiple branches, independent billing, shared opportunity pool, regional reporting",
+      "multiOffice": "Territory assignment, office-level dashboards, shared CRM and search history, cross-office collaboration",
+      "apiManagement": "Per-key rate limits, usage analytics, request logs, API scopes, webhook subscriptions, IP allowlists",
+      "compliance": "Complete audit trail, soft delete with recovery, data retention policies, GDPR/CCPA readiness, export logs, user consent records",
+      "teamPerformance": "Opportunities assigned, win rate, revenue generated, response time, outreach completed, pipeline value, activity heatmap",
+      "orgSettings": "Default search radius, preferred property types, target building age, opportunity score thresholds, notification preferences, AI model settings, email templates, proposal branding"
+    },
+    "organizationKnowledgeBase": {
+      "purpose": "Key differentiator — most CRMs don't have this. Every search, note, property visit, bid outcome, contractor observation, and customer interaction becomes searchable institutional knowledge. Instead of disappearing when an employee leaves, it becomes the organization's long-term intelligence.",
+      "examples": [
+        "John met the property manager in 2024.",
+        "Roof replacement was postponed due to budget.",
+        "Owner prefers bids in Q1.",
+        "Building has recurring plumbing issues.",
+        "Estimator visited and identified structural concerns."
+      ],
+      "strategicValue": "Over time, this becomes a significant competitive advantage and one of the platform's strongest retention mechanisms."
+    }
+  },
+
+  "engineering": {
+    "overview": {
+      "purpose": "Scalable, observable, multi-tenant platform for continuously ingesting, processing, scoring, and serving contractor opportunity intelligence across multiple markets.",
+      "architecture": "Cloud-native with asynchronous processing, event-driven ingestion, shared intelligence services, and tenant isolation.",
+      "designPrinciples": ["API First", "Event Driven", "Horizontal Scalability", "High Availability", "Fault Isolation", "Stateless Services", "Shared Intelligence Layer", "Deterministic Processing", "Security by Default"]
+    },
+    "database": {
+      "engine": "PostgreSQL",
+      "provider": "Supabase",
+      "extensions": ["PostGIS", "pgvector", "pg_trgm", "RLS"],
+      "primaryDomains": ["Properties", "Companies", "Contacts", "Permits", "Transactions", "Ownership", "Opportunities", "Signals", "Campaigns", "Tasks", "Organizations", "Users", "Audit"],
+      "storageStrategy": {"documents": "Supabase Storage", "images": "CDN", "attachments": "Object Storage"}
+    },
+    "api": {
+      "style": "REST",
+      "futureSupport": ["GraphQL", "Webhooks"],
+      "authentication": ["JWT", "API Keys", "OAuth"],
+      "majorEndpoints": ["/search", "/properties", "/companies", "/contacts", "/opportunities", "/maps", "/crm", "/campaigns", "/analytics", "/organization", "/billing", "/watchlists"]
+    },
+    "jobs": {
+      "scheduler": "Event Driven",
+      "jobTypes": ["Daily Permit Imports", "MLS Sync", "Ownership Refresh", "Property Sales Updates", "Tax Updates", "Opportunity Recalculation", "AI Summaries", "Daily Brief Generation", "Campaign Scheduling", "Email Processing", "SMS Queue", "Webhook Delivery", "Data Quality Checks", "Index Optimization"]
+    },
+    "workers": {
+      "queue": "Redis",
+      "executionModel": "Distributed",
+      "workerPools": ["Import Workers", "AI Workers", "Scoring Workers", "CRM Workers", "Email Workers", "SMS Workers", "Map Tile Workers", "Notification Workers", "Reporting Workers"],
+      "retryPolicy": {"maxRetries": 5, "backoff": "Exponential"}
+    },
+    "caching": {
+      "provider": "Redis",
+      "cachedResources": ["Search Results", "Property Profiles", "Maps", "Company Records", "User Sessions", "Dashboard Metrics", "Leaderboard", "Opportunity Scores"],
+      "ttlStrategy": {"hotData": "15 Minutes", "propertyProfiles": "24 Hours", "analytics": "1 Hour"}
+    },
+    "authentication": {
+      "provider": "Supabase Auth",
+      "supportedMethods": ["Email", "Magic Link", "Google", "Microsoft", "Apple"],
+      "securityFeatures": ["MFA", "Password Reset", "Session Management", "Organization Membership", "Invite Workflow"]
+    },
+    "authorization": {"model": "RBAC", "roles": ["Owner", "Admin", "Sales Manager", "Sales Rep", "Estimator", "Marketing", "Viewer"]},
+    "audit": {"capture": ["User Logins", "Searches", "Record Changes", "CRM Activity", "Exports", "Campaign Sends", "API Calls", "Permission Changes"], "retentionDays": 3650},
+    "logging": {"levels": ["Debug", "Info", "Warning", "Error", "Critical"], "structured": true, "traceIds": true},
+    "monitoring": {
+      "metrics": ["API Latency", "Worker Queue Depth", "Search Duration", "Database Performance", "Import Success Rate", "Opportunity Generation Rate", "Campaign Delivery", "System Uptime"],
+      "alerts": ["Queue Backlog", "Import Failure", "API Failure", "Worker Failure", "Authentication Failure"]
+    },
+    "performance": {
+      "targets": {"dashboardLoad": "<2 Seconds", "searchResponse": "<1 Second", "propertyPage": "<1 Second", "crmOperations": "<300ms", "mapPan": "<500ms"},
+      "optimization": ["Server Side Pagination", "Incremental Loading", "Virtualized Tables", "Edge Caching", "Background Prefetch", "Lazy Components"]
+    },
+    "security": {
+      "features": ["TLS Everywhere", "Encrypted Storage", "Secrets Management", "Rate Limiting", "Bot Detection", "Input Validation", "OWASP Compliance", "SQL Injection Protection", "XSS Protection", "CSRF Protection"]
+    },
+    "dataGovernance": {
+      "deduplication": true,
+      "entityResolution": true,
+      "sourceConfidence": true,
+      "recordVersioning": true,
+      "lineageTracking": true
+    },
+    "futureArchitecture": {
+      "aiAgents": ["Sales Copilot", "Research Agent", "Proposal Agent", "Permit Monitor", "Property Analyst", "CRM Assistant"],
+      "futureIntegrations": ["IIE Opportunity Engine", "HHR Contractor Network", "MLS Providers", "County Recorders", "Permit Agencies", "Accounting Platforms", "Construction ERPs", "Marketing Platforms"]
+    }
+  },
+
+  "deployment": {
+    "version": "1.0",
+    "goal": "Enterprise-grade deployment, observability, scalability, security, and operational tooling — inexpensive during MVP, easily scalable to enterprise workloads.",
+    "environments": {
+      "development": {"purpose": "Local engineering", "database": "Supabase Dev", "storage": "Supabase Storage", "queue": "Redis Local", "logging": "Console", "analytics": "Disabled"},
+      "staging": {"purpose": "QA + client demos", "database": "Supabase Staging", "storage": "Supabase Storage", "queue": "Redis", "logging": "Centralized", "analytics": "Enabled"},
+      "production": {"purpose": "Customer environment", "database": "Supabase Production", "storage": "Object Storage", "queue": "Redis Cluster", "logging": "Centralized", "analytics": "Enabled"}
+    },
+    "infrastructure": {
+      "frontend": {"framework": "Next.js", "hosting": "Vercel", "cdn": true, "edgeCaching": true},
+      "backend": {"framework": "FastAPI", "containerized": true, "autoscaling": true},
+      "database": {"provider": "Supabase PostgreSQL", "replicas": true, "pointInTimeRecovery": true},
+      "queue": {"provider": "Redis", "purpose": ["Background Jobs", "Email Queue", "SMS Queue", "AI Queue", "Import Queue", "Crawler Queue"]},
+      "objectStorage": {"documents": true, "proposalFiles": true, "attachments": true, "propertyImages": true}
+    },
+    "cicd": {
+      "provider": "GitHub Actions",
+      "pipelines": ["Lint", "Type Check", "Unit Tests", "Integration Tests", "Security Scan", "Docker Build", "Deploy Staging", "Deploy Production"],
+      "branchStrategy": {"main": "Production", "develop": "Staging", "feature": "Preview Deployments"}
+    },
+    "featureFlags": {
+      "provider": "Database Driven",
+      "flags": ["AI Outreach", "Direct Mail", "MLS Integration", "CRM Module", "GIS Layers", "Predictive Analytics", "Property Timeline", "Portfolio Intelligence", "Revenue Forecasting", "Multi-Organization"]
+    },
+    "authentication": {"provider": "Supabase Auth", "methods": ["Email", "Google", "Microsoft", "Magic Link"], "future": ["SAML", "SSO", "Active Directory"]},
+    "security": {"https": true, "jwt": true, "rowLevelSecurity": true, "apiRateLimiting": true, "encryptedSecrets": true, "encryptedStorage": true, "signedUrls": true, "auditLogging": true},
+    "monitoring": {
+      "application": ["Request Rate", "Latency", "Errors", "CPU", "Memory"],
+      "business": ["Searches", "Leads Generated", "Deals Created", "Emails Sent", "Properties Indexed", "Daily Active Users", "Conversion Rate"]
+    },
+    "logging": {"levels": ["Debug", "Info", "Warning", "Error", "Critical"], "retentionDays": 90},
+    "analytics": {
+      "product": ["Feature Usage", "User Journeys", "Session Length", "Funnels"],
+      "sales": ["Lead Conversion", "Proposal Win Rate", "Pipeline Value", "Revenue Forecast"]
+    },
+    "performance": {"dashboardLoadSeconds": 2, "propertySearchMilliseconds": 500, "mapRenderMilliseconds": 1000, "proposalGenerationSeconds": 15, "aiResponseSeconds": 10},
+    "backup": {"database": "Daily", "documents": "Continuous", "attachments": "Continuous", "retentionDays": 30},
+    "disasterRecovery": {"targetRecoveryTime": "1 hour", "targetRecoveryPoint": "15 minutes"},
+    "notifications": {"systemHealth": true, "jobFailures": true, "crawlerFailures": true, "emailFailures": true, "apiFailures": true},
+    "futureEnterprise": {"multiRegion": true, "tenantIsolation": true, "regionalCompliance": true, "privateCloud": true, "dedicatedInfrastructure": true}
+  },
+
+  "platformPositioning": {
+    "tagline": "The Opportunity Intelligence Platform for General Contractors",
+    "differentiation": "Not another CRM or property search tool. Instead of helping contractors manage jobs after they're won, GCLeadHub helps them discover, qualify, prioritize, and win profitable work before competitors.",
+    "competitors": ["Buildertrend", "Jobber", "Procore", "HubSpot", "Monday.com"],
+    "sixIntelligenceEngines": [
+      {"name": "Opportunity Intelligence", "purpose": "Detect and score projects before competitors"},
+      {"name": "Property Intelligence", "purpose": "Build a living profile of every property"},
+      {"name": "Company Intelligence", "purpose": "Track owners, developers, GCs, architects, and investors"},
+      {"name": "Market Intelligence", "purpose": "Monitor neighborhoods, permits, transactions, and emerging trends"},
+      {"name": "Sales Intelligence", "purpose": "CRM, outreach, proposals, and pipeline management"},
+      {"name": "Operational Intelligence", "purpose": "Maps, territories, scheduling, analytics, and reporting"}
+    ],
+    "iieRelationship": "GCLeadHub is a specialized application powered by IIE — IIE owns the graph, ingestion, and indexing infrastructure; GCLeadHub owns the opportunity intelligence application layer."
+  },
+
+  "appendices": {
+    "demoData": {
+      "organizations": 3, "users": 12, "properties": 5000, "permits": 25000, "companies": 1800, "contacts": 4200, "opportunities": 1500, "campaigns": 25, "deals": 300, "activities": 12000, "attachments": 500
+    },
+    "acceptanceCriteria": {
+      "dashboard": ["Loads under 2 seconds", "Updates in real time", "Mobile responsive", "Widget customization persists"],
+      "search": ["Results under 1 second", "Supports complex filtering", "Supports saved searches", "Supports watchlists"],
+      "opportunities": ["Opportunity score generated", "Reasoning displayed", "Timeline generated", "Confidence score displayed"],
+      "crm": ["Unlimited companies", "Unlimited contacts", "Activity history", "Calendar synchronization"],
+      "maps": ["Smooth zoom", "Cluster rendering", "Heatmaps", "Polygon selection"],
+      "campaigns": ["Email sending", "SMS sending", "Automation workflows", "Proposal generation"],
+      "organization": ["Multi-tenant isolation", "Role permissions", "Audit logging"]
+    },
+    "roadmap": {
+      "phase1": ["Opportunity Dashboard", "Property Search", "CRM", "Maps", "Property Intelligence", "AI Opportunity Score"],
+      "phase2": ["Campaign Automation", "Proposal Generator", "Mobile App", "Daily Briefings", "Watchlists", "Notifications"],
+      "phase3": ["AI Voice Assistant", "Photo Intelligence", "Permit OCR", "Construction Cost Estimation", "Document Intelligence", "Predictive Opportunity Forecasting"],
+      "phase4": ["Marketplace", "Subcontractor Matching", "Material Pricing", "Equipment Rentals", "Insurance Intelligence", "Financing Intelligence"]
+    },
+    "futureModules": [
+      {"name": "Drone Inspection Intelligence", "description": "Analyze aerial imagery for construction opportunities"},
+      {"name": "Roof Intelligence", "description": "Detect roof age and replacement opportunities"},
+      {"name": "HVAC Replacement Intelligence", "description": "Estimate HVAC replacement likelihood"},
+      {"name": "Solar Opportunity Intelligence", "description": "Identify properties suitable for solar installation"},
+      {"name": "Energy Retrofit Intelligence", "description": "Identify buildings eligible for rebates and efficiency upgrades"},
+      {"name": "Insurance Claim Intelligence", "description": "Storm damage and insurance restoration opportunities"},
+      {"name": "Environmental Compliance Intelligence", "description": "Track environmental violations creating remediation work"},
+      {"name": "Developer Intelligence", "description": "Track developers, acquisitions and future projects"}
+    ],
+    "launchChecklist": [
+      "Authentication complete", "Organization management complete", "Search indexing complete", "Opportunity Engine operational", "Maps operational", "CRM operational", "Email integration", "SMS integration", "AI services connected", "Logging enabled", "Audit enabled", "Analytics enabled", "Backups configured", "Monitoring configured", "Security review completed", "Performance testing completed", "Accessibility review completed", "Production deployment approved"
+    ],
+    "integrationBoundaries": {
+      "externalServices": ["Google Maps", "Mapbox", "Twilio", "SendGrid", "OpenAI", "Stripe", "Supabase"],
+      "futureIIEIntegration": {
+        "enabled": false,
+        "description": "GCLeadHub is intentionally standalone. Future versions may consume IIE intelligence through APIs without embedding IIE business logic."
+      }
+    },
+    "nonGoals": ["Project Management", "Accounting", "Payroll", "Estimating Software", "Scheduling Software", "CAD", "BIM", "ERP Replacement"],
+    "successMetrics": {
+      "dailyActiveUsers": 500,
+      "weeklyOpportunityCreation": 10000,
+      "averageSearchLatencyMs": 500,
+      "leadConversionIncreasePercent": 35,
+      "userRetention90DaysPercent": 75,
+      "averageOpportunitiesPerUser": 150,
+      "campaignResponseIncreasePercent": 20,
+      "timeToFirstOpportunityMinutes": 5
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { IndexIntelligenceEngine } from '@/lib/market/adapter';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
-import { generateMarketReport } from '@/lib/market/reports';
+import { IndexIntelligenceEngine } from '@/core/search/adapter';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
+import { generateMarketReport } from '@/core/search/reports';
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { logger } from '@/lib/logger';
-import { supabaseFetch } from '@/lib/db';
+import { logger } from '@/core/logger';
+import { supabaseFetch } from '@/core/db';
 
 declare global {
   var __invitations: Array<{

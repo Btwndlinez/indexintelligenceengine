@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate, campaignCreateSchema } from '@/lib/validation';
-import { logger } from '@/lib/logger';
-import { createCampaign } from '@/lib/campaign/helpers';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate, campaignCreateSchema } from '@/core/api/validation';
+import { logger } from '@/core/logger';
+import { createCampaign } from '@/core/campaign/helpers';
 
 export async function POST(req: NextRequest) {
   try {

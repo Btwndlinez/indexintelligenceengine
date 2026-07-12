@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate } from '@/lib/validation';
-import { logger } from '@/lib/logger';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate } from '@/core/api/validation';
+import { logger } from '@/core/logger';
 import { z } from 'zod';
-import { getCampaign, updateCampaignStatus } from '@/lib/campaign/helpers';
+import { getCampaign, updateCampaignStatus } from '@/core/campaign/helpers';
 
 export async function POST(req: NextRequest) {
   try {

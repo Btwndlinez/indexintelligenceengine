@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { requireRole } from '@/lib/auth/permissions';
-import { logger } from '@/lib/logger';
+import { resolveTenant } from '@/core/auth/tenant';
+import { requireRole } from '@/core/auth/permissions';
+import { logger } from '@/core/logger';
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
-import { supabaseFetch } from '@/lib/db';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
+import { supabaseFetch } from '@/core/db';
 
 declare global {
   var __savedSearches: Array<{

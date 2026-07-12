@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { resolveTenant } from '@/lib/auth/tenant';
-import { validate } from '@/lib/validation';
-import { logOutreach } from '@/lib/outreach/helpers';
-import { logger } from '@/lib/logger';
+import { resolveTenant } from '@/core/auth/tenant';
+import { validate } from '@/core/api/validation';
+import { logOutreach } from '@/core/outreach/helpers';
+import { logger } from '@/core/logger';
 
 const emailOutreachSchema = z.object({
   companyId: z.string().uuid(),

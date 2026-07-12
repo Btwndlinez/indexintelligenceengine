@@ -1,0 +1,275 @@
+{
+  "product": {
+    "name": "GCLeadHub",
+    "tagline": "Find Better Projects Before Your Competition",
+    "website": "https://gcleadhub.com",
+    "type": "AI Opportunity Intelligence Platform",
+    "version": "1.0"
+  },
+  "design_system": {
+    "style": "Modern Enterprise SaaS",
+    "theme": {
+      "default": "dark",
+      "supportsDarkLight": true,
+      "primary": "#2563EB",
+      "secondary": "#0F172A",
+      "accent": "#22C55E",
+      "warning": "#F59E0B",
+      "danger": "#EF4444",
+      "backgroundDark": "#020617",
+      "backgroundLight": "#F8FAFC"
+    },
+    "visual_language": [
+      "glassmorphism",
+      "soft gradients",
+      "large photography",
+      "animated cards",
+      "depth shadows",
+      "rounded corners",
+      "blurred overlays",
+      "motion based interactions"
+    ],
+    "radius": "16px",
+    "spacing": "8px grid",
+    "animations": "Framer Motion",
+    "icons": "Lucide",
+    "charts": "Recharts",
+    "maps": "Mapbox"
+  },
+  "responsive": {
+    "desktop": "1440+",
+    "laptop": "1280",
+    "tablet": "768",
+    "mobile": "390",
+    "navigation": "collapsible"
+  },
+  "accessibility": {
+    "wcag": "AA",
+    "keyboardNavigation": true,
+    "screenReader": true,
+    "highContrast": true
+  },
+  "navigation": {
+    "header": {
+      "sticky": true,
+      "height": "76px",
+      "left": ["Logo", "GCLeadHub"],
+      "center": ["Solutions", "Pricing", "Resources", "Company"],
+      "right": ["Language Toggle", "Theme Toggle", "Search", "Notifications", "Sign In", "Start Free Trial"]
+    },
+    "languageToggle": {
+      "languages": ["EN", "ES", "中文", "VI"],
+      "style": "animated underline",
+      "translation": "instant",
+      "persist": "browser"
+    },
+    "themeToggle": {
+      "style": "animated sun/moon morph",
+      "transition": "entire page smoothly transitions"
+    }
+  },
+  "hero": {
+    "layout": "full screen, split",
+    "left": {
+      "headline": "Find.\nScore.\nWin.\nMore Profitable Projects.",
+      "subtitle": "Discover distressed properties, building permits, capital improvement projects, ownership changes and high-value contractor opportunities before everyone else.",
+      "buttons": ["Start Free Trial", "Watch Demo"]
+    },
+    "right": {
+      "visual": "large animated rendering — modern office building with floating AI cards, permit issued, property sold, owner changed, opportunity score, AI reasoning, heatmap, timeline",
+      "animation": "gently floating layers"
+    }
+  },
+  "hero_search": {
+    "position": "below hero",
+    "style": "very large",
+    "filters": ["Search", "Owner", "Permit", "City", "ZIP", "Parcel", "Address", "Builder", "Subdivision"],
+    "animatedPlaceholder": {
+      "sequence": [
+        "Searching permits...",
+        "Searching ownership...",
+        "Searching distressed assets...",
+        "Searching remodels...",
+        "Searching projects..."
+      ]
+    },
+    "loader": {
+      "style": "blue beam sweeping",
+      "liveCount": "Searching 17,452,339 properties..."
+    }
+  },
+  "statistics": {
+    "style": "animated counters",
+    "stats": [
+      {"value": "11.8M", "label": "Properties"},
+      {"value": "92M", "label": "Permits"},
+      {"value": "4.8M", "label": "Owners"},
+      {"value": "6,200", "label": "Cities"},
+      {"value": "420M", "label": "Documents"}
+    ]
+  },
+  "platform_sections": {
+    "layout": "4 columns desktop, 2 tablet, 1 mobile",
+    "cardStyle": "large image, hover lift, glow, micro animation, numbered",
+    "expandStyle": "accordion animation, no page reload",
+    "sections": [
+      {"id": "01", "name": "Dashboard"},
+      {"id": "02", "name": "Opportunity Intelligence"},
+      {"id": "03", "name": "CRM"},
+      {"id": "04", "name": "Outreach"},
+      {"id": "05", "name": "Maps"},
+      {"id": "06", "name": "Property Intelligence"},
+      {"id": "07", "name": "Search Engine"},
+      {"id": "08", "name": "Organization"},
+      {"id": "09", "name": "Engineering"},
+      {"id": "10", "name": "Deployment"},
+      {"id": "11", "name": "Integrations"},
+      {"id": "12", "name": "Future Modules"}
+    ]
+  },
+  "opportunity_intelligence_showcase": {
+    "style": "large section",
+    "scoreWheel": {
+      "animated": true,
+      "sequence": [
+        "Opportunity Score 93",
+        "Distress Score",
+        "Capital Improvement Score",
+        "Revenue Potential",
+        "Competition Score",
+        "Timeline",
+        "AI Reasoning"
+      ]
+    },
+    "confidenceMeter": {
+      "style": "animated"
+    }
+  },
+  "interactive_property_example": {
+    "expandSequence": [
+      "Property",
+      "Owner",
+      "Permit History",
+      "Sales",
+      "Violations",
+      "Utilities",
+      "Zoning",
+      "Timeline"
+    ],
+    "animation": "animated expand"
+  },
+  "daily_briefing": {
+    "style": "looks like email",
+    "greeting": "Good Morning Rodger",
+    "cards": [
+      {"icon": "+17", "label": "New Opportunities"},
+      {"icon": "3", "label": "Remodels"},
+      {"icon": "2", "label": "Buildings Sold"},
+      {"icon": "7", "label": "Permits"}
+    ],
+    "pipeline": "$5.4M"
+  },
+  "maps_section": {
+    "layout": "full width",
+    "style": "animated GIS",
+    "layers": ["Heatmap", "Drive Time", "Ownership", "Permits", "Sales", "Crew Radius", "Competition"],
+    "interactions": ["hover", "zoom", "pulse markers"]
+  },
+  "crm_preview": {
+    "elements": ["Pipeline Kanban", "Drag animation", "Company cards", "Activity feed", "Calendar"]
+  },
+  "outreach_preview": {
+    "flow": ["Email", "SMS", "Proposal", "Automation", "Analytics"],
+    "style": "animated campaign builder"
+  },
+  "search_showcase": {
+    "elements": ["Massive search console", "Query DSL", "Autocomplete", "Saved searches", "AI suggestions", "Typing animation"]
+  },
+  "integrations": {
+    "style": "animated logos, hover, rotate, glow",
+    "services": [
+      "Google Maps", "Twilio", "Stripe", "QuickBooks", "Slack",
+      "Microsoft", "SendGrid", "HubSpot", "Zapier",
+      "OpenAI", "Claude", "DeepSeek", "Apollo"
+    ]
+  },
+  "testimonials": {
+    "style": "construction photography, large quotes, carousel"
+  },
+  "pricing": {
+    "style": "animated cards",
+    "tiers": ["Starter", "Professional", "Business", "Enterprise"]
+  },
+  "faq": {
+    "style": "accordion, animated"
+  },
+  "cta": {
+    "style": "huge, dark background",
+    "headline": "Ready to Find Better Projects?",
+    "button": "Start Free Today"
+  },
+  "footer": {
+    "layout": "five-column",
+    "column1": {
+      "content": ["Logo", "Mission", "Social Icons"],
+      "social": ["LinkedIn", "X", "Facebook", "Instagram", "YouTube", "TikTok", "GitHub"]
+    },
+    "column2": {
+      "heading": "Platform",
+      "links": ["Dashboard", "CRM", "Maps", "Search", "Property Intelligence", "Opportunity Intelligence"]
+    },
+    "column3": {
+      "heading": "Resources",
+      "links": ["Documentation", "Blog", "API", "Help Center", "Guides", "Status"]
+    },
+    "column4": {
+      "heading": "Company",
+      "links": ["About", "Careers", "Contact", "Partners", "Press"]
+    },
+    "column5": {
+      "heading": "Legal",
+      "links": ["Privacy", "Cookies", "Terms", "Data Processing", "Security", "Accessibility", "GDPR", "CCPA"]
+    },
+    "bottom": "© 2026 GCLeadHub — Powered by Intelligent Index Engine"
+  },
+  "motion": {
+    "pageTransitions": "fade + slide",
+    "buttonHover": "scale 1.04",
+    "cards": "lift + shadow",
+    "charts": "animate",
+    "maps": "fade markers",
+    "numbers": "count up",
+    "loading": "skeleton",
+    "search": "typing animation",
+    "hero": "floating layers",
+    "parallax": true,
+    "scrollReveal": true,
+    "staggerChildren": true
+  },
+  "frontend": {
+    "framework": "Next.js 15",
+    "language": "TypeScript",
+    "styling": "TailwindCSS",
+    "components": "shadcn/ui",
+    "animations": "Framer Motion",
+    "maps": "Mapbox GL",
+    "charts": "Recharts",
+    "icons": "Lucide",
+    "forms": "React Hook Form",
+    "validation": "Zod",
+    "state": "Zustand",
+    "tables": "TanStack Table",
+    "virtualization": "TanStack Virtual",
+    "search": "Fuse.js + server ranking",
+    "theme": "next-themes",
+    "internationalization": "next-intl"
+  },
+  "differentiators": {
+    "liveActivityRibbon": "Real-time events: new permit filed, property sold, code violation issued",
+    "commandPalette": "Ctrl/Cmd + K for instant navigation and AI-assisted actions",
+    "aiCopilotPanel": "Docked right panel answering questions about properties, searches, and opportunities",
+    "personalizedWorkspace": "Pin dashboards, saved searches, maps, and watchlists",
+    "progressiveLoading": "Skeleton loading + streaming results for immediate feel",
+    "aiOpportunityCards": "Summarize why a project is a good lead, not just raw data"
+  }
+}

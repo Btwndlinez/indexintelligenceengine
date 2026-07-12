@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, Phone, Globe, MapPin } from 'lucide-react';
 import ResultsTable from './ResultsTable';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/core/localization/LanguageContext';
 import type { SearchResult } from '@/types/search';
 import type { VoteType } from '@/types/feedback';
 

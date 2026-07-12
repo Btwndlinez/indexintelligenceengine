@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
 import { SystemObservabilityStats } from '@/types/rpc_telemetry';
-import { supabaseFetch, supabaseRpc } from '@/lib/db';
+import { supabaseFetch, supabaseRpc } from '@/core/db';
 
 export async function POST(req: NextRequest) {
   try {

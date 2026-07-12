@@ -62,5 +62,10 @@ mem0_quickstart.py
 
 # project docs / tracking (tracked per-user, not in repo)
 PROGRESS.md
+PROCEDURES.md
+HHR-PROGRESS.md
+HHR-PROCEDURES.md
+SW-progress.md
+SW-procedures.md
 README.md
 .env*.local

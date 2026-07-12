@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { enrichCompanyData } from '@/lib/market/enrich';
-import { getVerticalConfigByDomain } from '@/lib/market/registry';
+import { enrichCompanyData } from '@/core/search/enrich';
+import { getVerticalConfigByDomain } from '@/core/search/registry';
 import { Company } from '@/types/company';
 
 export async function POST(req: NextRequest) {
