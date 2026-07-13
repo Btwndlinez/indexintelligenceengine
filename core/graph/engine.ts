@@ -1,20 +1,30 @@
+import type { NodeType, EdgeType } from './schema';
+
 export interface GraphNode {
   id: string;
   label: string;
-  type: 'company' | 'contact' | 'vertical' | 'location';
+  type: NodeType;
   metadata?: Record<string, unknown>;
 }
 
 export interface GraphEdge {
   source: string;
   target: string;
-  label: string;
+  type: EdgeType;
   weight: number;
+  metadata?: { confidence?: number; evidence?: string[] };
 }
 
 export interface GraphData {
   nodes: GraphNode[];
   edges: GraphEdge[];
+}
+
+export interface GraphQuery {
+  types?: NodeType[];
+  edgeTypes?: EdgeType[];
+  maxDepth?: number;
+  limit?: number;
 }
 
 export class GraphEngine {
@@ -31,25 +41,121 @@ export class GraphEngine {
     this.edges.push(edge);
   }
 
-  connect(sourceId: string, targetId: string, label: string, weight = 1): void {
-    this.edges.push({ source: sourceId, target: targetId, label, weight });
+  connect(sourceId: string, targetId: string, type: EdgeType, weight = 1, metadata?: GraphEdge['metadata']): void {
+    if (!this.nodes.has(sourceId)) return;
+    if (!this.nodes.has(targetId)) return;
+    this.edges.push({ source: sourceId, target: targetId, type, weight, metadata });
   }
 
-  getGraph(): GraphData {
-    return {
-      nodes: Array.from(this.nodes.values()),
-      edges: this.edges,
-    };
+  getGraph(query?: GraphQuery): GraphData {
+    let nodes = Array.from(this.nodes.values());
+    let edges = this.edges;
+
+    if (query?.types) {
+      nodes = nodes.filter(n => query.types!.includes(n.type));
+    }
+    if (query?.edgeTypes) {
+      edges = edges.filter(e => query.edgeTypes!.includes(e.type));
+    }
+    if (query?.limit && nodes.length > query.limit) {
+      nodes = nodes.slice(0, query.limit);
+    }
+
+    return { nodes, edges };
   }
 
-  getNeighbors(nodeId: string): { node: GraphNode; edges: GraphEdge[] } {
+  getNeighbors(nodeId: string, depth = 1): { node: GraphNode; neighbors: Map<string, { node: GraphNode; edges: GraphEdge[] }> } {
     const node = this.nodes.get(nodeId);
-    if (!node) return { node: null as unknown as GraphNode, edges: [] };
+    if (!node) return { node: null as unknown as GraphNode, neighbors: new Map() };
 
-    const connectedEdges = this.edges.filter(
-      e => e.source === nodeId || e.target === nodeId
-    );
-    return { node, edges: connectedEdges };
+    const neighbors = new Map<string, { node: GraphNode; edges: GraphEdge[] }>();
+
+    const visited = new Set<string>();
+    const queue: Array<{ id: string; level: number }> = [{ id: nodeId, level: 0 }];
+    visited.add(nodeId);
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      if (current.level >= depth) continue;
+
+      const connectedEdges = this.edges.filter(
+        e => e.source === current.id || e.target === current.id
+      );
+
+      for (const edge of connectedEdges) {
+        const neighborId = edge.source === current.id ? edge.target : edge.source;
+        if (visited.has(neighborId)) continue;
+        visited.add(neighborId);
+
+        const neighborNode = this.nodes.get(neighborId);
+        if (!neighborNode) continue;
+
+        const existing = neighbors.get(neighborId);
+        if (existing) {
+          existing.edges.push(edge);
+        } else {
+          neighbors.set(neighborId, { node: neighborNode, edges: [edge] });
+        }
+
+        queue.push({ id: neighborId, level: current.level + 1 });
+      }
+    }
+
+    return { node, neighbors };
+  }
+
+  getPath(fromId: string, toId: string): GraphNode[] | null {
+    const visited = new Set<string>();
+    const parent = new Map<string, string>();
+
+    const queue: string[] = [fromId];
+    visited.add(fromId);
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      if (current === toId) {
+        return this.reconstructPath(parent, fromId, toId);
+      }
+
+      const connected = this.edges.filter(e => e.source === current || e.target === current);
+      for (const edge of connected) {
+        const neighbor = edge.source === current ? edge.target : edge.source;
+        if (!visited.has(neighbor) && this.nodes.has(neighbor)) {
+          visited.add(neighbor);
+          parent.set(neighbor, current);
+          queue.push(neighbor);
+        }
+      }
+    }
+
+    return null;
+  }
+
+  findNodesByType(type: NodeType): GraphNode[] {
+    return Array.from(this.nodes.values()).filter(n => n.type === type);
+  }
+
+  query(request: GraphQuery): GraphData {
+    const filtered = this.getGraph(request);
+
+    if (request.maxDepth && request.maxDepth > 0) {
+      const edgeIds = new Set(filtered.edges.map(e => `${e.source}-${e.target}`));
+      for (let i = 0; i < request.maxDepth; i++) {
+        for (const edge of this.edges) {
+          if (filtered.nodes.some(n => n.id === edge.source) &&
+              !filtered.nodes.some(n => n.id === edge.target) &&
+              this.nodes.has(edge.target)) {
+            filtered.nodes.push(this.nodes.get(edge.target)!);
+            if (!edgeIds.has(`${edge.source}-${edge.target}`)) {
+              filtered.edges.push(edge);
+              edgeIds.add(`${edge.source}-${edge.target}`);
+            }
+          }
+        }
+      }
+    }
+
+    return filtered;
   }
 
   clear(): void {
@@ -57,56 +163,20 @@ export class GraphEngine {
     this.edges = [];
   }
 
-  buildFromCompanies(
-    companies: Array<{
-      id?: string;
-      companyName?: string;
-      city?: string;
-      state?: string;
-      verticalId?: string;
-      contacts?: Array<{ id?: string; name?: string }>;
-    }>,
-    verticalLabel?: string
-  ): GraphData {
-    this.clear();
+  size(): { nodes: number; edges: number } {
+    return { nodes: this.nodes.size, edges: this.edges.length };
+  }
 
-    for (const c of companies) {
-      if (!c.id || !c.companyName) continue;
-
-      this.addNode({
-        id: c.id,
-        label: c.companyName,
-        type: 'company',
-        metadata: { city: c.city, state: c.state, verticalId: c.verticalId },
-      });
-
-      if (c.city) {
-        const locId = `loc:${c.city}`;
-        this.addNode({ id: locId, label: c.city, type: 'location' });
-        this.connect(c.id, locId, 'located_in', 1);
-      }
-
-      if (c.contacts) {
-        for (const contact of c.contacts) {
-          if (!contact.id || !contact.name) continue;
-          this.addNode({
-            id: contact.id,
-            label: contact.name,
-            type: 'contact',
-          });
-          this.connect(c.id, contact.id, 'has_contact', 2);
-        }
-      }
+  private reconstructPath(parent: Map<string, string>, from: string, to: string): GraphNode[] {
+    const path: GraphNode[] = [];
+    let current: string | undefined = to;
+    while (current && current !== from) {
+      const node = this.nodes.get(current);
+      if (node) path.unshift(node);
+      current = parent.get(current);
     }
-
-    if (verticalLabel) {
-      const vId = `vertical:${verticalLabel}`;
-      this.addNode({ id: vId, label: verticalLabel, type: 'vertical' });
-      for (const c of companies) {
-        if (c.id) this.connect(c.id, vId, 'belongs_to', 1);
-      }
-    }
-
-    return this.getGraph();
+    const fromNode = this.nodes.get(from);
+    if (fromNode) path.unshift(fromNode);
+    return path;
   }
 }

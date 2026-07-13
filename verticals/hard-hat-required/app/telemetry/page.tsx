@@ -184,6 +184,7 @@ export default function SystemTelemetryMonitor() {
           <button
             onClick={fetchTelemetry}
             disabled={isRefreshing}
+            aria-label="Refresh telemetry"
             className="p-2 bg-slate-900 hover:bg-slate-850 border border-slate-800 rounded-xl text-slate-300 hover:text-white transition disabled:opacity-50"
           >
             <svg className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">

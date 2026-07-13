@@ -53,7 +53,7 @@ export default function Sidebar({ slim = false }: SidebarProps) {
         className="h-20 flex items-center justify-center gap-3 border-b shrink-0 px-4"
         style={{ borderColor: 'var(--color-border)' }}
       >
-        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <Link href="/" title="HHR Home" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <div
             className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
             style={{ background: 'var(--color-red)' }}

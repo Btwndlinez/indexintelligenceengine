@@ -36,7 +36,7 @@ export default function GCLeadHubLanding() {
     <div style={{ background: '#080A0E', color: '#E8EDF2', minHeight: '100vh', fontFamily: "'Inter', system-ui, sans-serif" }}>
       <style>{`
         :root { --gcl-blue: #2E86AB; --gcl-teal: #36C9C6; --gcl-surface: #0E121A; --gcl-border: rgba(255,255,255,0.06); --gcl-muted: #8B95A5; }
-        .gcl-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; transition: background 0.3s, border-color 0.3s; background: rgba(8,10,14,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid transparent; }
+        .gcl-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; transition: background 0.3s, border-color 0.3s; background: rgba(8,10,14,0.85); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-bottom: 1px solid transparent; }
         .gcl-nav.scrolled { background: rgba(8,10,14,0.96); border-bottom-color: var(--gcl-border); }
         .gcl-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; }
         .gcl-btn-primary { background: var(--gcl-blue); color: white; }

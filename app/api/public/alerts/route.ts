@@ -1,0 +1,17 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/core/services';
+
+export async function POST(_req: NextRequest) {
+  try {
+    const res = await db.supabaseFetch(
+      "/rest/v1/regulatory_facilities?select=facility_name,city,county,permit_status,regulatory_status,vertical,confidence,imported_at&order=imported_at.desc&limit=5"
+    );
+    if (res.ok) {
+      const alerts = await res.json();
+      return NextResponse.json({ alerts: alerts || [] });
+    }
+    return NextResponse.json({ alerts: [] });
+  } catch {
+    return NextResponse.json({ alerts: [] });
+  }
+}

@@ -32,9 +32,9 @@ export default function SettingsPage() {
       </div>
 
       <div className="max-w-lg space-y-6">
-        <Input label="Full Name" defaultValue="User" />
-        <Input label="Email" defaultValue="user@indexintelligence.io" />
-        <Input label="Company" defaultValue="Index Intelligence" />
+        <Input label="Full Name" placeholder="Enter your full name" defaultValue="User" />
+        <Input label="Email" placeholder="you@example.com" defaultValue="user@indexintelligence.io" />
+        <Input label="Company" placeholder="Your company name" defaultValue="Index Intelligence" />
         <div className="pt-2">
           <Button>Save Changes</Button>
         </div>

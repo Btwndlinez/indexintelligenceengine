@@ -105,6 +105,7 @@ export default function SearchHistoryPage() {
         <div className="flex items-center gap-2 rounded-full border border-border bg-surface2 px-4 py-2 ml-4">
           <Filter className="w-4 h-4 text-muted" />
           <select
+            title="Filter by vertical"
             value={filterVertical}
             onChange={(e) => setFilterVertical(e.target.value)}
             className="bg-transparent text-sm outline-none"

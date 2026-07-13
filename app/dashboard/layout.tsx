@@ -35,7 +35,7 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
           className="h-16 px-4 border-b flex items-center justify-between shrink-0"
           style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
         >
-          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <Link href="/" title="HHR Home" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{ background: 'var(--color-red)' }}
