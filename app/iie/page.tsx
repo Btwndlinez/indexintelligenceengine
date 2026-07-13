@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Building2, Truck, Factory, ArrowRight, Menu, X, Layers } from 'lucide-react';
+import { Search, Building2, Truck, Factory, ArrowRight, Menu, X, Layers, Brain } from 'lucide-react';
 
 const navLinks = [
   { label: 'Platform', href: '#platform' },

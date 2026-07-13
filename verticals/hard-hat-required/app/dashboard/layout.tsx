@@ -1,6 +1,7 @@
 'use client';
 
-import { ThemeProvider } from '@/components/shared/ThemeProvider';
+import { ThemeProvider } from '@/core/theme/ThemeProvider';
+import { LanguageProvider } from '@/context/LanguageContext';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Topbar from '@/components/dashboard/Topbar';
 import BottomActionBar from '@/components/dashboard/BottomActionBar';
@@ -51,10 +52,10 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
                     </div>
                     <div className="flex flex-col leading-none">
                       <span className="font-black text-2xl tracking-tight" style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '-0.01em', color: 'var(--color-text)' }}>
-                        HHR
+                        IIE
                       </span>
                       <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted)' }}>
-                        Hard Hat Required
+                        Intelligence Index Engine
                       </span>
                     </div>
                   </Link>
@@ -77,7 +78,9 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <DashboardLayoutInner>{children}</DashboardLayoutInner>
+      <LanguageProvider>
+        <DashboardLayoutInner>{children}</DashboardLayoutInner>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

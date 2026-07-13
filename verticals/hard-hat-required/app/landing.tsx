@@ -7,8 +7,8 @@ import {
   Zap, Phone, FileText, BarChart2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { ThemeProvider } from '@/components/shared/ThemeProvider';
-import ThemeToggle from '@/components/shared/ThemeToggle';
+import { ThemeProvider } from '@/core/theme/ThemeProvider';
+import ThemeToggle from '@/core/theme/ThemeToggle';
 import DailyIntelligenceHub from '@/components/dashboard/DailyIntelligenceHub';
 import LiveActivityTicker from '@/components/landing/LiveActivityTicker';
 import CoverageStatistics from '@/components/landing/CoverageStatistics';

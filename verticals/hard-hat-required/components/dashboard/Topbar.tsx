@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWorkspace } from '@/context/WorkspaceContext';
 import LanguageToggle from '@/components/shared/LanguageToggle';
-import ThemeToggle from '@/components/shared/ThemeToggle';
+import ThemeToggle from '@/core/theme/ThemeToggle';
 
 interface TopbarProps {
   mobile?: boolean;
