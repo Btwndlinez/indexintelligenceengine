@@ -7,8 +7,8 @@ import {
   Zap, Phone, FileText, BarChart2,
 } from 'lucide-react';
 import Link from 'next/link';
-import { ThemeProvider } from '@/core/theme/ThemeProvider';
-import ThemeToggle from '@/core/theme/ThemeToggle';
+import { ThemeProvider } from '@/components/shared/ThemeProvider';
+import ThemeToggle from '@/components/shared/ThemeToggle';
 import DailyIntelligenceHub from '@/components/dashboard/DailyIntelligenceHub';
 import LiveActivityTicker from '@/components/landing/LiveActivityTicker';
 import CoverageStatistics from '@/components/landing/CoverageStatistics';
@@ -17,12 +17,12 @@ import LatestBidCard from '@/components/landing/LatestBidCard';
 import ComplianceAlertStrip from '@/components/landing/ComplianceAlertStrip';
 import ForemanDrawer from '@/components/ai/ForemanDrawer';
 
-/* --- nav ------------------------------------------------------- */
+/* ─── nav ─────────────────────────────────────────────────────── */
 const navLinks = [
   { label: 'Intelligence Feed', href: '/dashboard' },
 ];
 
-/* --- steps ----------------------------------------------------- */
+/* ─── steps ───────────────────────────────────────────────────── */
 const steps = [
   {
     n: '01',
@@ -44,7 +44,7 @@ const steps = [
   },
 ];
 
-/* --- engines --------------------------------------------------- */
+/* ─── engines ─────────────────────────────────────────────────── */
 const engines = [
   {
     icon: Search,
@@ -68,7 +68,7 @@ const engines = [
   },
 ];
 
-/* --- verticals -------------------------------------------------- */
+/* ─── verticals ────────────────────────────────────────────────── */
 const verticals = [
   { name: 'Industry Index', status: 'Live', detail: 'Slurry, Concrete, Asbestos, Medical Waste Disposal' },
   { name: 'Construction', status: 'Beta', detail: 'General, earthworks, framing, specialty' },
@@ -78,11 +78,11 @@ const verticals = [
   { name: 'Equipment', status: 'Beta', detail: 'Equipment rentals' },
 ];
 
-/* --- lang toggle ------------------------------------------------ */
-import { useLanguage } from '../core/localization/LanguageContext';
-import LanguageToggle from '@/core/ui/LanguageToggle';
+/* ─── lang toggle ──────────────────────────────────────────────── */
+import { useLanguage } from '../context/LanguageContext';
+import LanguageToggle from '@/components/shared/LanguageToggle';
 
-/* --- component -------------------------------------------------- */
+/* ─── component ────────────────────────────────────────────────── */
 function LandingInner() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -99,7 +99,7 @@ function LandingInner() {
       className="min-h-screen overflow-x-hidden"
       style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}
     >
-      {/* ----- NAVBAR ----- */}
+      {/* ───── NAVBAR ───── */}
       <nav
         className={`h-20 transition-all duration-300 ${
           scrolled ? 'border-b' : 'border-b border-transparent'
@@ -228,7 +228,7 @@ function LandingInner() {
         )}
       </nav>
 
-      {/* ----- HERO ----- */}
+      {/* ───── HERO ───── */}
       <section className="relative min-h-[calc(100vh-5rem)] overflow-hidden">
         {/* Background — vertical grid lines + red orb + tape measure on left */}
         <div className="absolute inset-0 pointer-events-none">
@@ -360,18 +360,18 @@ function LandingInner() {
         </div>
       </section>
 
-      {/* ----- LIVE ACTIVITY TICKER ----- */}
+      {/* ───── LIVE ACTIVITY TICKER ───── */}
       <LiveActivityTicker />
 
-      {/* ----- PALANTIR-STYLE DIVIDER ----- */}
+      {/* ───── PALANTIR-STYLE DIVIDER ───── */}
       <div className="palantir-rule" />
 
-      {/* ----- COVERAGE STATISTICS ----- */}
+      {/* ───── COVERAGE STATISTICS ───── */}
       <CoverageStatistics />
 
       <div className="palantir-rule" />
 
-      {/* ----- DAILY INTELLIGENCE HUB ----- */}
+      {/* ───── DAILY INTELLIGENCE HUB ───── */}
       <section id="daily" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
           <DailyIntelligenceHub landing />
@@ -380,7 +380,7 @@ function LandingInner() {
 
       <div className="palantir-rule" />
 
-      {/* ----- ENGINES ----- */}
+      {/* ───── ENGINES ───── */}
       <section id="engines" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -450,7 +450,7 @@ function LandingInner() {
 
       <div className="palantir-rule" />
 
-      {/* ----- HOW IT WORKS ----- */}
+      {/* ───── HOW IT WORKS ───── */}
       <section id="how-it-works" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
           <div className="mb-16 md:mb-24">
@@ -511,26 +511,26 @@ function LandingInner() {
 
       <div className="h-16" />
 
-      {/* ----- EQUIPMENT STRIP ----- */}
+      {/* ───── EQUIPMENT STRIP ───── */}
       <EquipmentStrip />
 
       <div className="palantir-rule" />
 
-      {/* ----- LATEST BID CARD ----- */}
+      {/* ───── LATEST BID CARD ───── */}
       <LatestBidCard />
 
       <div className="palantir-rule" />
 
       <div className="h-16" />
 
-      {/* ----- COMPLIANCE ALERT STRIP ----- */}
+      {/* ───── COMPLIANCE ALERT STRIP ───── */}
       <ComplianceAlertStrip />
 
       <div className="palantir-rule" />
 
       <div className="h-16" />
 
-      {/* ----- VERTICALS ----- */}
+      {/* ───── VERTICALS ───── */}
       <section id="verticals" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-5 md:px-8">
           <div className="mb-16">
@@ -595,7 +595,7 @@ function LandingInner() {
 
       <div className="h-16" />
 
-      {/* ----- CTA ----- */}
+      {/* ───── CTA ───── */}
       <section id="cta" className="py-24 md:py-40 relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -636,7 +636,7 @@ function LandingInner() {
         </div>
       </section>
 
-      {/* ----- FOOTER ----- */}
+      {/* ───── FOOTER ───── */}
       <footer style={{ background: 'var(--color-bg)', borderTop: '2px solid var(--color-border)' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', padding: '72px 32px 40px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 48, marginBottom: 64 }}>

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { Bot, X, Truck, FileText, Search, ArrowRight, Check, Loader2 } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { foremanStore, useForemanStore } from '@/stores/foreman.store';
 
 type ForemanMode = 'search' | 'logistics' | 'bid';

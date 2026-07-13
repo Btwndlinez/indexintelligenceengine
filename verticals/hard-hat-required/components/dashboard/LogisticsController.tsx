@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { getVerticalEstimatorConfig } from '@/lib/logistics/normalizer';
 
 type TrafficLevel = 'normal' | 'heavy' | 'extreme';

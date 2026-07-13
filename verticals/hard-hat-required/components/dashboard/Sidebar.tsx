@@ -6,7 +6,7 @@ import {
   HardHat, LayoutDashboard, Search, Truck, Repeat, Gavel, TrendingUp,
   Bookmark, BookmarkCheck, Folder, Settings, PlusCircle, Globe,
 } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useWorkspace } from '@/context/WorkspaceContext';
 import { useProject } from '@/context/ProjectContext';
 import NewProjectModal from '@/components/shared/NewProjectModal';

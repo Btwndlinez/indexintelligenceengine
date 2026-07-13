@@ -2,8 +2,8 @@
 
 import { Fragment, useState } from 'react';
 import { ChevronDown, ChevronRight, Phone, ExternalLink, Loader2, Search, MapPin, Globe, ThumbsUp, ThumbsDown, Minus } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
-import Badge from '@/core/ui/Badge';
+import { useLanguage } from '@/context/LanguageContext';
+import Badge from '@/components/ui/Badge';
 import { groupResults, getFitTypeLabel, FIT_ICONS } from '@/lib/results/groups';
 import { getVerticalEstimatorConfig } from '@/lib/logistics/normalizer';
 import { calculateHaulingCost } from '@/lib/logistics/cost-estimator';

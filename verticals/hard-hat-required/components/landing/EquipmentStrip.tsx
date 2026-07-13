@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Truck, Container, Fuel, Zap, Drill, Gauge, ArrowRight, Loader } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface EquipmentItem {
   id: string;

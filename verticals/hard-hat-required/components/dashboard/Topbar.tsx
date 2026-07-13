@@ -2,10 +2,10 @@
 
 import { Bell, HardHat } from 'lucide-react';
 import Link from 'next/link';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useWorkspace } from '@/context/WorkspaceContext';
-import LanguageToggle from '@/core/ui/LanguageToggle';
-import ThemeToggle from '@/core/theme/ThemeToggle';
+import LanguageToggle from '@/components/shared/LanguageToggle';
+import ThemeToggle from '@/components/shared/ThemeToggle';
 
 interface TopbarProps {
   mobile?: boolean;
@@ -15,7 +15,7 @@ export default function Topbar({ mobile = false }: TopbarProps) {
   const { t } = useLanguage();
   const { workspace } = useWorkspace();
 
-  /* -- Mobile: compact actions only -- */
+  /* ── Mobile: compact actions only ── */
   if (mobile) {
     return (
       <div className="flex items-center gap-3">
@@ -45,7 +45,7 @@ export default function Topbar({ mobile = false }: TopbarProps) {
     );
   }
 
-  /* -- Desktop full topbar — matches landing nav -- */
+  /* ── Desktop full topbar — matches landing nav ── */
   return (
     <header
       className="h-20 border-b flex items-center justify-between px-8"

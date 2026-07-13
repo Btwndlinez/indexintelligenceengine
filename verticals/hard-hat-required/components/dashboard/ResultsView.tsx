@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { Search, ChevronDown, ChevronRight, Phone, Globe, MapPin, ThumbsUp, ThumbsDown, Columns, Share2 } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import ResultsTable from './ResultsTable';
 import VendorComparison from './VendorComparison';
 import ResultsGraph from './ResultsGraph';
@@ -24,7 +24,7 @@ interface ResultsViewProps {
   activePane: SearchPane;
 }
 
-/* -- Mobile card view -- */
+/* ── Mobile card view ── */
 function ResultsCards({ results, onFeedback, activePane, projectVolume, vertical }: {
   results: SearchResult[];
   onFeedback?: (company: SearchResult, voteType: VoteType) => void;
@@ -370,7 +370,7 @@ function ResultsCards({ results, onFeedback, activePane, projectVolume, vertical
   );
 }
 
-/* -- Main export -- */
+/* ── Main export ── */
 export default function ResultsView({ results, loading, error, vertical, projectVolume, onVolumeChange, onFeedback, activePane }: ResultsViewProps) {
   const { t } = useLanguage();
   const [viewMode, setViewMode] = useState<'grouped' | 'compare' | 'graph'>('grouped');

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import MetricCard, { MetricCardLoading } from './MetricCard';
 
 export default function MetricsRow() {

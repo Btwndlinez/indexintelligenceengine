@@ -25,7 +25,6 @@ export default function SearchFilters({ filters, onFilterChange, onSearch }: Sea
                     <div className="relative">
                         <Layers className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
                         <select
-                            title="Filter by industry"
                             className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-red-500/20 outline-none transition-all text-sm font-medium appearance-none"
                             value={filters.industry}
                             onChange={(e) => onFilterChange({ ...filters, industry: e.target.value })}

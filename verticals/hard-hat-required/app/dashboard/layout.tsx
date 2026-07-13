@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeProvider } from '@/core/theme/ThemeProvider';
+import { ThemeProvider } from '@/components/shared/ThemeProvider';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Topbar from '@/components/dashboard/Topbar';
 import BottomActionBar from '@/components/dashboard/BottomActionBar';

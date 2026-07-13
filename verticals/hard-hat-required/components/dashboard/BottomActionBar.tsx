@@ -2,7 +2,7 @@
 
 import { useSearchState } from '@/context/SearchStateContext';
 import { useWorkspace } from '@/context/WorkspaceContext';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { Users, Truck, Route, Bot } from 'lucide-react';
 import type { SearchPane } from './SearchConsole';
 

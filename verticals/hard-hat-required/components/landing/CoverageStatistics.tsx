@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Database, Truck, Wrench, FileCheck, Briefcase, Users } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface CoverageData {
   companies: number;

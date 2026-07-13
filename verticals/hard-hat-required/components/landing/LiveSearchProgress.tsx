@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Search, MapPin, FileCheck, Network, BarChart3, CheckCircle2, Loader, ArrowRight } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 const STAGES = [
   { id: 'google', label: 'Google Places', icon: MapPin },

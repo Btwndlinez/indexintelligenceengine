@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { X, Phone, Mail, Calendar, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface BookingModalProps {
   open: boolean;

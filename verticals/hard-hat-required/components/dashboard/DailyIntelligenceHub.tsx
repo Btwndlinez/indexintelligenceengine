@@ -5,7 +5,7 @@ import {
   Briefcase, AlertTriangle, FileText, ShieldCheck, TrendingUp, DollarSign,
   ArrowUpRight, Loader, Sparkles, Copy, Check, X, Users, Truck, MapPin, Network,
 } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useTranslatableContent } from '@/hooks/useTranslatableContent';
 
 type ItemType = 'bid' | 'compliance' | 'news' | 'alert' | 'permit' | 'market';
@@ -256,7 +256,7 @@ export default function DailyIntelligenceHub({
       className="rounded-xl overflow-hidden"
       style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
     >
-      {/* --- Workspace Header ----------------------------------- */}
+      {/* ─── Workspace Header ─────────────────────────────────── */}
       <div
         className="px-5 py-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
         style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface2)' }}
@@ -281,7 +281,7 @@ export default function DailyIntelligenceHub({
         </div>
       </div>
 
-      {/* --- Quick Summary Statistics ------------------------- */}
+      {/* ─── Quick Summary Statistics ───────────────────────── */}
       <div
         className="px-5 py-3 border-b flex items-center gap-4 flex-wrap"
         style={{ borderColor: 'var(--color-border)', background: 'var(--color-bg)' }}
@@ -314,7 +314,7 @@ export default function DailyIntelligenceHub({
         </div>
       </div>
 
-      {/* --- AI Briefing Highlights -------------------------- */}
+      {/* ─── AI Briefing Highlights ────────────────────────── */}
       {feed.length > 0 && (
         <div
           className="mx-5 mt-4 p-5 rounded-xl cursor-pointer transition-colors"
@@ -351,7 +351,7 @@ export default function DailyIntelligenceHub({
         </div>
       )}
 
-      {/* --- Double Column Layout ------------------------------ */}
+      {/* ─── Double Column Layout ────────────────────────────── */}
       <div className="flex flex-col lg:flex-row">
         {/* Infinite Scroller Feed List */}
         <div className={`${showAIPanel && aiDraft ? 'lg:w-1/2' : 'lg:w-full'} divide-y max-h-[600px] overflow-y-auto w-full`} style={{ borderColor: 'var(--color-border)' }}>
@@ -546,7 +546,7 @@ export default function DailyIntelligenceHub({
         )}
       </div>
 
-      {/* --- Search Context Pill Badges ----------------------- */}
+      {/* ─── Search Context Pill Badges ─────────────────────── */}
       {feed.length > 0 && (
         <div
           className="mx-5 mb-4 p-5 rounded-xl"

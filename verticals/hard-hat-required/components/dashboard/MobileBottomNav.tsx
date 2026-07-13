@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { LayoutDashboard, Search, TrendingUp, Layers, Phone, Settings } from 'lucide-react';
 
 const items = [

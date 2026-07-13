@@ -1,6 +1,6 @@
 'use client';
 
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { getFitTypeLabel } from '@/lib/results/groups';
 import type { SearchResult } from '@/types/search';
 import type { VoteType } from '@/types/feedback';

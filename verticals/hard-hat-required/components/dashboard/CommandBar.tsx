@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function CommandBar() {
   const { t } = useLanguage();

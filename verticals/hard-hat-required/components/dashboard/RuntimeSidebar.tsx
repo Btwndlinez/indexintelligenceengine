@@ -3,7 +3,7 @@
 import React from 'react';
 import { getProduct } from '@iie/product-manifests';
 import { useWorkspace } from '@/context/WorkspaceContext';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function RuntimeSidebar({
   productId = 'hhr',

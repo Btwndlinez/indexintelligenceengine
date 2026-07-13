@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Search, MapPin, Crosshair, Droplets, Loader2 } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { verticalMatrix } from '@/lib/verticals/matrix';
 import type { SearchResult } from '@/types/search';
 

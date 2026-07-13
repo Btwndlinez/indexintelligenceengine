@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    DAY MODE TOKENS (default — bright, outdoor use)
    High contrast: near-black on white
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 :root,
 html[data-theme="day"],
 html:not([data-theme]) {
@@ -23,9 +23,9 @@ html:not([data-theme]) {
   --shadow-glow:     0 0 60px rgba(255,206,68,0.08);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    NIGHT MODE TOKENS (dark / field-use)
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 html[data-theme="night"] {
   --color-bg:        #08080A;
   --color-surface:   #0F0F12;
@@ -44,9 +44,9 @@ html[data-theme="night"] {
   --color-indigo:    #6366F1;
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    TAILWIND THEME BRIDGE
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 @theme {
   --color-bg:      var(--color-bg);
   --color-surface: var(--color-surface);
@@ -62,9 +62,9 @@ html[data-theme="night"] {
   --color-indigo:  var(--color-indigo);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    RESET
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -86,10 +86,10 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    TYPOGRAPHY SCALE — PALANTIR STYLE
    Large, bold, legible at distance
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .font-display {
   font-family: 'Barlow Condensed', 'Space Grotesk', sans-serif;
   font-weight: 900;
@@ -118,9 +118,9 @@ body {
   line-height: 1.0;
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    THEME TOGGLE — pill style
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .theme-toggle {
   position: relative;
   width: 56px;
@@ -156,10 +156,10 @@ html[data-theme="day"] .theme-toggle-knob {
   transform: translateX(26px);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    GLOVE-FRIENDLY INPUTS
    Min 56px height, 18px text
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .field-input {
   height: 56px;
   padding: 0 16px;
@@ -198,9 +198,9 @@ html[data-theme="day"] .theme-toggle-knob {
   gap: 6px;
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    BUTTON SYSTEM
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -260,9 +260,9 @@ html[data-theme="day"] .theme-toggle-knob {
   background: var(--color-surface2);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    CARD SYSTEM
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -274,9 +274,9 @@ html[data-theme="day"] .theme-toggle-knob {
   border-color: color-mix(in srgb, var(--color-red) 40%, var(--color-border));
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    NAV ITEMS — glove-friendly 52px min
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .nav-item {
   display: flex;
   align-items: center;
@@ -303,9 +303,9 @@ html[data-theme="day"] .theme-toggle-knob {
   border-left-color: var(--color-red);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    ANIMATIONS
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -358,9 +358,9 @@ html[data-theme="day"] .theme-toggle-knob {
 .animate-pulse-dot   { animation: pulseDot 2s ease-in-out infinite; }
 .animate-spin        { animation: spin 1s linear infinite; }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    BOTTOM MOBILE NAV
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .mobile-nav {
   position: fixed;
   bottom: 0;
@@ -398,9 +398,9 @@ html[data-theme="day"] .theme-toggle-knob {
   background: color-mix(in srgb, var(--color-red) 8%, transparent);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    LANDING PAGE SPECIFICS
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 
 /* Vertical tape measure along left edge */
 .tape-measure {
@@ -523,9 +523,9 @@ html[data-theme="day"] .theme-toggle-knob {
   flex-shrink: 0;
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    SCROLLBAR STYLING
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb {
@@ -534,9 +534,9 @@ html[data-theme="day"] .theme-toggle-knob {
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    DASHBOARD / SEARCH HELPER CLASSES
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .search-console-header-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 1.25rem;
@@ -565,10 +565,10 @@ html[data-theme="day"] .theme-toggle-knob {
   border: 1px solid color-mix(in srgb, var(--color-indigo) 20%, transparent);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    TAG / BADGE MIX CLASSES
    color-mix() fallback-friendly, used in cards
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .tag-green {
   background: color-mix(in srgb, var(--color-green) 10%, transparent);
   color: var(--color-green);
@@ -608,9 +608,9 @@ html[data-theme="day"] .theme-toggle-knob {
   border: 1px solid var(--color-border);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    SIDEBAR & CARD SHARED STYLES
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .surface-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -623,9 +623,9 @@ html[data-theme="day"] .theme-toggle-knob {
   border-color: var(--color-border);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    VIEW TOGGLE PILL
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .view-toggle {
   padding: 4px 12px;
   border-radius: 8px;
@@ -647,9 +647,9 @@ html[data-theme="day"] .theme-toggle-knob {
   color: var(--color-muted);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    BOTTOM ACTION BAR
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .bottom-action-bar {
   position: fixed;
   bottom: 0;
@@ -692,9 +692,9 @@ html[data-theme="day"] .theme-toggle-knob {
   background: color-mix(in srgb, var(--color-red) 8%, transparent);
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    QUICK ACTIONS
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 .quick-actions {
   margin-bottom: 24px;
 }
@@ -792,9 +792,9 @@ html[data-theme="day"] .theme-toggle-knob {
   }
 }
 
-/* ----------------------------------------------
+/* ──────────────────────────────────────────────
    MOBILE OPTIMIZATION — touch targets & font sizes
-   ---------------------------------------------- */
+   ────────────────────────────────────────────── */
 @media (max-width: 767px) {
   html {
     -webkit-text-size-adjust: 100%;

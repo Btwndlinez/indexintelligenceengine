@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getProduct } from '@iie/product-manifests';
 import { useWorkspace } from '@/context/WorkspaceContext';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { Search, ArrowUpRight, Command } from 'lucide-react';
 
 export function CommandPalette({

@@ -191,7 +191,7 @@ const esDictionary: Record<string, string> = {
   'select index type': 'Seleccionar Tipo de Índice',
   'compliance': 'Cumplimiento Normativo',
 
-  // --- Landing page ---
+  // ─── Landing page ───
   'lead generation': 'Generación de Clientes Potenciales',
   'market intelligence': 'Inteligencia de Mercado',
   'industry index': 'Índice de la Industria',
@@ -230,7 +230,7 @@ const esDictionary: Record<string, string> = {
   'your market.': 'Su Mercado.',
   'mapped in minutes.': 'Mapeado en Minutos.',
 
-  // --- Vertical names for search dropdown ---
+  // ─── Vertical names for search dropdown ───
   'asbestos_abatement': 'Asbesto y Eliminación de Plomo',
   'backflow_testing': 'Prueba de Prevención de Flujo Inverso',
   'grease_trap': 'Bombeo de Trampas de Grasa Comerciales',
@@ -251,7 +251,7 @@ const esDictionary: Record<string, string> = {
   'stormwater_compliance': 'Cumplimiento de SWPPP / Aguas Pluviales',
   'tank_testing': 'Prueba de Tanques Subterráneos',
 
-  // --- Step bodies (landing) ---
+  // ─── Step bodies (landing) ───
   'enter a zip code. pick a vertical. we scan every company within your radius — contractors, subs, suppliers.':
     'Ingrese un código postal. Elija una vertical. Escaneamos cada empresa en su radio — contratistas, subcontratistas, proveedores.',
   'our ai ranks companies by revenue signals, fleet size, and buying intent. you see who\'s ready to spend.':
@@ -259,13 +259,13 @@ const esDictionary: Record<string, string> = {
   'one-tap calling, auto-enriched contacts, and ai-drafted bid proposals. done before the next pour.':
     'Llamadas con un solo toque, contactos enriquecidos automáticamente y propuestas de licitación redactadas por IA. Listo antes del próximo vertido.',
 
-  // --- Engine titles (landing) ---
+  // ─── Engine titles (landing) ───
   'discovery engine': 'Motor de Descubrimiento',
   'enrichment engine': 'Motor de Enriquecimiento',
   'scoring engine': 'Motor de Calificación',
   'campaign engine': 'Motor de Campañas',
 
-  // --- Engine descriptions (landing) ---
+  // ─── Engine descriptions (landing) ───
   'search 8+ verticals with geo-intelligence and industry signals. find companies your competitors don\'t know exist.':
     'Busque en más de 8 verticales con geointeligencia y señales de la industria. Encuentre empresas que sus competidores ni saben que existen.',
   'auto-populate verified contacts, phones, emails, and decision-maker data for every company found.':
@@ -277,11 +277,11 @@ const esDictionary: Record<string, string> = {
   'every function you need to prospect, enrich, score, and close — unified in a single field-hardened interface built for construction teams.':
     'Cada función que necesita para prospectar, enriquecer, calificar y cerrar — unificada en una sola interfaz robusta construida para equipos de construcción.',
 
-  // --- CTA body ---
+  // ─── CTA body ───
   'book a 20-minute demo. we\'ll map your market live and show you exactly where the revenue is — before your competitors find it.':
     'Agende una demostración de 20 minutos. Mapearemos su mercado en vivo y le mostraremos exactamente dónde están los ingresos — antes de que sus competidores los encuentren.',
 
-  // --- Dashboard shell & sidebar ---
+  // ─── Dashboard shell & sidebar ───
   'project workspace': 'Espacio de trabajo del proyecto',
   'vendors': 'Proveedores',
   'projects': 'Proyectos',
@@ -294,14 +294,14 @@ const esDictionary: Record<string, string> = {
   'new': 'Nuevo',
   'construction market intelligence dashboard': 'Panel de Inteligencia de Mercado para la Construcción',
 
-  // --- Topbar workspace descriptions ---
+  // ─── Topbar workspace descriptions ───
   'find operators, facilities, equipment, and regulatory records': 'Encuentre operadores, instalaciones, equipos y registros regulatorios',
   'route analysis, cost modeling, and crew planning': 'Análisis de rutas, modelado de costos y planificación de cuadrillas',
   'rental comparison, availability, and rate intelligence': 'Comparación de alquileres, disponibilidad e inteligencia de tarifas',
   'scope analysis, cost breakdown, and proposal generation': 'Análisis de alcance, desglose de costos y generación de propuestas',
   'daily intelligence hub, bid feed, and market trends': 'Centro de inteligencia diaria, feed de licitaciones y tendencias del mercado',
 
-  // --- Search console ---
+  // ─── Search console ───
   'gallons': 'Galones',
   'est. volume': 'Vol. estimado',
   'select a tab to begin': 'Seleccione una pestaña para comenzar',
@@ -315,7 +315,7 @@ const esDictionary: Record<string, string> = {
   'crews, operators, contractors': 'cuadrillas, operadores, contratistas',
   'vac trucks, heavy equipment, tools': 'camiones de vacío, equipo pesado, herramientas',
 
-  // --- Results view ---
+  // ─── Results view ───
   'confidence': 'Confiabilidad',
   'permits': 'Permisos',
   'licenses': 'Licencias',
@@ -341,7 +341,7 @@ const esDictionary: Record<string, string> = {
   'fit': 'Ajuste',
   'haul cost': 'Costo de Acarreo',
 
-  // --- Command center ---
+  // ─── Command center ───
   'recent activity': 'Actividad Reciente',
   'view all': 'Ver Todo',
   'new search': 'Nueva Búsqueda',
@@ -355,7 +355,7 @@ const esDictionary: Record<string, string> = {
   'no recent activity': 'Sin actividad reciente',
   'create a project to get started': 'Cree un proyecto para comenzar',
 
-  // --- Search intelligence ---
+  // ─── Search intelligence ───
   'find operators, disposal facilities, equipment, or regulatory records': 'Encuentre operadores, vertederos, equipos o registros regulatorios',
   'vertical': 'Vertical',
   'volume (gal)': 'Volumen (gal)',
@@ -368,12 +368,12 @@ const esDictionary: Record<string, string> = {
   'min rating': 'Calificación mín.',
   'select a vertical': 'Seleccione una vertical',
 
-  // --- Logistics intelligence ---
+  // ─── Logistics intelligence ───
   'route analysis, cost modeling, crew planning, and vendor comparison': 'Análisis de rutas, modelado de costos, planificación de cuadrillas y comparación de proveedores',
   'vendor cost comparison': 'Comparación de Costos de Proveedores',
   'run a search in Search Intelligence to populate vendor data here.': 'Ejecute una búsqueda en Inteligencia de Búsqueda para poblar datos de proveedores aquí.',
 
-  // --- Equipment exchange ---
+  // ─── Equipment exchange ───
   'select or create a project workspace to book equipment.': 'Seleccione o cree un proyecto para reservar equipos.',
   'no active project': 'Sin proyecto activo',
   'create a project from the sidebar to book equipment.': 'Cree un proyecto desde la barra lateral para reservar equipos.',
@@ -398,7 +398,7 @@ const esDictionary: Record<string, string> = {
   'no equipment found for this area': 'No se encontraron equipos para esta área',
   'searching equipment inventory...': 'Buscando inventario de equipos...',
 
-  // --- Bid intelligence ---
+  // ─── Bid intelligence ───
   'select or create a project workspace to enable bid analysis.': 'Seleccione o cree un proyecto para habilitar el análisis de licitaciones.',
   'create a project from the sidebar to analyze bids.': 'Cree un proyecto desde la barra lateral para analizar licitaciones.',
   'scope analysis, cost breakdown, vendor recommendations, and proposal generation': 'Análisis de alcance, desglose de costos, recomendaciones de proveedores y generación de propuestas',
@@ -434,7 +434,7 @@ const esDictionary: Record<string, string> = {
   'generating bid proposal draft...': 'Generando borrador de propuesta de licitación...',
   'ai parameter parsing complete.': 'Análisis de parámetros de IA completo.',
 
-  // --- Market intelligence ---
+  // ─── Market intelligence ───
   'market data unavailable — check API configuration': 'Datos de mercado no disponibles — verifique la configuración de la API',
   'loading market data...': 'Cargando datos de mercado...',
   'bid feed': 'Feed de Licitaciones',
@@ -445,14 +445,14 @@ const esDictionary: Record<string, string> = {
   'market activity': 'Actividad del Mercado',
   'web coverage': 'Cobertura Web',
 
-  // --- Saved items ---
+  // ─── Saved items ───
   'saved searches': 'Búsquedas Guardadas',
   'saved vendors': 'Proveedores Guardados',
   'your saved search configurations will appear here.': 'Sus configuraciones de búsqueda guardadas aparecerán aquí.',
   'your bookmarked vendors, facilities, and operators will appear here.': 'Sus proveedores, instalaciones y operadores marcados aparecerán aquí.',
   'your active and archived projects will appear here.': 'Sus proyectos activos y archivados aparecerán aquí.',
 
-  // --- Intelligence rail ---
+  // ─── Intelligence rail ───
   'daily intelligence hub': 'Centro de Inteligencia Diaria',
   'market summary': 'Resumen del Mercado',
   'region snapshot': 'Instantánea de la Región',
@@ -464,7 +464,7 @@ const esDictionary: Record<string, string> = {
   'active permits tracked': 'Permisos Activos Rastreados',
   'regulatory compliance monitoring': 'Monitoreo de cumplimiento regulatorio',
 
-  // --- Logistics controller ---
+  // ─── Logistics controller ───
   'logistics controller': 'Controlador Logístico',
   'adjust parameters to see live cost projections': 'Ajuste parámetros para ver proyecciones de costos en vivo',
   'load': 'Carga',
@@ -487,20 +487,20 @@ const esDictionary: Record<string, string> = {
   'driver + helper': 'Conductor + Ayudante',
   'multi crew': 'Múltiples Cuadrillas',
 
-  // --- Command bar ---
+  // ─── Command bar ───
   'ask foreman...': 'Pregunte al capataz de HHR...',
   'try: find slurry disposal near fremont': 'Intente: buscar eliminación de lodos cerca de Fremont',
   'show disposal only': 'Mostrar solo eliminación',
   'increase radius to 50 mi': 'Aumentar radio a 50 mi',
 
-  // --- Results graph ---
+  // ─── Results graph ───
   'ontology graph': 'Grafo de Ontología',
   'no results to display in graph view': 'Sin resultados para mostrar en la vista de gráfico',
 
-  // --- Miscellaneous ---
+  // ─── Miscellaneous ───
   '© 2026 hard hat required. all rights reserved.': '© 2026 Hard Hat Required. Todos los derechos reservados.',
 
-  // --- Equipment Rental Search ---
+  // ─── Equipment Rental Search ───
   'distance (s_prox)': 'Distancia (S_prox)',
   'trust index (t)': 'Índice de Confianza (T)',
   'composite rank': 'Rango Compuesto',
@@ -601,7 +601,7 @@ const zhDictionary: Record<string, string> = {
   'market search': '市场搜索',
   'companies found': '找到的公司',
 
-  // --- Landing page ---
+  // ─── Landing page ───
   'lead generation': '潜在客户生成',
   'market intelligence': '市场情报',
   'industry index': '行业指数',
@@ -640,7 +640,7 @@ const zhDictionary: Record<string, string> = {
   'your market.': '您的市场。',
   'mapped in minutes.': '几分钟内完成映射。',
 
-  // --- Vertical names for search dropdown ---
+  // ─── Vertical names for search dropdown ───
   'asbestos_abatement': '石棉和铅清除',
   'backflow_testing': '回流预防测试',
   'grease_trap': '商用油脂陷阱泵送',
@@ -661,7 +661,7 @@ const zhDictionary: Record<string, string> = {
   'stormwater_compliance': 'SWPPP/雨水合规',
   'tank_testing': '地下储罐测试',
 
-  // --- Step bodies (landing) ---
+  // ─── Step bodies (landing) ───
   'enter a zip code. pick a vertical. we scan every company within your radius — contractors, subs, suppliers.':
     '输入邮政编码。选择垂直领域。我们扫描您半径内的每家公司 — 承包商、分包商、供应商。',
   'our ai ranks companies by revenue signals, fleet size, and buying intent. you see who\'s ready to spend.':
@@ -669,13 +669,13 @@ const zhDictionary: Record<string, string> = {
   'one-tap calling, auto-enriched contacts, and ai-drafted bid proposals. done before the next pour.':
     '一键拨号、自动丰富联系人和AI起草的投标提案。在下一次浇筑前完成。',
 
-  // --- Engine titles (landing) ---
+  // ─── Engine titles (landing) ───
   'discovery engine': '发现引擎',
   'enrichment engine': '丰富引擎',
   'scoring engine': '评分引擎',
   'campaign engine': '活动引擎',
 
-  // --- Engine descriptions (landing) ---
+  // ─── Engine descriptions (landing) ───
   'search 8+ verticals with geo-intelligence and industry signals. find companies your competitors don\'t know exist.':
     '使用地理智能和行业信号搜索8+个垂直领域。找到您的竞争对手不知道存在的公司。',
   'auto-populate verified contacts, phones, emails, and decision-maker data for every company found.':
@@ -687,11 +687,11 @@ const zhDictionary: Record<string, string> = {
   'every function you need to prospect, enrich, score, and close — unified in a single field-hardened interface built for construction teams.':
     '您需要的每个功能 — 勘探、丰富、评分和成交 — 统一在一个为建筑团队打造的坚固界面中。',
 
-  // --- CTA body ---
+  // ─── CTA body ───
   'book a 20-minute demo. we\'ll map your market live and show you exactly where the revenue is — before your competitors find it.':
     '预约20分钟演示。我们将实时映射您的市场，并向您展示收入确切所在 — 在您的竞争对手发现之前。',
 
-  // --- Dashboard shell & sidebar ---
+  // ─── Dashboard shell & sidebar ───
   'project workspace': '项目工作区',
   'vendors': '供应商',
   'projects': '项目',
@@ -708,14 +708,14 @@ const zhDictionary: Record<string, string> = {
   'new': '新建',
   'construction market intelligence dashboard': '建筑市场智能面板',
 
-  // --- Topbar workspace descriptions ---
+  // ─── Topbar workspace descriptions ───
   'find operators, facilities, equipment, and regulatory records': '查找操作员、设施、设备和监管记录',
   'route analysis, cost modeling, and crew planning': '路线分析、成本建模和团队规划',
   'rental comparison, availability, and rate intelligence': '租赁比较、可用性和费率智能',
   'scope analysis, cost breakdown, and proposal generation': '范围分析、成本分解和提案生成',
   'daily intelligence hub, bid feed, and market trends': '每日情报中心、投标推送和市场趋势',
 
-  // --- Search console ---
+  // ─── Search console ───
   'gallons': '加仑',
   'est. volume': '预估量',
   'select a tab to begin': '选择选项卡开始',
@@ -729,7 +729,7 @@ const zhDictionary: Record<string, string> = {
   'crews, operators, contractors': '队伍，操作员，承包商',
   'vac trucks, heavy equipment, tools': '真空卡车，重型设备，工具',
 
-  // --- Results view ---
+  // ─── Results view ───
   'confidence': '置信度',
   'permits': '许可证',
   'licenses': '执照',
@@ -755,7 +755,7 @@ const zhDictionary: Record<string, string> = {
   'fit': '匹配度',
   'haul cost': '运输成本',
 
-  // --- Command center ---
+  // ─── Command center ───
   'recent activity': '最近活动',
   'view all': '查看全部',
   'new search': '新搜索',
@@ -769,7 +769,7 @@ const zhDictionary: Record<string, string> = {
   'no recent activity': '暂无最近活动',
   'create a project to get started': '创建项目以开始使用',
 
-  // --- Search intelligence ---
+  // ─── Search intelligence ───
   'find operators, disposal facilities, equipment, or regulatory records': '查找操作员、处置设施、设备或监管记录',
   'vertical': '垂直领域',
   'volume (gal)': '体积（加仑）',
@@ -782,12 +782,12 @@ const zhDictionary: Record<string, string> = {
   'min rating': '最低评分',
   'select a vertical': '选择一个垂直领域',
 
-  // --- Logistics intelligence ---
+  // ─── Logistics intelligence ───
   'route analysis, cost modeling, crew planning, and vendor comparison': '路线分析、成本建模、团队规划和供应商比较',
   'vendor cost comparison': '供应商成本比较',
   'run a search in Search Intelligence to populate vendor data here.': '在搜索智能中运行搜索以在此填充供应商数据。',
 
-  // --- Equipment exchange ---
+  // ─── Equipment exchange ───
   'select or create a project workspace to book equipment.': '选择或创建项目工作区以预订设备。',
   'no active project': '无活跃项目',
   'create a project from the sidebar to book equipment.': '从侧边栏创建项目以预订设备。',
@@ -812,7 +812,7 @@ const zhDictionary: Record<string, string> = {
   'no equipment found for this area': '该区域未找到设备',
   'searching equipment inventory...': '正在搜索设备库存...',
 
-  // --- Bid intelligence ---
+  // ─── Bid intelligence ───
   'select or create a project workspace to enable bid analysis.': '选择或创建项目工作区以启用投标分析。',
   'create a project from the sidebar to analyze bids.': '从侧边栏创建项目以分析投标。',
   'scope analysis, cost breakdown, vendor recommendations, and proposal generation': '范围分析、成本分解、供应商建议和提案生成',
@@ -848,7 +848,7 @@ const zhDictionary: Record<string, string> = {
   'generating bid proposal draft...': '正在生成投标提案草稿...',
   'ai parameter parsing complete.': 'AI参数解析完成。',
 
-  // --- Market intelligence ---
+  // ─── Market intelligence ───
   'market data unavailable — check API configuration': '市场数据不可用 — 检查API配置',
   'loading market data...': '正在加载市场数据...',
   'bid feed': '投标推送',
@@ -859,14 +859,14 @@ const zhDictionary: Record<string, string> = {
   'market activity': '市场活动',
   'web coverage': '网络覆盖',
 
-  // --- Saved items ---
+  // ─── Saved items ───
   'saved searches': '已保存的搜索',
   'saved vendors': '已保存的供应商',
   'your saved search configurations will appear here.': '您保存的搜索配置将显示在此处。',
   'your bookmarked vendors, facilities, and operators will appear here.': '您收藏的供应商、设施和操作员将显示在此处。',
   'your active and archived projects will appear here.': '您的活跃和归档项目将显示在此处。',
 
-  // --- Intelligence rail ---
+  // ─── Intelligence rail ───
   'daily intelligence hub': '每日情报中心',
   'market summary': '市场摘要',
   'region snapshot': '区域快照',
@@ -878,7 +878,7 @@ const zhDictionary: Record<string, string> = {
   'active permits tracked': '追踪到的有效许可证',
   'regulatory compliance monitoring': '法规合规监控',
 
-  // --- Logistics controller ---
+  // ─── Logistics controller ───
   'logistics controller': '物流控制器',
   'adjust parameters to see live cost projections': '调整参数查看实时成本预测',
   'load': '负载',
@@ -901,20 +901,20 @@ const zhDictionary: Record<string, string> = {
   'driver + helper': '司机+助手',
   'multi crew': '多团队',
 
-  // --- Command bar ---
+  // ─── Command bar ───
   'ask foreman...': '询问HHR领班...',
   'try: find slurry disposal near fremont': '尝试：查找弗里蒙特附近的泥浆处置',
   'show disposal only': '仅显示处置',
   'increase radius to 50 mi': '将半径增加到50英里',
 
-  // --- Results graph ---
+  // ─── Results graph ───
   'ontology graph': '本体图',
   'no results to display in graph view': '图表视图中没有可显示的结果',
 
-  // --- Miscellaneous ---
+  // ─── Miscellaneous ───
   '© 2026 hard hat required. all rights reserved.': '© 2026 Hard Hat Required. 保留所有权利。',
 
-  // --- Equipment Rental Search ---
+  // ─── Equipment Rental Search ───
   'distance (s_prox)': '距离（S_prox）',
   'trust index (t)': '信任指数（T）',
   'composite rank': '综合排名',
@@ -1015,7 +1015,7 @@ const viDictionary: Record<string, string> = {
   'market search': 'Tìm kiếm thị trường',
   'companies found': 'công ty được tìm thấy',
 
-  // --- Landing page ---
+  // ─── Landing page ───
   'lead generation': 'Tạo khách hàng tiềm năng',
   'market intelligence': 'Thông tin thị trường',
   'industry index': 'Chỉ số ngành',
@@ -1054,7 +1054,7 @@ const viDictionary: Record<string, string> = {
   'your market.': 'Thị trường của bạn.',
   'mapped in minutes.': 'Được lập bản đồ trong vài phút.',
 
-  // --- Vertical names for search dropdown ---
+  // ─── Vertical names for search dropdown ───
   'asbestos_abatement': 'Loại bỏ amiăng và chì',
   'backflow_testing': 'Kiểm tra ngăn dòng chảy ngược',
   'grease_trap': 'Bơm bẫy mỡ thương mại',
@@ -1075,7 +1075,7 @@ const viDictionary: Record<string, string> = {
   'stormwater_compliance': 'Tuân thủ SWPPP / Nước mưa',
   'tank_testing': 'Kiểm tra bể chứa ngầm',
 
-  // --- Step bodies (landing) ---
+  // ─── Step bodies (landing) ───
   'enter a zip code. pick a vertical. we scan every company within your radius — contractors, subs, suppliers.':
     'Nhập mã bưu điện. Chọn lĩnh vực. Chúng tôi quét mọi công ty trong bán kính của bạn — nhà thầu, nhà thầu phụ, nhà cung cấp.',
   'our ai ranks companies by revenue signals, fleet size, and buying intent. you see who\'s ready to spend.':
@@ -1083,13 +1083,13 @@ const viDictionary: Record<string, string> = {
   'one-tap calling, auto-enriched contacts, and ai-drafted bid proposals. done before the next pour.':
     'Gọi một chạm, danh bạ tự động làm giàu và đề xuất đấu thầu do AI soạn thảo. Hoàn thành trước lần đổ bê tông tiếp theo.',
 
-  // --- Engine titles (landing) ---
+  // ─── Engine titles (landing) ───
   'discovery engine': 'Động cơ khám phá',
   'enrichment engine': 'Động cơ làm giàu',
   'scoring engine': 'Động cơ đánh giá',
   'campaign engine': 'Động cơ chiến dịch',
 
-  // --- Engine descriptions (landing) ---
+  // ─── Engine descriptions (landing) ───
   'search 8+ verticals with geo-intelligence and industry signals. find companies your competitors don\'t know exist.':
     'Tìm kiếm hơn 8 lĩnh vực với thông tin địa lý và tín hiệu ngành. Tìm công ty mà đối thủ của bạn không biết tồn tại.',
   'auto-populate verified contacts, phones, emails, and decision-maker data for every company found.':
@@ -1101,11 +1101,11 @@ const viDictionary: Record<string, string> = {
   'every function you need to prospect, enrich, score, and close — unified in a single field-hardened interface built for construction teams.':
     'Mọi chức năng bạn cần để khảo sát, làm giàu, đánh giá và chốt — thống nhất trong một giao diện chắc chắn được xây dựng cho đội ngũ xây dựng.',
 
-  // --- CTA body ---
+  // ─── CTA body ───
   'book a 20-minute demo. we\'ll map your market live and show you exactly where the revenue is — before your competitors find it.':
     'Đặt lịch demo 20 phút. Chúng tôi sẽ lập bản đồ thị trường của bạn trực tiếp và chỉ cho bạn chính xác doanh thu ở đâu — trước khi đối thủ của bạn tìm thấy nó.',
 
-  // --- Dashboard shell & sidebar ---
+  // ─── Dashboard shell & sidebar ───
   'project workspace': 'Không gian làm việc dự án',
   'vendors': 'Nhà cung cấp',
   'projects': 'Dự án',
@@ -1122,14 +1122,14 @@ const viDictionary: Record<string, string> = {
   'new': 'Mới',
   'construction market intelligence dashboard': 'Bảng điều khiển thông tin thị trường xây dựng',
 
-  // --- Topbar workspace descriptions ---
+  // ─── Topbar workspace descriptions ───
   'find operators, facilities, equipment, and regulatory records': 'Tìm nhà điều hành, cơ sở, thiết bị và hồ sơ quy định',
   'route analysis, cost modeling, and crew planning': 'Phân tích tuyến đường, mô hình chi phí và lập kế hoạch nhân công',
   'rental comparison, availability, and rate intelligence': 'So sánh giá thuê, tình trạng sẵn có và thông tin giá cước',
   'scope analysis, cost breakdown, and proposal generation': 'Phân tích phạm vi, phân tích chi phí và tạo đề xuất',
   'daily intelligence hub, bid feed, and market trends': 'Trung tâm thông tin hàng ngày, nguồn đấu thầu và xu hướng thị trường',
 
-  // --- Search console ---
+  // ─── Search console ───
   'gallons': 'Galông',
   'est. volume': 'KL ước tính',
   'select a tab to begin': 'Chọn một tab để bắt đầu',
@@ -1143,7 +1143,7 @@ const viDictionary: Record<string, string> = {
   'crews, operators, contractors': 'đội ngũ, người vận hành, nhà thầu',
   'vac trucks, heavy equipment, tools': 'xe bồn chân không, thiết bị nặng, dụng cụ',
 
-  // --- Results view ---
+  // ─── Results view ───
   'confidence': 'Độ tin cậy',
   'permits': 'Giấy phép',
   'licenses': 'Giấy phép hành nghề',
@@ -1169,7 +1169,7 @@ const viDictionary: Record<string, string> = {
   'fit': 'Phù hợp',
   'haul cost': 'Chi phí vận chuyển',
 
-  // --- Command center ---
+  // ─── Command center ───
   'recent activity': 'Hoạt động gần đây',
   'view all': 'Xem tất cả',
   'new search': 'Tìm kiếm mới',
@@ -1183,7 +1183,7 @@ const viDictionary: Record<string, string> = {
   'no recent activity': 'Không có hoạt động gần đây',
   'create a project to get started': 'Tạo dự án để bắt đầu',
 
-  // --- Search intelligence ---
+  // ─── Search intelligence ───
   'find operators, disposal facilities, equipment, or regulatory records': 'Tìm nhà điều hành, cơ sở xử lý, thiết bị hoặc hồ sơ quy định',
   'vertical': 'Lĩnh vực',
   'volume (gal)': 'Thể tích (gal)',
@@ -1196,12 +1196,12 @@ const viDictionary: Record<string, string> = {
   'min rating': 'Xếp hạng tối thiểu',
   'select a vertical': 'Chọn một lĩnh vực',
 
-  // --- Logistics intelligence ---
+  // ─── Logistics intelligence ───
   'route analysis, cost modeling, crew planning, and vendor comparison': 'Phân tích tuyến đường, mô hình chi phí, lập kế hoạch nhân công và so sánh nhà cung cấp',
   'vendor cost comparison': 'So sánh chi phí nhà cung cấp',
   'run a search in Search Intelligence to populate vendor data here.': 'Chạy tìm kiếm trong Thông tin Tìm kiếm để điền dữ liệu nhà cung cấp tại đây.',
 
-  // --- Equipment exchange ---
+  // ─── Equipment exchange ───
   'select or create a project workspace to book equipment.': 'Chọn hoặc tạo không gian làm việc dự án để đặt thiết bị.',
   'no active project': 'Không có dự án đang hoạt động',
   'create a project from the sidebar to book equipment.': 'Tạo dự án từ thanh bên để đặt thiết bị.',
@@ -1226,7 +1226,7 @@ const viDictionary: Record<string, string> = {
   'no equipment found for this area': 'Không tìm thấy thiết bị cho khu vực này',
   'searching equipment inventory...': 'Đang tìm kiếm kho thiết bị...',
 
-  // --- Bid intelligence ---
+  // ─── Bid intelligence ───
   'select or create a project workspace to enable bid analysis.': 'Chọn hoặc tạo không gian làm việc dự án để bật phân tích đấu thầu.',
   'create a project from the sidebar to analyze bids.': 'Tạo dự án từ thanh bên để phân tích đấu thầu.',
   'scope analysis, cost breakdown, vendor recommendations, and proposal generation': 'Phân tích phạm vi, phân tích chi phí, đề xuất nhà cung cấp và tạo đề xuất',
@@ -1262,7 +1262,7 @@ const viDictionary: Record<string, string> = {
   'generating bid proposal draft...': 'Đang tạo bản nháp đề xuất đấu thầu...',
   'ai parameter parsing complete.': 'Phân tích tham số AI hoàn tất.',
 
-  // --- Market intelligence ---
+  // ─── Market intelligence ───
   'market data unavailable — check API configuration': 'Dữ liệu thị trường không khả dụng — kiểm tra cấu hình API',
   'loading market data...': 'Đang tải dữ liệu thị trường...',
   'bid feed': 'Nguồn đấu thầu',
@@ -1273,14 +1273,14 @@ const viDictionary: Record<string, string> = {
   'market activity': 'Hoạt động thị trường',
   'web coverage': 'Phạm vi web',
 
-  // --- Saved items ---
+  // ─── Saved items ───
   'saved searches': 'Tìm kiếm đã lưu',
   'saved vendors': 'Nhà cung cấp đã lưu',
   'your saved search configurations will appear here.': 'Cấu hình tìm kiếm đã lưu của bạn sẽ xuất hiện ở đây.',
   'your bookmarked vendors, facilities, and operators will appear here.': 'Các nhà cung cấp, cơ sở và nhà điều hành đã đánh dấu của bạn sẽ xuất hiện ở đây.',
   'your active and archived projects will appear here.': 'Các dự án đang hoạt động và đã lưu trữ của bạn sẽ xuất hiện ở đây.',
 
-  // --- Intelligence rail ---
+  // ─── Intelligence rail ───
   'daily intelligence hub': 'Trung tâm thông tin hàng ngày',
   'market summary': 'Tóm tắt thị trường',
   'region snapshot': 'Ảnh chụp khu vực',
@@ -1292,7 +1292,7 @@ const viDictionary: Record<string, string> = {
   'active permits tracked': 'Giấy phép hiệu lực được theo dõi',
   'regulatory compliance monitoring': 'Giám sát tuân thủ quy định',
 
-  // --- Logistics controller ---
+  // ─── Logistics controller ───
   'logistics controller': 'Bộ điều khiển hậu cần',
   'adjust parameters to see live cost projections': 'Điều chỉnh tham số để xem dự báo chi phí trực tiếp',
   'load': 'Tải',
@@ -1315,20 +1315,20 @@ const viDictionary: Record<string, string> = {
   'driver + helper': 'Tài xế + phụ',
   'multi crew': 'Nhiều nhân công',
 
-  // --- Command bar ---
+  // ─── Command bar ───
   'ask foreman...': 'Hỏi quản đốc HHR...',
   'try: find slurry disposal near fremont': 'Thử: tìm bãi xử lý bùn gần Fremont',
   'show disposal only': 'Chỉ hiển thị xử lý',
   'increase radius to 50 mi': 'Tăng bán kính lên 50 dặm',
 
-  // --- Results graph ---
+  // ─── Results graph ───
   'ontology graph': 'Đồ thị bản thể học',
   'no results to display in graph view': 'Không có kết quả để hiển thị trong chế độ xem đồ thị',
 
-  // --- Miscellaneous ---
+  // ─── Miscellaneous ───
   '© 2026 hard hat required. all rights reserved.': '© 2026 Hard Hat Required. Mọi quyền được bảo lưu.',
 
-  // --- Equipment Rental Search ---
+  // ─── Equipment Rental Search ───
   'distance (s_prox)': 'Khoảng cách (S_prox)',
   'trust index (t)': 'Chỉ số tin cậy (T)',
   'composite rank': 'Xếp hạng tổng hợp',

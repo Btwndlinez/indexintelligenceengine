@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Briefcase, Calendar, ArrowRight, DollarSign, Loader, Sparkles } from 'lucide-react';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useTranslatableContent } from '@/hooks/useTranslatableContent';
 
 interface Bid {

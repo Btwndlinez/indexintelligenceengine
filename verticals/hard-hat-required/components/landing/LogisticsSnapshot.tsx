@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Truck, Gauge, Route, DollarSign, TrendingDown, Droplets } from 'lucide-react';
 import { getVerticalEstimatorConfig } from '@/lib/logistics/normalizer';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 const GALLONS_PRESETS = [2000, 5000, 10000, 20000];
 

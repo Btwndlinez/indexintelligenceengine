@@ -2,7 +2,7 @@
 
 import { useSearchState } from '@/context/SearchStateContext';
 import { useWorkspace } from '@/context/WorkspaceContext';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { Droplets, Users, Truck } from 'lucide-react';
 
 const PANE_COLORS: Record<string, string> = {

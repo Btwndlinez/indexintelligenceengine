@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useSearchState } from '@/context/SearchStateContext';
 import { useWorkspace } from '@/context/WorkspaceContext';
 import { useProject } from '@/context/ProjectContext';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useLanguage } from '@/core/localization/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useEffect } from 'react';
 
 export default function HtmlLangSetter() {

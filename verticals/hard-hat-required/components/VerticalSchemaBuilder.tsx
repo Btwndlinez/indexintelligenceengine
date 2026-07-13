@@ -83,7 +83,6 @@ export default function VerticalSchemaBuilder({
         <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3">Layer 1/2 Orchestration Configuration</h3>
         <label className="block text-xs font-semibold text-slate-300 mb-2">Automated Browser Route Mode</label>
         <select
-          title="Select routing strategy"
           value={vertical.routing_strategy}
           onChange={(e) => setVertical({ ...vertical, routing_strategy: e.target.value as any })}
           className="w-full sm:w-72 p-2 bg-slate-900 border border-slate-700 rounded text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
@@ -124,7 +123,6 @@ export default function VerticalSchemaBuilder({
 
               <div className="w-full sm:w-36">
                 <select
-                  title="Select field type"
                   value={field.type}
                   onChange={(e) => updateField(idx, 'type', e.target.value)}
                   className="w-full p-2 bg-slate-900 border border-slate-700 rounded text-sm text-slate-200 focus:outline-none focus:border-cyan-500"
