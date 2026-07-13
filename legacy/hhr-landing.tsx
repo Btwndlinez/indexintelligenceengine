@@ -124,10 +124,10 @@ function LandingInner() {
                 className="font-display text-2xl tracking-tight"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900, letterSpacing: '-0.01em' }}
               >
-                HHR
+                IIE
               </span>
               <span className="text-[15px] font-bold uppercase tracking-widest" style={{ color: 'var(--color-muted)' }}>
-                Hard Hat Required
+                Intelligence Index Engine
               </span>
             </div>
           </Link>
@@ -758,7 +758,7 @@ function LandingInner() {
           {/* Bottom bar */}
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontSize: 14, color: 'var(--color-muted)' }}>© 2026 Hard Hat Required. All rights reserved.</span>
+              <span style={{ fontSize: 14, color: 'var(--color-muted)' }}>© 2026 Intelligence Index Engine. All rights reserved.</span>
               <span style={{ fontSize: 12, color: 'var(--color-muted)' }}>Made 🏗️ in the USA</span>
             </div>
             <span style={{ fontSize: 12, color: 'var(--color-muted)', maxWidth: 400, textAlign: 'center' }}>

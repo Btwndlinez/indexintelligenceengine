@@ -23,7 +23,7 @@ const esDictionary: Record<string, string> = {
   'win more contracts': 'Gane Más Contratos',
   'contractor intelligence': 'Inteligencia de Contratistas',
   'osha violation risk': 'Riesgo de Infracción de OSHA',
-  'hard hat required': 'Hard Hat Required',
+  'intelligence index engine': 'Intelligence Index Engine',
   'search radius': 'Radio de Búsqueda',
   'run discovery': 'Ejecutar Búsqueda',
   'enter zip code': 'Ingrese el Código Postal',

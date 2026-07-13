@@ -20,7 +20,7 @@ const TENANT_REGISTRY: Record<string, TenantContext> = {
     primaryDomain: 'hardhatrequired.com',
     allowedLanguages: ['en', 'es', 'zh', 'vi'],
     branding: {
-      name: 'Hard Hat Required',
+      name: 'Intelligence Index Engine',
       logo: 'helmet',
       accent: '#E8A317',
       favicon: 'helmet',

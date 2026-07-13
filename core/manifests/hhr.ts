@@ -11,7 +11,7 @@ export interface ProductManifest {
 
 const manifest: ProductManifest = {
   id: 'hhr',
-  name: 'Hard Hat Required',
+  name: 'Intelligence Index Engine',
   languages: ['en', 'es', 'zh', 'vi'],
   verticals: [
     'slurry_concrete',

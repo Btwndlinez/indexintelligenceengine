@@ -10,7 +10,7 @@ const navLinks = [
 ];
 
 const verticals = [
-  { name: 'Hard Hat Required', domain: 'hardhatrequired.com', desc: 'Construction & contractor intelligence', icon: Building2 },
+  { name: 'Intelligence Index Engine', domain: 'intelligentindexengine.com', desc: 'Platform-wide intelligence engine', icon: Brain },
   { name: 'Sparky Wiz', domain: 'sparkywiz.com', desc: 'Electrical contractor intelligence', icon: Search },
   { name: 'GC Lead Hub', domain: 'gcleadhub.com', desc: 'Opportunity intelligence for general contractors', icon: Layers },
   { name: 'Made From', domain: 'madefrom.us', desc: 'Industrial waste & material intelligence', icon: Factory },
