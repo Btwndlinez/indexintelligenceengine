@@ -115,7 +115,7 @@ export default function EquipmentExchange() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           <div>
             <label className="field-label text-sm"><Truck className="w-5 h-5" />{t('equipment class')}</label>
-            <select value={equipmentClass} onChange={e => setEquipmentClass(e.target.value)} className="field-input text-base">
+            <select value={equipmentClass} title="Select equipment class" onChange={e => setEquipmentClass(e.target.value)} className="field-input text-base">
               {EQUIPMENT_CLASSES.map(ec => (
                 <option key={ec.id} value={ec.id}>{t(ec.label.toLowerCase())}</option>
               ))}

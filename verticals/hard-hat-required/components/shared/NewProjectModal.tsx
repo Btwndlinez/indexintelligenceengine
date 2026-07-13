@@ -91,6 +91,7 @@ export default function NewProjectModal({
                 {t('vertical')}
               </label>
               <select
+                title="Select project vertical"
                 value={vertical}
                 onChange={e => setVertical(e.target.value)}
                 className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none"

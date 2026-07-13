@@ -243,6 +243,7 @@ export default function CampaignsPage() {
                 <select
                   value={createVertical}
                   onChange={e => setCreateVertical(e.target.value)}
+                  title="Select campaign vertical"
                   className="w-full rounded-xl px-4 py-2.5 text-sm outline-none"
                   style={{
                     background: 'var(--color-surface2)',

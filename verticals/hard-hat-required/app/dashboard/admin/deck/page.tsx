@@ -322,7 +322,7 @@ export default function AdminDeck() {
               <div className="space-y-3 text-xs font-mono">
                 <div>
                   <label className="text-slate-400 block mb-1">Organization</label>
-                  <select value={rlsOrg} onChange={e => setRlsOrg(e.target.value)} className="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                  <select value={rlsOrg} onChange={e => setRlsOrg(e.target.value)} title="Select organization" className="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
                     <option value="org_1">Tenant A</option>
                     <option value="org_2">Tenant B</option>
                   </select>

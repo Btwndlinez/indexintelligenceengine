@@ -96,6 +96,7 @@ export default function CompanyTable({ companies, onGenerateCallSheet, onExportC
                                 </td>
                                 <td className="py-4 text-right">
                                     <select
+                                        title="Change company status"
                                         className={`text-xs font-black uppercase py-1.5 px-3 rounded-lg border focus:ring-2 focus:ring-red-500/20 outline-none transition-all appearance-none cursor-pointer ${company.status === 'WON' ? 'bg-green-600 text-white border-green-700' :
                                             company.status === 'INTERESTED' ? 'bg-blue-600 text-white border-blue-700' :
                                                 company.status === 'NOT_CONTACTED' ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-gray-200 dark:border-gray-700' :

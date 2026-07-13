@@ -156,6 +156,7 @@ export default function SystemTelemetryMonitor() {
 
         <div className="flex flex-wrap items-center gap-3">
           <select
+            title="Filter by vertical"
             value={activeVertical}
             onChange={(e) => {
               setActiveVertical(e.target.value);

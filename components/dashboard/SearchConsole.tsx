@@ -135,6 +135,7 @@ export default function SearchConsole({
             <select
               value={vertical}
               onChange={e => setVertical(e.target.value)}
+              title="Select industry vertical"
               className="field-input"
             >
               <option value="" disabled>(Select)</option>
@@ -169,6 +170,7 @@ export default function SearchConsole({
             <select
               value={radius}
               onChange={e => setRadius(e.target.value)}
+              title="Select search radius"
               className="field-input"
             >
               <option value="" disabled>(Select)</option>

@@ -153,6 +153,7 @@ export default function SearchIntelligence({
                 {t('vertical')}
               </label>
               <select
+                title={t('vertical')}
                 value={vertical}
                 onChange={e => setVertical(e.target.value)}
                 className="field-input"
@@ -187,6 +188,7 @@ export default function SearchIntelligence({
                 {t('radius')}
               </label>
               <select
+                title={t('radius')}
                 value={radius}
                 onChange={e => setRadius(e.target.value)}
                 className="field-input"
@@ -238,7 +240,7 @@ export default function SearchIntelligence({
               >
                 <div>
                   <label className="field-label"><Filter className="w-3.5 h-3.5" />{t('min confidence')}</label>
-                  <select value={minConfidence} onChange={e => setMinConfidence(e.target.value)} className="field-input">
+                  <select value={minConfidence} title="Minimum confidence threshold" onChange={e => setMinConfidence(e.target.value)} className="field-input">
                     <option value="0">Any</option>
                     <option value="50">50+</option>
                     <option value="70">70+</option>
@@ -290,7 +292,7 @@ export default function SearchIntelligence({
 
                 <div>
                   <label className="field-label"><Star className="w-3.5 h-3.5" />{t('min rating')}</label>
-                  <select value={minRating} onChange={e => setMinRating(e.target.value)} className="field-input">
+                  <select value={minRating} title="Minimum rating threshold" onChange={e => setMinRating(e.target.value)} className="field-input">
                     <option value="0">Any</option>
                     <option value="3">3+ stars</option>
                     <option value="4">4+ stars</option>

@@ -107,6 +107,7 @@ export default function SearchHistoryPage() {
           <select
             value={filterVertical}
             onChange={(e) => setFilterVertical(e.target.value)}
+            title="Filter by vertical"
             className="bg-transparent text-sm outline-none"
           >
             {verticals.map(v => (
